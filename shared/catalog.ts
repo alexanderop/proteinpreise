@@ -1,19 +1,17 @@
 import type { Category, Offer } from './types.ts'
-import type { Shop } from './shops.ts'
 
 export interface RawVariant {
-  id: number
   title: string
+  url: string
   price: string
-  compare_at_price: string | null
-  grams: number
+  compareAtPrice: string | null
+  grams: number | null
   available: boolean
 }
 
 export interface RawProduct {
   title: string
-  handle: string
-  product_type: string
+  type: string
   variants: RawVariant[]
 }
 
@@ -44,9 +42,9 @@ export const CATEGORY_RULES: readonly { category: Category; pattern: RegExp }[] 
   { category: 'mehrkomponenten', pattern: /protein/i },
 ]
 
-export function classify(product: Pick<RawProduct, 'title' | 'product_type'>): Category | null {
+export function classify(product: Pick<RawProduct, 'title' | 'type'>): Category | null {
   const name = baseName(product.title)
-  if (EXCLUDED_PRODUCT_TYPES.test(product.product_type.trim())) return null
+  if (EXCLUDED_PRODUCT_TYPES.test(product.type.trim())) return null
   if (MULTIPACK.test(product.title)) return null
   if (!PROTEIN_POWDER.test(name)) return null
   if (EXCLUSIONS.some((e) => e.pattern.test(name))) return null
@@ -70,22 +68,11 @@ export function parseSizeFromText(text: string): number | null {
   return null
 }
 
-const HANDLE_SIZE = /-(\d{3,4})$/
-
-function withinFallback(grams: number): number | null {
-  return grams >= GRAMS_FALLBACK.min && grams <= GRAMS_FALLBACK.max ? grams : null
-}
-
-export function variantSize(
-  variant: RawVariant,
-  product: Pick<RawProduct, 'title' | 'handle'>,
-  gramsField: Shop['gramsField'] = 'net',
-): number | null {
-  const fromText = parseSizeFromText(variant.title) ?? parseSizeFromText(product.title)
+export function variantSize(variant: Pick<RawVariant, 'title' | 'grams'>, productTitle: string): number | null {
+  const fromText = parseSizeFromText(variant.title) ?? parseSizeFromText(productTitle)
   if (fromText !== null) return fromText
-  if (gramsField === 'net') return withinFallback(variant.grams)
-  const fromHandle = HANDLE_SIZE.exec(product.handle)
-  return fromHandle ? withinFallback(Number(fromHandle[1])) : null
+  const { grams } = variant
+  return grams !== null && grams >= GRAMS_FALLBACK.min && grams <= GRAMS_FALLBACK.max ? grams : null
 }
 
 export function toCents(price: string | null): number | null {
@@ -114,7 +101,7 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
-export function toOffers(shop: Shop, products: readonly RawProduct[]): Offer[] {
+export function toOffers(shopId: string, products: readonly RawProduct[]): Offer[] {
   const groups = new Map<string, { best: Offer; flavors: number }>()
 
   for (const product of products) {
@@ -127,21 +114,21 @@ export function toOffers(shop: Shop, products: readonly RawProduct[]): Offer[] {
       if (!variant.available) continue
       const priceCents = toCents(variant.price)
       if (priceCents === null) continue
-      const sizeG = variantSize(variant, product, shop.gramsField)
+      const sizeG = variantSize(variant, product.title)
       if (sizeG === null || sizeG < MIN_SIZE_G) continue
       const centsPerKg = (priceCents * 1000) / sizeG
       if (centsPerKg < PLAUSIBLE_CENTS_PER_KG.min || centsPerKg > PLAUSIBLE_CENTS_PER_KG.max) continue
 
-      const id = `${shop.id}:${slug}:${sizeG}`
+      const id = `${shopId}:${slug}:${sizeG}`
       const candidate: Offer = {
         id,
-        shopId: shop.id,
+        shopId,
         product: name,
-        url: `https://${shop.domain}/products/${product.handle}?variant=${variant.id}`,
+        url: variant.url,
         category,
         sizeG,
         priceCents,
-        compareAtCents: toCents(variant.compare_at_price),
+        compareAtCents: toCents(variant.compareAtPrice),
         flavors: 1,
       }
       const group = groups.get(id)
@@ -157,30 +144,4 @@ export function toOffers(shop: Shop, products: readonly RawProduct[]): Offer[] {
   return [...groups.values()]
     .map(({ best, flavors }) => ({ ...best, flavors }))
     .sort((a, b) => a.id.localeCompare(b.id))
-}
-
-export function parseProductsPage(json: unknown): RawProduct[] {
-  if (typeof json !== 'object' || json === null || !Array.isArray((json as { products?: unknown }).products)) {
-    throw new Error('Antwort hat kein products-Array')
-  }
-  const products = (json as { products: unknown[] }).products
-  return products.map((p, i) => {
-    const product = p as Partial<RawProduct>
-    if (typeof product.title !== 'string' || typeof product.handle !== 'string' || !Array.isArray(product.variants)) {
-      throw new Error(`Produkt ${i} hat kein title/handle/variants`)
-    }
-    return {
-      title: product.title,
-      handle: product.handle,
-      product_type: typeof product.product_type === 'string' ? product.product_type : '',
-      variants: product.variants.map((v) => ({
-        id: Number(v.id),
-        title: String(v.title ?? ''),
-        price: String(v.price ?? ''),
-        compare_at_price: v.compare_at_price == null ? null : String(v.compare_at_price),
-        grams: Number(v.grams ?? 0),
-        available: v.available === true,
-      })),
-    }
-  })
 }

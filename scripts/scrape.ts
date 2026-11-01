@@ -1,7 +1,8 @@
 import { mkdir, rename, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { parseProductsPage, toOffers, type RawProduct } from '../shared/catalog.ts'
-import { SHOPS, type Shop } from '../shared/shops.ts'
+import { toOffers, type RawProduct } from '../shared/catalog.ts'
+import { parseProductsPage } from '../shared/shopify.ts'
+import { SHOPS, type Shop, type Source } from '../shared/shops.ts'
 import type { Offer, ShopRun, Snapshot } from '../shared/types.ts'
 
 const USER_AGENT = 'proteinpreise/1.0 (daily price snapshot, one request per page)'
@@ -13,17 +14,16 @@ const OUT_DIR = join(import.meta.dirname, '..', 'content', 'snapshots')
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-async function fetchPage(shop: Shop, page: number): Promise<RawProduct[]> {
-  const url = `https://${shop.domain}/products.json?limit=${PAGE_SIZE}&page=${page}`
+async function fetchText(url: string, accept: string): Promise<string> {
   let lastError: unknown
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
       const response = await fetch(url, {
-        headers: { 'user-agent': USER_AGENT, accept: 'application/json' },
+        headers: { 'user-agent': USER_AGENT, accept },
         signal: AbortSignal.timeout(TIMEOUT_MS),
       })
-      if (!response.ok) throw new Error(`HTTP ${response.status} für Seite ${page}`)
-      return parseProductsPage(await response.json())
+      if (!response.ok) throw new Error(`HTTP ${response.status} für ${url}`)
+      return await response.text()
     } catch (error) {
       lastError = error
       await sleep(PAGE_DELAY_MS * 4)
@@ -32,10 +32,11 @@ async function fetchPage(shop: Shop, page: number): Promise<RawProduct[]> {
   throw lastError
 }
 
-async function fetchCatalog(shop: Shop): Promise<RawProduct[]> {
+async function fetchShopify(shop: Shop<'shopify'>): Promise<RawProduct[]> {
   const products: RawProduct[] = []
   for (let page = 1; page <= MAX_PAGES; page++) {
-    const batch = await fetchPage(shop, page)
+    const url = `https://${shop.domain}/products.json?limit=${PAGE_SIZE}&page=${page}`
+    const batch = parseProductsPage(JSON.parse(await fetchText(url, 'application/json')), shop)
     if (batch.length === 0) return products
     products.push(...batch)
     await sleep(PAGE_DELAY_MS)
@@ -43,10 +44,18 @@ async function fetchCatalog(shop: Shop): Promise<RawProduct[]> {
   throw new Error(`mehr als ${MAX_PAGES} Seiten, Abbruch`)
 }
 
+const FETCHERS: { [S in Source]: (shop: Shop<S>) => Promise<RawProduct[]> } = {
+  shopify: fetchShopify,
+}
+
+function fetchCatalog<S extends Source>(shop: Shop<S>): Promise<RawProduct[]> {
+  return FETCHERS[shop.source](shop)
+}
+
 async function scrapeShop(shop: Shop): Promise<{ run: ShopRun; offers: Offer[]; products: number }> {
   try {
     const products = await fetchCatalog(shop)
-    const offers = toOffers(shop, products)
+    const offers = toOffers(shop.id, products)
     return { run: { shopId: shop.id, ok: true, offers: offers.length }, offers, products: products.length }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)

@@ -1,15 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { classify, parseSizeFromText, toOffers, variantSize, type RawProduct, type RawVariant } from '../shared/catalog.ts'
-import type { Shop } from '../shared/shops.ts'
-
-const shop: Shop = { id: 'test', name: 'Test', domain: 'shop.example' }
 
 function variant(overrides: Partial<RawVariant>): RawVariant {
-  return { id: 1, title: 'Default Title', price: '29.90', compare_at_price: null, grams: 0, available: true, ...overrides }
+  return { title: 'Default Title', url: 'https://shop.example/p', price: '29.90', compareAtPrice: null, grams: null, available: true, ...overrides }
 }
 
-function product(title: string, variants: RawVariant[], product_type = ''): RawProduct {
-  return { title, handle: title.toLowerCase().replace(/\W+/g, '-'), product_type, variants }
+function product(title: string, variants: RawVariant[], type = ''): RawProduct {
+  return { title, type, variants }
 }
 
 describe('parseSizeFromText', () => {
@@ -28,23 +25,16 @@ describe('parseSizeFromText', () => {
 })
 
 describe('variantSize', () => {
-  const named = (title: string, handle = 'whey') => ({ title, handle })
-
   it('prefers the variant title, then the product title', () => {
-    expect(variantSize(variant({ title: 'Pistazie / 420g', grams: 2300 }), named('Isolate Whey 100'))).toBe(420)
-    expect(variantSize(variant({ title: 'Vanille' }), named('Iso Whey (900g)'))).toBe(900)
+    expect(variantSize(variant({ title: 'Pistazie / 420g', grams: 2300 }), 'Isolate Whey 100')).toBe(420)
+    expect(variantSize(variant({ title: 'Vanille' }), 'Iso Whey (900g)')).toBe(900)
   })
 
   it('falls back to grams only inside 100 to 5000', () => {
-    expect(variantSize(variant({ grams: 900 }), named('Daily Protein'))).toBe(900)
-    expect(variantSize(variant({ grams: 935000 }), named('Delicious Whey'))).toBeNull()
-    expect(variantSize(variant({ grams: 0 }), named('Whey'))).toBeNull()
-  })
-
-  it('reads the size from the handle when a shop reports gross weight', () => {
-    expect(variantSize(variant({ grams: 1300 }), named('Micellar Casein', 'micellar-casein-900'), 'gross')).toBe(900)
-    expect(variantSize(variant({ grams: 935 }), named('Hybrid Protein', 'hybrid-protein'), 'gross')).toBeNull()
-    expect(variantSize(variant({ grams: 935 }), named('Protein 85', 'protein-85'), 'gross')).toBeNull()
+    expect(variantSize(variant({ grams: 900 }), 'Daily Protein')).toBe(900)
+    expect(variantSize(variant({ grams: 935000 }), 'Delicious Whey')).toBeNull()
+    expect(variantSize(variant({ grams: 0 }), 'Whey')).toBeNull()
+    expect(variantSize(variant({ grams: null }), 'Whey')).toBeNull()
   })
 })
 
@@ -59,7 +49,7 @@ describe('classify', () => {
     ['Daily Protein', 'mehrkomponenten'],
     ['Clear Whey Isolate (960g)', 'isolate'],
   ])('puts %s into %s', (title, category) => {
-    expect(classify({ title, product_type: '' })).toBe(category)
+    expect(classify({ title, type: '' })).toBe(category)
   })
 
   it.each([
@@ -72,24 +62,24 @@ describe('classify', () => {
     ['ZENITH® 50 Protein Riegel (12x100g) - Erdnuss', ''],
     ['More Protein Peanut Flips', 'Food'],
     ['Vegan Omega-3', ''],
-  ])('excludes %s', (title, product_type) => {
-    expect(classify({ title, product_type })).toBeNull()
+  ])('excludes %s', (title, type) => {
+    expect(classify({ title, type })).toBeNull()
   })
 
   it('ignores flavor words after the dash', () => {
-    expect(classify({ title: '100% Whey Protein (2350g) - Chocolate and Cookies', product_type: '' })).toBe('whey')
+    expect(classify({ title: '100% Whey Protein (2350g) - Chocolate and Cookies', type: '' })).toBe('whey')
   })
 })
 
 describe('toOffers', () => {
   it('keeps the cheapest available variant per size and counts its flavors', () => {
-    const offers = toOffers(shop, [
+    const offers = toOffers('test', [
       product('Designer Whey Protein', [
-        variant({ id: 1, title: 'Vanilla / 908g', price: '47.90' }),
-        variant({ id: 2, title: 'Chocolate / 908g', price: '44.90', compare_at_price: '47.90' }),
-        variant({ id: 3, title: 'Banana / 908g', price: '39.90', available: false }),
-        variant({ id: 4, title: 'Vanilla / 2000g Beutel', price: '102.90' }),
-        variant({ id: 5, title: 'Vanilla / 30g Probe', price: '3.29' }),
+        variant({ url: 'https://shop.example/v1', title: 'Vanilla / 908g', price: '47.90' }),
+        variant({ url: 'https://shop.example/v2', title: 'Chocolate / 908g', price: '44.90', compareAtPrice: '47.90' }),
+        variant({ url: 'https://shop.example/v3', title: 'Banana / 908g', price: '39.90', available: false }),
+        variant({ url: 'https://shop.example/v4', title: 'Vanilla / 2000g Beutel', price: '102.90' }),
+        variant({ url: 'https://shop.example/v5', title: 'Vanilla / 30g Probe', price: '3.29' }),
       ]),
     ])
     expect(offers).toEqual([
@@ -97,7 +87,7 @@ describe('toOffers', () => {
         id: 'test:designer-whey-protein:2000',
         shopId: 'test',
         product: 'Designer Whey Protein',
-        url: 'https://shop.example/products/designer-whey-protein?variant=4',
+        url: 'https://shop.example/v4',
         category: 'whey',
         sizeG: 2000,
         priceCents: 10290,
@@ -108,7 +98,7 @@ describe('toOffers', () => {
         id: 'test:designer-whey-protein:908',
         shopId: 'test',
         product: 'Designer Whey Protein',
-        url: 'https://shop.example/products/designer-whey-protein?variant=2',
+        url: 'https://shop.example/v2',
         category: 'whey',
         sizeG: 908,
         priceCents: 4490,
@@ -119,7 +109,7 @@ describe('toOffers', () => {
   })
 
   it('merges one-product-per-flavor shops into one offer per size', () => {
-    const offers = toOffers(shop, [
+    const offers = toOffers('test', [
       product('100% Whey Protein (500g) - Erdbeere', [variant({ price: '24.99', grams: 499 })]),
       product('100% Whey Protein (500g) - Vanille', [variant({ price: '20.14', grams: 499 })]),
     ])
@@ -129,7 +119,7 @@ describe('toOffers', () => {
   })
 
   it('drops zero prices and implausible per-kilo prices', () => {
-    const offers = toOffers(shop, [
+    const offers = toOffers('test', [
       product('Whey Isolat', [variant({ title: '1000g', price: '0.00' })]),
       product('Protein Shake', [variant({ title: 'Coconut', price: '2.39', grams: 400 })]),
     ])
