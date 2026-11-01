@@ -1,6 +1,6 @@
 {
   "date": "2026-11-01",
-  "fetchedAt": "2026-11-01T15:19:58.792Z",
+  "fetchedAt": "2026-11-01T16:15:15.400Z",
   "shops": [
     {
       "shopId": "esn",
@@ -41,6 +41,11 @@
       "shopId": "peak",
       "ok": true,
       "offers": 5
+    },
+    {
+      "shopId": "ruehl",
+      "ok": true,
+      "offers": 18
     }
   ],
   "offers": [
@@ -1682,6 +1687,204 @@
       "priceCents": 5490,
       "compareAtCents": null,
       "flavors": 8
+    },
+    {
+      "id": "ruehl:2k-ei-whey-protein-isolat-92:1000",
+      "shopId": "ruehl",
+      "product": "2K-Ei+Whey-Protein Isolat 92",
+      "url": "https://www.ruehl24.de/de/protein/ei-protein-isolat/2k-iso-protein-92-1kg.html?combi_id=2337",
+      "category": "mehrkomponenten",
+      "sizeG": 1000,
+      "priceCents": 2995,
+      "compareAtCents": null,
+      "flavors": 6
+    },
+    {
+      "id": "ruehl:2k-whey-casein-protein:1000",
+      "shopId": "ruehl",
+      "product": "2K-Whey&Casein-Protein",
+      "url": "https://www.ruehl24.de/de/protein/2-komponenten-protein/2k-whey-casein-protein.html?combi_id=2019",
+      "category": "mehrkomponenten",
+      "sizeG": 1000,
+      "priceCents": 3195,
+      "compareAtCents": null,
+      "flavors": 11
+    },
+    {
+      "id": "ruehl:bester-mix-whey-protein-konzentrat-isolat:1000",
+      "shopId": "ruehl",
+      "product": "Bester Mix Whey Protein [Konzentrat+ Isolat]",
+      "url": "https://www.ruehl24.de/de/protein/whey-protein-konzentrat/bester-mix-whey-protein-konzentrat-isolat.html?combi_id=2013",
+      "category": "isolate",
+      "sizeG": 1000,
+      "priceCents": 3395,
+      "compareAtCents": null,
+      "flavors": 11
+    },
+    {
+      "id": "ruehl:casein-protein-instant:1000",
+      "shopId": "ruehl",
+      "product": "Casein-Protein [Instant]",
+      "url": "https://www.ruehl24.de/de/protein/casein-protein/casein-protein.html?combi_id=2029",
+      "category": "casein",
+      "sizeG": 1000,
+      "priceCents": 2695,
+      "compareAtCents": null,
+      "flavors": 11
+    },
+    {
+      "id": "ruehl:clear-whey-protein-isolat:800",
+      "shopId": "ruehl",
+      "product": "Clear Whey Protein Isolat",
+      "url": "https://www.ruehl24.de/de/protein/whey-protein-isolat/clear-protein-isolat-laktosefrei-protein-limo.html?combi_id=2341",
+      "category": "isolate",
+      "sizeG": 800,
+      "priceCents": 3395,
+      "compareAtCents": null,
+      "flavors": 14
+    },
+    {
+      "id": "ruehl:crazy-whey-protein-isolat-zero-l:500",
+      "shopId": "ruehl",
+      "product": "[Crazy] Whey Protein Isolat ZERO-L",
+      "url": "https://www.ruehl24.de/de/protein/whey-protein-isolat/crazy-whey-protein-isolat-zero-l-500g.html?combi_id=2128",
+      "category": "isolate",
+      "sizeG": 500,
+      "priceCents": 1995,
+      "compareAtCents": null,
+      "flavors": 2
+    },
+    {
+      "id": "ruehl:ei-protein-isolat-94:1000",
+      "shopId": "ruehl",
+      "product": "Ei Protein Isolat 94",
+      "url": "https://www.ruehl24.de/de/protein/ei-protein-isolat/ei-protein-isolat-94-1kg.html?combi_id=2090",
+      "category": "isolate",
+      "sizeG": 1000,
+      "priceCents": 2395,
+      "compareAtCents": null,
+      "flavors": 8
+    },
+    {
+      "id": "ruehl:ei-soja-protein-isolat-91:1000",
+      "shopId": "ruehl",
+      "product": "Ei-Soja-Protein Isolat 91",
+      "url": "https://www.ruehl24.de/de/protein-isolat-91-leucin-boost.html?combi_id=2353",
+      "category": "mehrkomponenten",
+      "sizeG": 1000,
+      "priceCents": 2195,
+      "compareAtCents": null,
+      "flavors": 4
+    },
+    {
+      "id": "ruehl:hyclear-whey-protein-hydrolysat:800",
+      "shopId": "ruehl",
+      "product": "HyClear® Whey Protein Hydrolysat",
+      "url": "https://www.ruehl24.de/de/protein/whey-protein-isolat/HyClear-Whey-Protein-Hydrolysat.html?combi_id=2000",
+      "category": "isolate",
+      "sizeG": 800,
+      "priceCents": 3795,
+      "compareAtCents": null,
+      "flavors": 5
+    },
+    {
+      "id": "ruehl:kristall-whey-protein-isolat:800",
+      "shopId": "ruehl",
+      "product": "Kristall Whey Protein Isolat",
+      "url": "https://www.ruehl24.de/de/protein/whey-protein-isolat/kristall-whey-isolat-protein.html?combi_id=2342",
+      "category": "isolate",
+      "sizeG": 800,
+      "priceCents": 3395,
+      "compareAtCents": null,
+      "flavors": 14
+    },
+    {
+      "id": "ruehl:milky-protein-isolat-zero-l:1000",
+      "shopId": "ruehl",
+      "product": "Milky Protein Isolat ZERO-L",
+      "url": "https://www.ruehl24.de/de/protein/laktosefreies-protein/milky-protein-isolat-85.html?combi_id=2562",
+      "category": "isolate",
+      "sizeG": 1000,
+      "priceCents": 2495,
+      "compareAtCents": null,
+      "flavors": 5
+    },
+    {
+      "id": "ruehl:protein-wasser:800",
+      "shopId": "ruehl",
+      "product": "Protein-Wasser",
+      "url": "https://www.ruehl24.de/de/protein/clear-protein/protein-wasser.html",
+      "category": "isolate",
+      "sizeG": 800,
+      "priceCents": 3495,
+      "compareAtCents": null,
+      "flavors": 1
+    },
+    {
+      "id": "ruehl:whey-ei-protein-konzentrat-82:1000",
+      "shopId": "ruehl",
+      "product": "Whey & Ei-Protein Konzentrat 82",
+      "url": "https://www.ruehl24.de/de/protein/ei-protein-isolat/whey-ei-protein-konzentrat-82.html?combi_id=2076",
+      "category": "mehrkomponenten",
+      "sizeG": 1000,
+      "priceCents": 2595,
+      "compareAtCents": null,
+      "flavors": 7
+    },
+    {
+      "id": "ruehl:whey-protein-isolat-90:1000",
+      "shopId": "ruehl",
+      "product": "Whey Protein Isolat 90",
+      "url": "https://www.ruehl24.de/de/protein/whey-protein-isolat/whey-isolat-protein.html?combi_id=2072",
+      "category": "isolate",
+      "sizeG": 1000,
+      "priceCents": 3995,
+      "compareAtCents": null,
+      "flavors": 17
+    },
+    {
+      "id": "ruehl:whey-protein-isolat-zero-l-super-instant-pur:900",
+      "shopId": "ruehl",
+      "product": "Whey Protein Isolat ZERO-L (Super Instant) PUR",
+      "url": "https://www.ruehl24.de/de/protein/whey-protein-isolat/whey-protein-isolat-zero-l-laktosefrei-super-instant.html",
+      "category": "isolate",
+      "sizeG": 900,
+      "priceCents": 3895,
+      "compareAtCents": null,
+      "flavors": 1
+    },
+    {
+      "id": "ruehl:whey-protein-isolat-zero-l:900",
+      "shopId": "ruehl",
+      "product": "Whey Protein Isolat ZERO-L",
+      "url": "https://www.ruehl24.de/de/protein/whey-protein-isolat/whey-protein-isolat-zero-l-laktosefrei.html?combi_id=2047",
+      "category": "isolate",
+      "sizeG": 900,
+      "priceCents": 3895,
+      "compareAtCents": null,
+      "flavors": 22
+    },
+    {
+      "id": "ruehl:whey-protein-konzentrat:1000",
+      "shopId": "ruehl",
+      "product": "Whey Protein Konzentrat",
+      "url": "https://www.ruehl24.de/de/ruehls-bestes-whey-protein-konzentrat.html?combi_id=2720",
+      "category": "whey",
+      "sizeG": 1000,
+      "priceCents": 2771,
+      "compareAtCents": null,
+      "flavors": 26
+    },
+    {
+      "id": "ruehl:whey-protein-konzentrat:500",
+      "shopId": "ruehl",
+      "product": "Whey Protein Konzentrat",
+      "url": "https://www.ruehl24.de/de/ruehls-bestes-whey-protein-konzentrat.html?combi_id=2694",
+      "category": "whey",
+      "sizeG": 500,
+      "priceCents": 1571,
+      "compareAtCents": null,
+      "flavors": 5
     },
     {
       "id": "weider:clear-isolate:500",
