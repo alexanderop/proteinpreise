@@ -136,3 +136,31 @@ export function toRouteId(id: string): string {
 export function fromRouteId(routeId: string): string {
   return routeId.replaceAll('_', ':')
 }
+
+export interface CatalogEntry {
+  offer: Offer
+  listed: boolean
+  series: PricePoint[]
+}
+
+export interface Catalog {
+  date: string | null
+  entries: CatalogEntry[]
+}
+
+export function buildCatalog(snapshots: readonly Snapshot[]): Catalog {
+  const ordered = chronological(snapshots)
+  const latest = ordered.at(-1)
+  const index = seriesIndex(ordered)
+  const lastSeen = new Map<string, Offer>()
+  for (const s of ordered) for (const offer of s.offers) lastSeen.set(offer.id, offer)
+  const latestIds = new Set(latest?.offers.map((o) => o.id))
+  return {
+    date: latest?.date ?? null,
+    entries: [...lastSeen.values()].map((offer) => ({
+      offer,
+      listed: latestIds.has(offer.id),
+      series: index.get(offer.id) ?? [],
+    })),
+  }
+}
