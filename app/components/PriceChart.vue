@@ -37,8 +37,9 @@ const chart = computed(() => {
   const dates = points.map((p) => parseDay(p.date))
   const [first, last] = extent(dates) as [Date, Date]
   const span = last.getTime() - first.getTime()
+  const tail = new Date(last.getTime() + Math.max(DAY_MS, span * 0.04))
   const xDomain: [Date, Date] =
-    span === 0 ? [new Date(first.getTime() - 3 * DAY_MS), new Date(first.getTime() + 3 * DAY_MS)] : [first, last]
+    span === 0 ? [new Date(first.getTime() - 3 * DAY_MS), new Date(first.getTime() + 3 * DAY_MS)] : [first, tail]
   const x = scaleUtc().domain(xDomain).range([left, innerRight])
 
   const [lo, hi] = extent(points, (p) => p[metric]) as [number, number]
@@ -50,6 +51,9 @@ const chart = computed(() => {
 
   const px = (p: PricePoint) => x(parseDay(p.date))
   const py = (p: PricePoint) => y(p[metric])
+  const steps: [number, number][] = points.map((p) => [px(p), py(p)])
+  const lastPoint = points.at(-1)!
+  steps.push([x(tail), py(lastPoint)])
 
   return {
     left,
@@ -59,13 +63,10 @@ const chart = computed(() => {
     y,
     px,
     py,
-    linePath: points.length > 1 ? line<PricePoint>().x(px).y(py).curve(curveStepAfter)(points) : null,
-    areaPath:
-      points.length > 1
-        ? area<PricePoint>().x(px).y0(innerBottom).y1(py).curve(curveStepAfter)(points)
-        : null,
+    linePath: points.length > 1 ? line().curve(curveStepAfter)(steps) : null,
+    areaPath: points.length > 1 ? area().y0(innerBottom).curve(curveStepAfter)(steps) : null,
     yTicks: y.ticks(compact ? 4 : 5),
-    xTicks: span === 0 ? [first] : x.ticks(Math.min(points.length, Math.floor(w / 110))),
+    xTicks: span === 0 ? [first] : x.ticks(Math.min(points.length, Math.floor(w / 110))).filter((t) => t <= last),
   }
 })
 

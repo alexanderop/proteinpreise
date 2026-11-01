@@ -71,8 +71,8 @@ describe('buildOverview', () => {
     expect(row('a:whey:1000').change).toBeNull()
   })
 
-  it('orders changes by size of the move', () => {
-    expect(overview.changes.map((r) => r.id)).toEqual(['a:iso:900', 'b:vegan:500'])
+  it('lists price drops before rises', () => {
+    expect(overview.changes.map((r) => r.id)).toEqual(['b:vegan:500', 'a:iso:900'])
   })
 
   it('marks reduced offers, new offers and per-kilo prices', () => {

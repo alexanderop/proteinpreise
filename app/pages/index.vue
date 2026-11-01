@@ -19,6 +19,10 @@ const shopsOk = computed(() => ov.value.shops.filter((s) => s.ok))
 const shopsFailed = computed(() => ov.value.shops.filter((s) => !s.ok))
 const dateline = computed(() => (ov.value.date ? LONG_DATE.format(new Date(`${ov.value.date}T00:00:00Z`)) : ''))
 
+const CARD_LIMIT = 8
+const showAllChanges = ref(false)
+const shownChanges = computed(() => (showAllChanges.value ? ov.value.changes : ov.value.changes.slice(0, CARD_LIMIT)))
+
 const lows = computed(() =>
   CATEGORIES.flatMap((category) => {
     const best = ov.value.rows
@@ -81,9 +85,14 @@ useSeoMeta({
           <template v-if="ov.gone.length"> · {{ ov.gone.length }} nicht mehr gelistet</template>
         </p>
       </header>
-      <div v-if="ov.changes.length" class="cards">
-        <ChangeCard v-for="row in ov.changes" :key="row.id" :row="row" />
-      </div>
+      <template v-if="ov.changes.length">
+        <div class="cards">
+          <ChangeCard v-for="row in shownChanges" :key="row.id" :row="row" />
+        </div>
+        <button v-if="ov.changes.length > CARD_LIMIT" type="button" class="more" @click="showAllChanges = !showAllChanges">
+          {{ showAllChanges ? 'Weniger zeigen' : `Alle ${ov.changes.length} Änderungen zeigen` }}
+        </button>
+      </template>
       <div v-else class="quiet">
         <p v-if="ov.previousDate">
           Kein Preis hat sich seit {{ day(ov.previousDate) }} bewegt. Ruhiger Tag am Pulvermarkt.
@@ -241,6 +250,23 @@ h1 em {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 16px;
+}
+
+.more {
+  display: block;
+  margin: 20px auto 0;
+  min-height: 42px;
+  padding: 8px 20px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font: 500 14px var(--font-text);
+  cursor: pointer;
+}
+
+.more:hover {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .quiet {

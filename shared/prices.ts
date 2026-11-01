@@ -35,6 +35,8 @@ export interface Overview {
   gone: Offer[]
 }
 
+const DIRECTION_ORDER: Record<PriceChange['direction'], number> = { down: 0, up: 1 }
+
 export function perKgCents(offer: Pick<Offer, 'priceCents' | 'sizeG'>): number {
   return Math.round((offer.priceCents * 1000) / offer.sizeG)
 }
@@ -114,7 +116,7 @@ export function buildOverview(snapshots: readonly Snapshot[], historyDays = 90):
 
   const changes = rows
     .filter((r): r is ChangedRow => r.change !== null)
-    .sort((a, b) => Math.abs(b.change.pct) - Math.abs(a.change.pct))
+    .sort((a, b) => DIRECTION_ORDER[a.change.direction] - DIRECTION_ORDER[b.change.direction] || Math.abs(b.change.pct) - Math.abs(a.change.pct))
 
   return {
     date: latest.date,
