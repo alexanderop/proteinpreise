@@ -40,6 +40,7 @@ const stats = computed(() => {
 })
 const listed = computed(() => d.value.row !== null)
 const chartSeries = computed(() => [{ id: d.value.offer.id, label: d.value.offer.product, points: d.value.series, tone: 'accent' as const }])
+const rival = computed(() => d.value.peers[0] ?? null)
 
 useSeoMeta({
   title: () => `${d.value.offer.product} ${size(d.value.offer.sizeG)} bei ${shopName(d.value.offer.shopId)}: Preisverlauf`,
@@ -67,9 +68,20 @@ useSeoMeta({
       <p v-if="!listed" class="gone">
         Am {{ day(d.latestDate!) }} nicht mehr im Katalog. Zuletzt gesehen am {{ day(current.date) }}.
       </p>
-      <a :href="d.offer.url" class="shop-link" rel="noopener nofollow" target="_blank">
-        Zum Shop: {{ shopName(d.offer.shopId) }} <span aria-hidden="true">↗</span>
-      </a>
+      <div class="actions">
+        <a :href="d.offer.url" class="shop-link" rel="noopener nofollow" target="_blank">
+          Zum Shop: {{ shopName(d.offer.shopId) }} <span aria-hidden="true">↗</span>
+        </a>
+        <NuxtLink
+          v-if="rival"
+          :to="{ path: '/vergleich', query: { a: toRouteId(d.offer.id), b: toRouteId(rival.id) } }"
+          class="compare-link"
+        >
+          <span class="compare-kicker">Vergleichen mit</span>
+          <span class="compare-name">{{ rival.product }}, {{ shopName(rival.shopId) }}</span>
+          <span class="compare-note num">günstigstes {{ CATEGORY_LABEL[d.offer.category] }} · {{ euro(rival.perKgCents) }}/kg</span>
+        </NuxtLink>
+      </div>
     </header>
 
     <section class="chart-section" aria-labelledby="chart-title">
@@ -191,10 +203,18 @@ h1 {
   font-size: 14px;
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 12px;
+  margin-top: 22px;
+}
+
 .shop-link {
   display: inline-flex;
+  align-items: center;
   gap: 8px;
-  margin-top: 22px;
   padding: 12px 18px;
   background: var(--accent);
   color: var(--accent-ink);
@@ -204,6 +224,38 @@ h1 {
 
 .shop-link:hover {
   filter: brightness(1.08);
+}
+
+.compare-link {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  padding: 8px 16px 9px;
+  border: 1px solid var(--ink);
+  text-decoration: none;
+}
+
+.compare-link:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.compare-kicker {
+  font-family: var(--font-num);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.compare-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.compare-note {
+  font-size: 12px;
+  opacity: 0.75;
 }
 
 .seg {
