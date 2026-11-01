@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-11-01',
   modules: ['@nuxt/content'],
   devtools: { enabled: false },
-  css: ['~/assets/main.css'],
+  css: ['~/assets/fonts.css', '~/assets/main.css'],
   content: {
     experimental: { sqliteConnector: 'native' },
   },
@@ -29,13 +29,7 @@ export default defineNuxtConfig({
         { name: 'color-scheme', content: 'light dark' },
       ],
       link: [
-        { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap',
-        },
+        { rel: 'icon', href: `${process.env.NUXT_APP_BASE_URL ?? '/'}favicon.svg`, type: 'image/svg+xml' },
       ],
     },
   },
