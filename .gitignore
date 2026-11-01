@@ -8,3 +8,4 @@ dist
 .screenshots
 .DS_Store
 *.log
+*.tsbuildinfo
