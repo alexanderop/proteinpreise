@@ -5,7 +5,10 @@ import { CATEGORIES, CATEGORY_LABEL, type Category } from '#shared/types'
 import { euro, percent, size } from '#shared/format'
 import { SHOPS, shopName } from '#shared/shops'
 
-const props = defineProps<{ rows: OfferRow[] }>()
+const props = defineProps<{ rows: OfferRow[]; selected: readonly string[] }>()
+defineEmits<{ toggle: [id: string] }>()
+
+const pickLetter = (id: string) => ['A', 'B'][props.selected.indexOf(id)] ?? null
 
 type SortKey = 'product' | 'shop' | 'size' | 'price' | 'perKg'
 
@@ -147,6 +150,7 @@ function reset() {
             </button>
           </th>
           <th class="col-trend" scope="col">Verlauf</th>
+          <th class="col-cmp" scope="col"><span class="sr-only">Vergleich</span></th>
         </tr>
       </thead>
       <tbody>
@@ -170,6 +174,19 @@ function reset() {
           <td class="col-trend">
             <Sparkline :points="r.history" :direction="r.change?.direction ?? null" />
             <span v-if="r.change" class="delta" :data-dir="r.change.direction">{{ percent(r.change.pct) }}</span>
+          </td>
+          <td class="col-cmp">
+            <button
+              type="button"
+              class="cmp"
+              :class="pickLetter(r.id) && `pick-${pickLetter(r.id)}`"
+              :aria-pressed="pickLetter(r.id) !== null"
+              :aria-label="`${r.product}, ${shopName(r.shopId)}, ${size(r.sizeG)} vergleichen`"
+              @click="$emit('toggle', r.id)"
+            >
+              <template v-if="pickLetter(r.id)"><span aria-hidden="true">✓</span> {{ pickLetter(r.id) }}</template>
+              <template v-else><span aria-hidden="true">+</span> Vergleich</template>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -397,6 +414,58 @@ td.col-trend .delta {
   font-size: 12px;
 }
 
+.col-cmp {
+  width: 1%;
+  text-align: right;
+}
+
+.cmp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 96px;
+  min-height: 32px;
+  padding: 4px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink-2);
+  font: 500 11px/1 var(--font-num);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cmp:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.cmp[aria-pressed='true'] {
+  border-color: var(--tone);
+  background: var(--tone);
+  color: var(--paper);
+  font-weight: 600;
+}
+
+.pick-A {
+  --tone: var(--series-a);
+}
+
+.pick-B {
+  --tone: var(--series-b);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
 .empty {
   padding: 40px 0;
   text-align: center;
@@ -433,7 +502,7 @@ td.col-trend .delta {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      'product product'
+      'product cmp'
       'shop trend'
       'price perkg';
     gap: 4px 12px;
@@ -460,6 +529,16 @@ td.col-trend .delta {
 
   .col-size {
     display: none;
+  }
+
+  td.col-cmp {
+    grid-area: cmp;
+    width: auto;
+    align-self: start;
+  }
+
+  .cmp {
+    min-width: 0;
   }
 
   .col-shop::after {

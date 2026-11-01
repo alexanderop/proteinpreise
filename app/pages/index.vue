@@ -3,6 +3,7 @@ import { buildOverview, toRouteId, type OfferRow } from '#shared/prices'
 import { CATEGORIES, CATEGORY_LABEL } from '#shared/types'
 import { day, euro } from '#shared/format'
 import { shopName } from '#shared/shops'
+import { toggleSelection } from '#shared/compare'
 
 const { data: overview } = await useAsyncData('overview', async () => buildOverview(await loadSnapshots()))
 
@@ -31,6 +32,12 @@ const lows = computed(() =>
     return best ? [{ category, row: best }] : []
   }),
 )
+
+const selected = ref<string[]>([])
+const picks = computed(() => selected.value.flatMap((id) => ov.value.rows.find((r) => r.id === id) ?? []))
+const toggle = (id: string) => {
+  selected.value = toggleSelection(selected.value, id)
+}
 
 useSeoMeta({
   title: 'Proteinpreise: Proteinpulver-Preise deutscher Shops im Vergleich',
@@ -113,8 +120,12 @@ useSeoMeta({
         Heute nicht erreichbar: {{ shopsFailed.map((s) => shopName(s.shopId)).join(', ') }}. Diese Angebote fehlen
         für {{ day(ov.date) }}.
       </p>
-      <OfferBrowser :rows="ov.rows" />
+      <OfferBrowser :rows="ov.rows" :selected="selected" @toggle="toggle" />
     </section>
+    <template v-if="picks.length">
+      <div class="bar-spacer" aria-hidden="true" />
+      <CompareBar :picks="picks" @remove="toggle" @clear="selected = []" />
+    </template>
   </div>
   <div v-else class="wrap quiet">
     <p>Noch keine Daten. Führe <code>node scripts/scrape.ts</code> aus.</p>
@@ -282,6 +293,10 @@ h1 em {
 .quiet p {
   margin: 0;
   max-width: 56ch;
+}
+
+.bar-spacer {
+  height: 120px;
 }
 
 .warn {
