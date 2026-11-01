@@ -26,11 +26,11 @@ Die Packungsgröße lesen wir aus dem Namen der Variante, dann aus dem Produktna
 
 Die Kategorie kommt aus dem Produktnamen. Die Regeln werden der Reihe nach geprüft, die erste passende gewinnt:
 
-1. **Mehrkomponenten**: Mischungen aus Vegan und Whey.
+1. **Mehrkomponenten**: Mischungen aus Vegan und Whey, aus Whey und Ei, aus Ei und Soja, und 2K-Proteine.
 2. **Vegan**: Vegan, Plant, Soja, Erbse, Reis, Hanf, Mandel, Kürbis.
 3. **Casein**: Casein oder Kasein im Namen.
 4. **Mehrkomponenten**: Komplex, Complex, 3K, Hybrid, Blend.
-5. **Isolat**: Isolat, Iso Whey, Clear, Hydrolysat.
+5. **Isolat**: Isolat, Iso Whey, Clear, Hydrolysat, Protein-Wasser.
 6. **Whey**: Whey oder Molke.
 7. Alles andere mit „Protein“ im Namen landet bei **Mehrkomponenten**.
 

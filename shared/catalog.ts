@@ -33,11 +33,11 @@ const MULTIPACK = /(?<![\d.,])([2-9]|\d{2,})\s*x\s*\d+(?:[.,]\d+)?\s*(?:g|ml)\b/
 export const PLAUSIBLE_CENTS_PER_KG = { min: 800, max: 25000 }
 
 export const CATEGORY_RULES: readonly { category: Category; pattern: RegExp }[] = [
-  { category: 'mehrkomponenten', pattern: /vegan & whey/i },
+  { category: 'mehrkomponenten', pattern: /vegan & whey|whey & ei\b|ei-soja|\b2k-/i },
   { category: 'vegan', pattern: /vegan|plant|soja|soy\b|erbsen|pea protein|reis ?protein|mandel|hanf|kürbis/i },
   { category: 'casein', pattern: /casein|kasein/i },
   { category: 'mehrkomponenten', pattern: /mehrkomponent|komplex|complex|3k-|hybrid|protein-6|blend/i },
-  { category: 'isolate', pattern: /isolat|iso[ -]?whey|isoclear|clear|hydroly/i },
+  { category: 'isolate', pattern: /isolat|iso[ -]?whey|isoclear|clear|hydroly|protein-?wasser|protein ?water/i },
   { category: 'whey', pattern: /whey|molke/i },
   { category: 'mehrkomponenten', pattern: /protein/i },
 ]

@@ -48,6 +48,11 @@ describe('classify', () => {
     ['3K-Protein (1000g)', 'mehrkomponenten'],
     ['Daily Protein', 'mehrkomponenten'],
     ['Clear Whey Isolate (960g)', 'isolate'],
+    ['2K-Whey&Casein-Protein (1kg)', 'mehrkomponenten'],
+    ['2K-Ei+Whey-Protein Isolat 92 (1kg)', 'mehrkomponenten'],
+    ['Ei-Soja-Protein Isolat 91 (1kg)', 'mehrkomponenten'],
+    ['Whey & Ei-Protein Konzentrat 82 (1kg)', 'mehrkomponenten'],
+    ['Protein-Wasser (800g)', 'isolate'],
   ])('puts %s into %s', (title, category) => {
     expect(classify({ title, type: '' })).toBe(category)
   })
