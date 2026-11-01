@@ -19,7 +19,7 @@ pnpm dev          # http://localhost:3000
 node scripts/scrape.ts
 ```
 
-The script fetches `https://<domain>/products.json` page by page from every shop in `shared/shops.ts`, keeps protein powders, and writes `content/snapshots/<YYYY-MM-DD>.json` (date in Europe/Berlin). It prints one row per shop with the number of products read and offers kept. A shop that fails is recorded with `ok: false` and its error, and the other shops still land. If every shop fails, the script writes nothing and exits with code 1.
+The script reads every shop in `shared/shops.ts` through the fetcher for its `source`. A `shopify` shop is read from `https://<domain>/products.json` page by page. A `gambio` shop (Rühl24) is read from its category listings and the JSON-LD on each linked product page, one request at a time. The script keeps protein powders and writes `content/snapshots/<YYYY-MM-DD>.json` (date in Europe/Berlin). It prints one row per shop with the number of products read and offers kept. A shop that fails is recorded with `ok: false` and its error, and the other shops still land. If every shop fails, the script writes nothing and exits with code 1.
 
 Running it twice on the same day overwrites that day's file.
 
@@ -35,7 +35,7 @@ npx serve .output/public
 ## Check your change
 
 ```sh
-pnpm test        # vitest: parsing, classification, change detection
+pnpm test        # vitest: Shopify and Gambio parsing, classification, change detection
 pnpm typecheck   # vue-tsc over the app, scripts, and tests
 ```
 
@@ -48,8 +48,9 @@ pnpm typecheck   # vue-tsc over the app, scripts, and tests
 
 ## Where things live
 
-- `shared/shops.ts` is the shop registry. To add a Shopify shop, add one row.
-- `shared/catalog.ts` turns a raw Shopify catalog into offers. It holds the exclusion table (bars, coffee, bundles, samples), the ordered category table, and the size parser.
+- `shared/shops.ts` is the shop registry. Each row names its `source`. To add a Shopify shop, add one row. To add a Gambio shop, add one row with the category listings to start from.
+- `shared/shopify.ts` and `shared/gambio.ts` parse each source into the same `RawProduct` shape. Both are pure. The Gambio tests read trimmed real pages from `tests/fixtures/`.
+- `shared/catalog.ts` turns `RawProduct`s into offers. It holds the exclusion table (bars, coffee, bundles, samples), the ordered category table, and the size parser.
 - `shared/prices.ts` derives everything the pages show from the snapshots: €/kg, the price series per offer, changes, new offers, and offers that left the catalog. Every function in it is pure and unit-tested.
 - `scripts/scrape.ts` is the only code that talks to the network.
 - `content.config.ts` defines the `snapshots` data collection with a zod schema, and a `pages` collection for the Markdown in `content/pages/`.

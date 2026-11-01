@@ -1,5 +1,6 @@
 interface SourceConfig {
   shopify: { gramsField?: 'net' | 'gross' }
+  gambio: { listings: readonly string[] }
 }
 
 export type Source = keyof SourceConfig
@@ -17,6 +18,7 @@ export const SHOPS: readonly Shop[] = [
   { id: 'weider', name: 'Weider', domain: 'www.weider.de', source: 'shopify' },
   { id: 'ironmaxx', name: 'IronMaxx', domain: 'www.ironmaxx.de', source: 'shopify' },
   { id: 'peak', name: 'Peak', domain: 'www.peak.ag', source: 'shopify', gramsField: 'gross' },
+  { id: 'ruehl', name: 'Rühl24', domain: 'www.ruehl24.de', source: 'gambio', listings: ['/de/protein/'] },
 ]
 
 const BY_ID = new Map(SHOPS.map((s) => [s.id, s]))

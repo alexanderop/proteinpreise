@@ -1,6 +1,7 @@
 import { mkdir, rename, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { toOffers, type RawProduct } from '../shared/catalog.ts'
+import { parseListing, parseProductPage } from '../shared/gambio.ts'
 import { parseProductsPage } from '../shared/shopify.ts'
 import { SHOPS, type Shop, type Source } from '../shared/shops.ts'
 import type { Offer, ShopRun, Snapshot } from '../shared/types.ts'
@@ -44,8 +45,31 @@ async function fetchShopify(shop: Shop<'shopify'>): Promise<RawProduct[]> {
   throw new Error(`mehr als ${MAX_PAGES} Seiten, Abbruch`)
 }
 
+async function fetchGambio(shop: Shop<'gambio'>): Promise<RawProduct[]> {
+  const pages = new Set<string>()
+  for (const listing of shop.listings) {
+    let next: string | null = new URL(listing, `https://${shop.domain}`).href
+    for (let page = 1; next !== null; page++) {
+      if (page > MAX_PAGES) throw new Error(`mehr als ${MAX_PAGES} Seiten in ${listing}, Abbruch`)
+      const parsed = parseListing(await fetchText(next, 'text/html'), next)
+      for (const url of parsed.products) pages.add(url)
+      next = parsed.next
+      await sleep(PAGE_DELAY_MS)
+    }
+  }
+  const products: RawProduct[] = []
+  for (const url of pages) {
+    const product = parseProductPage(await fetchText(url, 'text/html'), url)
+    if (product) products.push(product)
+    await sleep(PAGE_DELAY_MS)
+  }
+  if (products.length === 0) throw new Error(`keine Produktdaten auf ${pages.size} Produktseiten`)
+  return products
+}
+
 const FETCHERS: { [S in Source]: (shop: Shop<S>) => Promise<RawProduct[]> } = {
   shopify: fetchShopify,
+  gambio: fetchGambio,
 }
 
 function fetchCatalog<S extends Source>(shop: Shop<S>): Promise<RawProduct[]> {
