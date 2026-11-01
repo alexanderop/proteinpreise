@@ -48,3 +48,12 @@ jobs:
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
               commit -m "Snapshot $(date -u +%F)"
           git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git" "HEAD:${BRANCH}"
+
+  deploy:
+    name: Deploy new snapshot
+    needs: scrape
+    permissions:
+      contents: read
+      pages: write # publish the artifact
+      id-token: write # required by deploy-pages
+    uses: $/.github/workflows/deploy.yml
