@@ -1,15 +1,30 @@
-<script setup lang="ts">
-import { area, bisector, curveStepAfter, extent, line, scaleLinear, scaleUtc } from 'd3'
+<script lang="ts">
 import type { PricePoint } from '#shared/prices'
+
+export interface ChartSeries {
+  id: string
+  label: string
+  points: PricePoint[]
+  tone: 'accent' | 'a' | 'b'
+}
+</script>
+
+<script setup lang="ts">
+import { area, bisector, curveStepAfter, line, scaleLinear, scaleUtc } from 'd3'
 import { day, euro, parseDay, shortDay } from '#shared/format'
 
 type Metric = 'priceCents' | 'perKgCents'
 
-const props = defineProps<{ points: PricePoint[]; metric: Metric }>()
+const props = defineProps<{ series: ChartSeries[]; metric: Metric }>()
 
 const HEIGHT = 320
 const M = { top: 20, right: 20, bottom: 34, left: 68 }
 const DAY_MS = 86_400_000
+const TONE: Record<ChartSeries['tone'], string> = {
+  accent: 'var(--accent)',
+  a: 'var(--series-a)',
+  b: 'var(--series-b)',
+}
 
 const container = ref<HTMLElement | null>(null)
 const width = ref(760)
@@ -27,22 +42,33 @@ onBeforeUnmount(() => observer?.disconnect())
 
 const format = (cents: number) => (props.metric === 'perKgCents' ? `${euro(cents)}/kg` : euro(cents))
 
+const dates = computed(() => [...new Set(props.series.flatMap((s) => s.points.map((p) => p.date)))].toSorted())
+const lastDate = computed(() => dates.value.at(-1)!)
+
+function valueAt(points: PricePoint[], date: string): PricePoint | null {
+  const end = points.at(-1)!
+  if (date > end.date && end.date < lastDate.value) return null
+  return points.findLast((p) => p.date <= date) ?? null
+}
+
 const chart = computed(() => {
-  const { points, metric } = props
+  const { series, metric } = props
   const w = width.value
   const compact = w < 480
   const left = compact ? 56 : M.left
   const innerRight = w - M.right
   const innerBottom = HEIGHT - M.bottom
-  const dates = points.map((p) => parseDay(p.date))
-  const [first, last] = extent(dates) as [Date, Date]
+  const first = parseDay(dates.value[0]!)
+  const last = parseDay(lastDate.value)
   const span = last.getTime() - first.getTime()
   const tail = new Date(last.getTime() + Math.max(DAY_MS, span * 0.04))
   const xDomain: [Date, Date] =
     span === 0 ? [new Date(first.getTime() - 3 * DAY_MS), new Date(first.getTime() + 3 * DAY_MS)] : [first, tail]
   const x = scaleUtc().domain(xDomain).range([left, innerRight])
 
-  const [lo, hi] = extent(points, (p) => p[metric]) as [number, number]
+  const values = series.flatMap((s) => s.points.map((p) => p[metric]))
+  const lo = Math.min(...values)
+  const hi = Math.max(...values)
   const pad = Math.max((hi - lo) * 0.25, hi * 0.08)
   const y = scaleLinear()
     .domain([Math.max(0, lo - pad), hi + pad])
@@ -51,9 +77,24 @@ const chart = computed(() => {
 
   const px = (p: PricePoint) => x(parseDay(p.date))
   const py = (p: PricePoint) => y(p[metric])
-  const steps: [number, number][] = points.map((p) => [px(p), py(p)])
-  const lastPoint = points.at(-1)!
-  steps.push([x(tail), py(lastPoint)])
+  const allSingle = series.every((s) => s.points.length === 1)
+
+  const drawn = series.map((s) => {
+    const end = s.points.at(-1)!
+    const stop = end.date === lastDate.value ? tail : new Date(parseDay(end.date).getTime() + DAY_MS)
+    const steps: [number, number][] = s.points.map((p) => [px(p), py(p)])
+    steps.push([x(stop), py(end)])
+    return {
+      ...s,
+      color: TONE[s.tone],
+      linePath: allSingle ? null : line().curve(curveStepAfter)(steps),
+      areaPath: series.length === 1 && s.points.length > 1 ? area().y0(innerBottom).curve(curveStepAfter)(steps) : null,
+    }
+  })
+
+  const top = series
+    .map((s) => s.points[0]!)
+    .reduce((a, b) => (b[metric] > a[metric] ? b : a))
 
   return {
     left,
@@ -63,25 +104,33 @@ const chart = computed(() => {
     y,
     px,
     py,
-    linePath: points.length > 1 ? line().curve(curveStepAfter)(steps) : null,
-    areaPath: points.length > 1 ? area().y0(innerBottom).curve(curveStepAfter)(steps) : null,
+    drawn,
+    allSingle,
+    note: allSingle && span === 0 ? top : null,
     yTicks: y.ticks(compact ? 4 : 5),
-    xTicks: span === 0 ? [first] : x.ticks(Math.min(points.length, Math.floor(w / 110))).filter((t) => t <= last),
+    xTicks: span === 0 ? [first] : x.ticks(Math.min(dates.value.length, Math.floor(w / 110))).filter((t) => t <= last),
   }
 })
 
-const active = computed(() => (hover.value === null ? null : props.points[hover.value] ?? null))
-const latest = computed(() => props.points.at(-1) ?? null)
-const shown = computed(() => active.value ?? latest.value)
+const activeDate = computed(() => (hover.value === null ? null : dates.value[hover.value] ?? null))
+const readings = computed(() =>
+  props.series.map((s) => ({
+    ...s,
+    color: TONE[s.tone],
+    point: activeDate.value ? valueAt(s.points, activeDate.value) : s.points.at(-1)!,
+  })),
+)
+const single = computed(() => (props.series.length === 1 ? readings.value[0]! : null))
 
-const findIndex = bisector((p: PricePoint) => parseDay(p.date).getTime()).center
+const tipX = computed(() => (activeDate.value ? chart.value.x(parseDay(activeDate.value)) / width.value : 0))
+
+const findIndex = bisector((d: string) => parseDay(d).getTime()).center
 
 function onMove(event: PointerEvent) {
   const svg = event.currentTarget as SVGSVGElement
   const box = svg.getBoundingClientRect()
   const xPos = ((event.clientX - box.left) / box.width) * width.value
-  const date = chart.value.x.invert(xPos).getTime()
-  hover.value = findIndex(props.points, date)
+  hover.value = findIndex(dates.value, chart.value.x.invert(xPos).getTime())
 }
 
 const tickLabel = (value: number) =>
@@ -91,10 +140,22 @@ const tickLabel = (value: number) =>
 <template>
   <figure ref="container" class="chart">
     <figcaption class="readout" aria-live="polite">
-      <template v-if="shown">
-        <span class="readout-value num">{{ format(shown[metric]) }}</span>
-        <span class="readout-date">{{ hover === null ? 'aktuell, ' : '' }}{{ day(shown.date) }}</span>
+      <template v-if="single?.point">
+        <span class="readout-value num">{{ format(single.point[metric]) }}</span>
+        <span class="readout-date">{{ activeDate === null ? 'aktuell, ' : '' }}{{ day(single.point.date) }}</span>
       </template>
+      <ul v-else-if="!single" class="legend">
+        <li v-for="r in readings" :key="r.id" :style="{ '--tone': r.color }">
+          <svg class="swatch" :class="`tone-${r.tone}`" width="22" height="12" aria-hidden="true">
+            <line x1="1" x2="21" y1="6" y2="6" />
+            <rect v-if="r.tone === 'b'" x="7" y="2" width="8" height="8" />
+            <circle v-else cx="11" cy="6" r="4" />
+          </svg>
+          <span class="legend-label">{{ r.label }}</span>
+          <span class="legend-value num">{{ r.point ? format(r.point[metric]) : 'nicht gelistet' }}</span>
+        </li>
+        <li class="legend-date">{{ activeDate === null ? 'aktuell' : day(activeDate) }}</li>
+      </ul>
     </figcaption>
     <svg
       :viewBox="`0 0 ${width} ${HEIGHT}`"
@@ -102,7 +163,11 @@ const tickLabel = (value: number) =>
       :height="HEIGHT"
       class="chart-svg"
       role="img"
-      :aria-label="`Preisverlauf, ${points.length} Messpunkte`"
+      :aria-label="
+        single
+          ? `Preisverlauf, ${single.points.length} Messpunkte`
+          : `Verlauf pro Kilo: ${series.map((s) => s.label).join(' und ')}`
+      "
       @pointermove="onMove"
       @pointerleave="hover = null"
     >
@@ -119,35 +184,58 @@ const tickLabel = (value: number) =>
         <line class="axis" :x1="chart.left" :x2="chart.innerRight" :y1="chart.innerBottom" :y2="chart.innerBottom" />
       </g>
 
-      <path v-if="chart.areaPath" :d="chart.areaPath" class="area" />
-      <path v-if="chart.linePath" :d="chart.linePath" class="line" />
-
-      <g v-if="points.length === 1" class="single">
+      <g v-for="s in chart.drawn" :key="s.id" class="series" :class="`tone-${s.tone}`" :style="{ '--tone': s.color }">
+        <path v-if="s.areaPath" :d="s.areaPath" class="area" />
+        <path v-if="s.linePath" :d="s.linePath" class="line" />
         <line
+          v-if="chart.allSingle"
           :x1="chart.left"
           :x2="chart.innerRight"
-          :y1="chart.py(points[0]!)"
-          :y2="chart.py(points[0]!)"
+          :y1="chart.py(s.points[0]!)"
+          :y2="chart.py(s.points[0]!)"
           class="single-rule"
         />
-        <text :x="chart.px(points[0]!)" :y="chart.py(points[0]!) - 18" text-anchor="middle" class="single-note">
-          Verlauf startet am {{ day(points[0]!.date) }}
-        </text>
+        <template v-for="(p, i) in s.points" :key="p.date">
+          <rect
+            v-if="s.tone === 'b'"
+            :x="chart.px(p) - (chart.allSingle ? 6 : i === s.points.length - 1 ? 4.5 : 3)"
+            :y="chart.py(p) - (chart.allSingle ? 6 : i === s.points.length - 1 ? 4.5 : 3)"
+            :width="chart.allSingle ? 12 : i === s.points.length - 1 ? 9 : 6"
+            :height="chart.allSingle ? 12 : i === s.points.length - 1 ? 9 : 6"
+            class="dot"
+            :class="{ last: i === s.points.length - 1 }"
+          />
+          <circle
+            v-else
+            :cx="chart.px(p)"
+            :cy="chart.py(p)"
+            :r="chart.allSingle ? 6 : i === s.points.length - 1 ? 4.5 : 2.5"
+            class="dot"
+            :class="{ last: i === s.points.length - 1 }"
+          />
+        </template>
       </g>
 
-      <circle
-        v-for="(p, i) in points"
-        :key="p.date"
-        :cx="chart.px(p)"
-        :cy="chart.py(p)"
-        :r="points.length === 1 ? 6 : i === points.length - 1 ? 4.5 : 2.5"
-        class="dot"
-        :class="{ last: i === points.length - 1 }"
-      />
+      <text
+        v-if="chart.note"
+        :x="chart.px(chart.note)"
+        :y="chart.py(chart.note) - 18"
+        text-anchor="middle"
+        class="single-note"
+      >
+        Verlauf startet am {{ day(chart.note.date) }}
+      </text>
 
-      <g v-if="active" class="hover" pointer-events="none">
-        <line :x1="chart.px(active)" :x2="chart.px(active)" :y1="20" :y2="chart.innerBottom" />
-        <circle :cx="chart.px(active)" :cy="chart.py(active)" r="6" />
+      <g v-if="activeDate" class="hover" pointer-events="none">
+        <line
+          :x1="chart.x(parseDay(activeDate))"
+          :x2="chart.x(parseDay(activeDate))"
+          :y1="20"
+          :y2="chart.innerBottom"
+        />
+        <template v-for="r in readings" :key="r.id">
+          <circle v-if="r.point" :cx="chart.x(parseDay(activeDate))" :cy="chart.py(r.point)" r="7" />
+        </template>
       </g>
 
       <rect
@@ -158,10 +246,19 @@ const tickLabel = (value: number) =>
         fill="transparent"
       />
     </svg>
-    <div v-if="active" class="tip" :style="{ left: `clamp(72px, ${(chart.px(active) / width) * 100}%, calc(100% - 72px))` }">
-      <strong>{{ day(active.date) }}</strong>
-      <span class="num">{{ euro(active.priceCents) }}</span>
-      <span class="num">{{ euro(active.perKgCents) }}/kg</span>
+    <div v-if="activeDate" class="tip" :class="{ flip: tipX > 0.6 }" :style="{ left: `${tipX * 100}%` }">
+      <strong>{{ day(activeDate) }}</strong>
+      <template v-if="single?.point">
+        <span class="num">{{ euro(single.point.priceCents) }}</span>
+        <span class="num">{{ euro(single.point.perKgCents) }}/kg</span>
+      </template>
+      <template v-else>
+        <span v-for="r in readings" :key="r.id" class="tip-row" :style="{ '--tone': r.color }">
+          <i class="tip-mark" :class="`tone-${r.tone}`" aria-hidden="true" />
+          <span class="tip-label">{{ r.label }}</span>
+          <span class="num">{{ r.point ? format(r.point[metric]) : '–' }}</span>
+        </span>
+      </template>
     </div>
   </figure>
 </template>
@@ -192,6 +289,57 @@ const tickLabel = (value: number) =>
   font-size: 14px;
 }
 
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.swatch {
+  align-self: center;
+  flex: none;
+}
+
+.swatch line {
+  stroke: var(--tone);
+  stroke-width: 2.25;
+}
+
+.swatch circle,
+.swatch rect {
+  fill: var(--tone);
+}
+
+.legend-label {
+  max-width: 26ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+
+.legend-value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.legend-date {
+  color: var(--ink-3);
+  font-size: 13px;
+}
+
 .chart-svg {
   display: block;
   width: 100%;
@@ -220,23 +368,23 @@ const tickLabel = (value: number) =>
 
 .line {
   fill: none;
-  stroke: var(--accent);
+  stroke: var(--tone);
   stroke-width: 2.25;
   stroke-linejoin: round;
 }
 
 .dot {
   fill: var(--paper);
-  stroke: var(--accent);
+  stroke: var(--tone);
   stroke-width: 2;
 }
 
 .dot.last {
-  fill: var(--accent);
+  fill: var(--tone);
 }
 
 .single-rule {
-  stroke: var(--accent);
+  stroke: var(--tone);
   stroke-width: 1;
   stroke-dasharray: 3 5;
   opacity: 0.6;
@@ -264,7 +412,7 @@ const tickLabel = (value: number) =>
 .tip {
   position: absolute;
   top: 56px;
-  transform: translateX(-50%);
+  transform: translateX(14px);
   display: grid;
   gap: 2px;
   padding: 8px 10px;
@@ -274,5 +422,39 @@ const tickLabel = (value: number) =>
   white-space: nowrap;
   pointer-events: none;
   border-radius: 2px;
+}
+
+.tip.flip {
+  transform: translateX(calc(-100% - 14px));
+}
+
+.tip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tip-label {
+  max-width: 18ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.8;
+}
+
+.tip-row .num {
+  margin-left: auto;
+  padding-left: 8px;
+}
+
+.tip-mark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tone);
+  box-shadow: 0 0 0 1.5px var(--paper);
+}
+
+.tip-mark.tone-b {
+  border-radius: 0;
 }
 </style>

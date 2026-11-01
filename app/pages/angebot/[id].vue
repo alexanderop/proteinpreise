@@ -39,6 +39,7 @@ const stats = computed(() => {
   return { low, high, first: s[0]! }
 })
 const listed = computed(() => d.value.row !== null)
+const chartSeries = computed(() => [{ id: d.value.offer.id, label: d.value.offer.product, points: d.value.series, tone: 'accent' as const }])
 
 useSeoMeta({
   title: () => `${d.value.offer.product} ${size(d.value.offer.sizeG)} bei ${shopName(d.value.offer.shopId)}: Preisverlauf`,
@@ -79,7 +80,7 @@ useSeoMeta({
           <button type="button" :aria-pressed="metric === 'perKgCents'" @click="metric = 'perKgCents'">€/kg</button>
         </div>
       </header>
-      <PriceChart :points="d.series" :metric="metric" />
+      <PriceChart :series="chartSeries" :metric="metric" />
       <dl class="facts">
         <div>
           <dt>Tiefster Preis</dt>
