@@ -1,5 +1,5 @@
 import type { Offer } from './types.ts'
-import type { Catalog, CatalogEntry, PricePoint } from './prices.ts'
+import { fromRouteId, type Catalog, type CatalogEntry, type PricePoint } from './prices.ts'
 import { shopName } from './shops.ts'
 
 export type Side = 'a' | 'b'
@@ -57,7 +57,34 @@ export function compareOffers(catalog: Catalog, idA: string, idB: string): Compa
   }
 }
 
+export type Standing =
+  | { role: 'cheaper'; pct: number }
+  | { role: 'dearer'; diffPerKgCents: number }
+  | { role: 'equal' }
+
+export function standing(comparison: Comparison, of: Side): Standing {
+  const { cheaperPerKg, pct, diffPerKgCents } = comparison
+  if (cheaperPerKg === 'equal') return { role: 'equal' }
+  return cheaperPerKg === of ? { role: 'cheaper', pct } : { role: 'dearer', diffPerKgCents }
+}
+
 export function toggleSelection(selected: readonly string[], id: string, max = 2): string[] {
   if (selected.includes(id)) return selected.filter((s) => s !== id)
   return [...selected, id].slice(-max)
+}
+
+export type Slot = { kind: 'empty' } | { kind: 'unknown'; routeId: string } | { kind: 'offer'; entry: CatalogEntry }
+
+export function resolveSlot(catalog: Catalog, routeId: string | null): Slot {
+  if (!routeId) return { kind: 'empty' }
+  const entry = findEntry(catalog, fromRouteId(routeId))
+  return entry ? { kind: 'offer', entry } : { kind: 'unknown', routeId }
+}
+
+export function cheapestRival(catalog: Catalog, id: string): CatalogEntry | null {
+  const self = findEntry(catalog, id)
+  if (!self) return null
+  return catalog.entries
+    .filter((e) => e.listed && e.offer.category === self.offer.category && e.offer.id !== id)
+    .reduce<CatalogEntry | null>((best, e) => (!best || e.series.at(-1)!.perKgCents < best.series.at(-1)!.perKgCents ? e : best), null)
 }

@@ -1,10 +1,13 @@
 const EURO = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' })
 const PERCENT = new Intl.NumberFormat('de-DE', { style: 'percent', maximumFractionDigits: 1, signDisplay: 'exceptZero' })
+const SHARE = new Intl.NumberFormat('de-DE', { style: 'percent', maximumFractionDigits: 0 })
+const SMALL_SHARE = new Intl.NumberFormat('de-DE', { style: 'percent', maximumFractionDigits: 1 })
 const DATE = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })
 const SHORT_DATE = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', timeZone: 'UTC' })
 
 export const euro = (cents: number): string => EURO.format(cents / 100)
 export const percent = (ratio: number): string => PERCENT.format(ratio)
+export const share = (ratio: number): string => (ratio < 0.1 ? SMALL_SHARE : SHARE).format(ratio)
 export const size = (grams: number): string =>
   grams >= 1000 ? `${(grams / 1000).toLocaleString('de-DE', { maximumFractionDigits: 3 })} kg` : `${grams} g`
 

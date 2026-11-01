@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { compareOffers, toggleSelection } from '../shared/compare.ts'
+import { cheapestRival, compareOffers, resolveSlot, toggleSelection } from '../shared/compare.ts'
 import { buildCatalog } from '../shared/prices.ts'
 import type { Offer, Snapshot } from '../shared/types.ts'
 
@@ -74,5 +74,29 @@ describe('toggleSelection', () => {
     expect(toggleSelection(['x'], 'y')).toEqual(['x', 'y'])
     expect(toggleSelection(['x', 'y'], 'z')).toEqual(['y', 'z'])
     expect(toggleSelection(['x', 'y'], 'x')).toEqual(['y'])
+  })
+})
+
+describe('resolveSlot', () => {
+  it('tells an empty slot from an unknown id and a known offer', () => {
+    expect(resolveSlot(history, null)).toEqual({ kind: 'empty' })
+    expect(resolveSlot(history, 'nope_x_1')).toEqual({ kind: 'unknown', routeId: 'nope_x_1' })
+    expect(resolveSlot(history, 'peak_old_1000')).toMatchObject({ kind: 'offer', entry: { listed: false } })
+  })
+})
+
+describe('cheapestRival', () => {
+  it('picks the cheapest listed offer per kilo in the same category, never the offer itself or a gone one', () => {
+    const catalog = buildCatalog([
+      snapshot('2026-11-01', [offer('x:gone:1000', 1000)]),
+      snapshot('2026-11-02', [
+        offer('a:self:1000', 2000),
+        offer('b:dear:1000', 3000),
+        offer('c:cheap:2000', 5000),
+        offer('d:vegan:1000', 1500, { category: 'vegan' }),
+      ]),
+    ])
+    expect(cheapestRival(catalog, 'a:self:1000')?.offer.id).toBe('c:cheap:2000')
+    expect(cheapestRival(catalog, 'd:vegan:1000')).toBeNull()
   })
 })
