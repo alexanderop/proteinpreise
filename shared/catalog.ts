@@ -70,11 +70,22 @@ export function parseSizeFromText(text: string): number | null {
   return null
 }
 
-export function variantSize(variant: RawVariant, productTitle: string): number | null {
-  const fromText = parseSizeFromText(variant.title) ?? parseSizeFromText(productTitle)
+const HANDLE_SIZE = /-(\d{3,4})$/
+
+function withinFallback(grams: number): number | null {
+  return grams >= GRAMS_FALLBACK.min && grams <= GRAMS_FALLBACK.max ? grams : null
+}
+
+export function variantSize(
+  variant: RawVariant,
+  product: Pick<RawProduct, 'title' | 'handle'>,
+  gramsField: Shop['gramsField'] = 'net',
+): number | null {
+  const fromText = parseSizeFromText(variant.title) ?? parseSizeFromText(product.title)
   if (fromText !== null) return fromText
-  const g = variant.grams
-  return g >= GRAMS_FALLBACK.min && g <= GRAMS_FALLBACK.max ? g : null
+  if (gramsField === 'net') return withinFallback(variant.grams)
+  const fromHandle = HANDLE_SIZE.exec(product.handle)
+  return fromHandle ? withinFallback(Number(fromHandle[1])) : null
 }
 
 export function toCents(price: string | null): number | null {
@@ -116,7 +127,7 @@ export function toOffers(shop: Shop, products: readonly RawProduct[]): Offer[] {
       if (!variant.available) continue
       const priceCents = toCents(variant.price)
       if (priceCents === null) continue
-      const sizeG = variantSize(variant, product.title)
+      const sizeG = variantSize(variant, product, shop.gramsField)
       if (sizeG === null || sizeG < MIN_SIZE_G) continue
       const centsPerKg = (priceCents * 1000) / sizeG
       if (centsPerKg < PLAUSIBLE_CENTS_PER_KG.min || centsPerKg > PLAUSIBLE_CENTS_PER_KG.max) continue

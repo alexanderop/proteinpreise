@@ -2,6 +2,7 @@ export interface Shop {
   id: string
   name: string
   domain: string
+  gramsField?: 'net' | 'gross'
 }
 
 export const SHOPS: readonly Shop[] = [
@@ -12,7 +13,7 @@ export const SHOPS: readonly Shop[] = [
   { id: 'gymqueen', name: 'GymQueen', domain: 'www.gymqueen.de' },
   { id: 'weider', name: 'Weider', domain: 'www.weider.de' },
   { id: 'ironmaxx', name: 'IronMaxx', domain: 'www.ironmaxx.de' },
-  { id: 'peak', name: 'Peak', domain: 'www.peak.ag' },
+  { id: 'peak', name: 'Peak', domain: 'www.peak.ag', gramsField: 'gross' },
 ]
 
 const BY_ID = new Map(SHOPS.map((s) => [s.id, s]))

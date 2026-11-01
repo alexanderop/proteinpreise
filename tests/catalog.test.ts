@@ -28,15 +28,23 @@ describe('parseSizeFromText', () => {
 })
 
 describe('variantSize', () => {
+  const named = (title: string, handle = 'whey') => ({ title, handle })
+
   it('prefers the variant title, then the product title', () => {
-    expect(variantSize(variant({ title: 'Pistazie / 420g', grams: 2300 }), 'Isolate Whey 100')).toBe(420)
-    expect(variantSize(variant({ title: 'Vanille' }), 'Iso Whey (900g)')).toBe(900)
+    expect(variantSize(variant({ title: 'Pistazie / 420g', grams: 2300 }), named('Isolate Whey 100'))).toBe(420)
+    expect(variantSize(variant({ title: 'Vanille' }), named('Iso Whey (900g)'))).toBe(900)
   })
 
   it('falls back to grams only inside 100 to 5000', () => {
-    expect(variantSize(variant({ grams: 900 }), 'Daily Protein')).toBe(900)
-    expect(variantSize(variant({ grams: 935000 }), 'Delicious Whey')).toBeNull()
-    expect(variantSize(variant({ grams: 0 }), 'Whey')).toBeNull()
+    expect(variantSize(variant({ grams: 900 }), named('Daily Protein'))).toBe(900)
+    expect(variantSize(variant({ grams: 935000 }), named('Delicious Whey'))).toBeNull()
+    expect(variantSize(variant({ grams: 0 }), named('Whey'))).toBeNull()
+  })
+
+  it('reads the size from the handle when a shop reports gross weight', () => {
+    expect(variantSize(variant({ grams: 1300 }), named('Micellar Casein', 'micellar-casein-900'), 'gross')).toBe(900)
+    expect(variantSize(variant({ grams: 935 }), named('Hybrid Protein', 'hybrid-protein'), 'gross')).toBeNull()
+    expect(variantSize(variant({ grams: 935 }), named('Protein 85', 'protein-85'), 'gross')).toBeNull()
   })
 })
 

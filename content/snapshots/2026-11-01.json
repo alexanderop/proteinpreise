@@ -1,6 +1,6 @@
 {
   "date": "2026-11-01",
-  "fetchedAt": "2026-11-01T15:06:53.280Z",
+  "fetchedAt": "2026-11-01T15:19:58.792Z",
   "shops": [
     {
       "shopId": "esn",
@@ -40,7 +40,7 @@
     {
       "shopId": "peak",
       "ok": true,
-      "offers": 15
+      "offers": 5
     }
   ],
   "offers": [
@@ -1629,169 +1629,59 @@
       "flavors": 2
     },
     {
-      "id": "peak:anabolic-protein-selection:935",
+      "id": "peak:anabolic-protein-selection:900",
       "shopId": "peak",
       "product": "Anabolic Protein Selection",
       "url": "https://www.peak.ag/products/aps-900?variant=49647010873679",
       "category": "mehrkomponenten",
-      "sizeG": 935,
-      "priceCents": 3990,
-      "compareAtCents": null,
-      "flavors": 4
-    },
-    {
-      "id": "peak:beer-whey-isolate:550",
-      "shopId": "peak",
-      "product": "\"Beer Whey\" Isolate",
-      "url": "https://www.peak.ag/products/clear-whey-limited-edition?variant=49446932742479",
-      "category": "isolate",
-      "sizeG": 550,
-      "priceCents": 3990,
-      "compareAtCents": null,
-      "flavors": 1
-    },
-    {
-      "id": "peak:clear-protein:550",
-      "shopId": "peak",
-      "product": "Clear Protein",
-      "url": "https://www.peak.ag/products/clear-protein?variant=56263416676737",
-      "category": "isolate",
-      "sizeG": 550,
-      "priceCents": 2990,
-      "compareAtCents": null,
-      "flavors": 5
-    },
-    {
-      "id": "peak:clear-whey-isolate:550",
-      "shopId": "peak",
-      "product": "Clear Whey Isolate",
-      "url": "https://www.peak.ag/products/clear-whey-isolate?variant=49446931661135",
-      "category": "isolate",
-      "sizeG": 550,
-      "priceCents": 3990,
-      "compareAtCents": null,
-      "flavors": 4
-    },
-    {
-      "id": "peak:daily-protein:900",
-      "shopId": "peak",
-      "product": "Daily Protein",
-      "url": "https://www.peak.ag/products/daily-protein?variant=55756387549569",
-      "category": "mehrkomponenten",
       "sizeG": 900,
-      "priceCents": 2990,
-      "compareAtCents": null,
-      "flavors": 5
-    },
-    {
-      "id": "peak:fruity-vegan-protein:500",
-      "shopId": "peak",
-      "product": "Fruity Vegan Protein",
-      "url": "https://www.peak.ag/products/fruity-vegan-protein?variant=56263354057089",
-      "category": "vegan",
-      "sizeG": 500,
-      "priceCents": 2990,
-      "compareAtCents": null,
-      "flavors": 7
-    },
-    {
-      "id": "peak:hybrid-protein:935",
-      "shopId": "peak",
-      "product": "Hybrid Protein",
-      "url": "https://www.peak.ag/products/hybrid-protein?variant=53996636995969",
-      "category": "mehrkomponenten",
-      "sizeG": 935,
       "priceCents": 3990,
       "compareAtCents": null,
-      "flavors": 7
+      "flavors": 4
     },
     {
-      "id": "peak:micellar-casein:1300",
+      "id": "peak:micellar-casein:900",
       "shopId": "peak",
       "product": "Micellar Casein",
       "url": "https://www.peak.ag/products/micellar-casein-900?variant=49446922584399",
       "category": "casein",
-      "sizeG": 1300,
+      "sizeG": 900,
       "priceCents": 2990,
       "compareAtCents": null,
       "flavors": 8
     },
     {
-      "id": "peak:protein-85:935",
-      "shopId": "peak",
-      "product": "Protein 85",
-      "url": "https://www.peak.ag/products/protein-85?variant=49446921732431",
-      "category": "mehrkomponenten",
-      "sizeG": 935,
-      "priceCents": 2490,
-      "compareAtCents": null,
-      "flavors": 6
-    },
-    {
-      "id": "peak:soja-protein-isolat:850",
+      "id": "peak:soja-protein-isolat:750",
       "shopId": "peak",
       "product": "Soja Protein Isolat",
-      "url": "https://www.peak.ag/products/soja-protein-isolat-natural?variant=53655360045391",
+      "url": "https://www.peak.ag/products/sp-isolat-750?variant=49446925041999",
       "category": "vegan",
-      "sizeG": 850,
-      "priceCents": 1690,
-      "compareAtCents": null,
-      "flavors": 6
-    },
-    {
-      "id": "peak:vegan-protein-isolat:800",
-      "shopId": "peak",
-      "product": "Vegan Protein Isolat",
-      "url": "https://www.peak.ag/products/vegan-protein-isolat-natural?variant=53655958880591",
-      "category": "vegan",
-      "sizeG": 800,
+      "sizeG": 750,
       "priceCents": 1790,
       "compareAtCents": null,
-      "flavors": 11
+      "flavors": 5
     },
     {
-      "id": "peak:whey-protein-concentrate:1035",
+      "id": "peak:vegan-protein-isolat:750",
       "shopId": "peak",
-      "product": "Whey Protein Concentrate",
-      "url": "https://www.peak.ag/products/whey-protein-concentrate?variant=49446928351567",
-      "category": "whey",
-      "sizeG": 1035,
-      "priceCents": 4790,
+      "product": "Vegan Protein Isolat",
+      "url": "https://www.peak.ag/products/vegan-protein-750?variant=49446925074767",
+      "category": "vegan",
+      "sizeG": 750,
+      "priceCents": 1790,
       "compareAtCents": null,
-      "flavors": 7
+      "flavors": 10
     },
     {
-      "id": "peak:whey-protein-isolat:950",
-      "shopId": "peak",
-      "product": "Whey Protein Isolat",
-      "url": "https://www.peak.ag/products/wpi?variant=49446921929039",
-      "category": "isolate",
-      "sizeG": 950,
-      "priceCents": 5990,
-      "compareAtCents": null,
-      "flavors": 6
-    },
-    {
-      "id": "peak:whey-selection:935",
+      "id": "peak:whey-selection:900",
       "shopId": "peak",
       "product": "Whey Selection",
       "url": "https://www.peak.ag/products/ws-900?variant=49446925402447",
       "category": "whey",
-      "sizeG": 935,
+      "sizeG": 900,
       "priceCents": 5490,
       "compareAtCents": null,
       "flavors": 8
-    },
-    {
-      "id": "peak:yummy-vegan-protein:550",
-      "shopId": "peak",
-      "product": "Yummy Vegan Protein",
-      "url": "https://www.peak.ag/products/yummy-vegan-protein?variant=49446927434063",
-      "category": "vegan",
-      "sizeG": 550,
-      "priceCents": 1790,
-      "compareAtCents": null,
-      "flavors": 7
     },
     {
       "id": "weider:clear-isolate:500",

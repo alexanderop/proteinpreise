@@ -20,18 +20,19 @@ Ein Angebot ist ein Produkt in einer Packungsgröße, zum Beispiel „Designer W
 
 Wir behalten nur Proteinpulver. Riegel, Kaffee, Porridge, Pancake-Mix, Bundles, Probierboxen, Adventskalender und Bücher fliegen raus. Packungen unter 200 g gelten als Probe und fehlen ebenfalls.
 
-Die Packungsgröße lesen wir aus dem Namen der Variante, dann aus dem Produktnamen („480g“, „2,5 kg“). Das Gewichtsfeld des Shops nehmen wir nur, wenn es zwischen 100 g und 5 kg liegt. Manche Shops tragen dort Unsinn ein, etwa 935000 g für eine 900-g-Dose. Ohne verlässliche Größe kein Angebot.
+Die Packungsgröße lesen wir aus dem Namen der Variante, dann aus dem Produktnamen („480g“, „2,5 kg“). Das Gewichtsfeld des Shops nehmen wir nur, wenn es zwischen 100 g und 5 kg liegt. Manche Shops tragen dort Unsinn ein, etwa 935000 g für eine 900-g-Dose. Peak meldet dort das Versandgewicht mit Dose. Bei Peak lesen wir die Größe deshalb aus der Produktadresse (`micellar-casein-900`) und lassen Produkte ohne diese Angabe weg. Ohne verlässliche Größe kein Angebot.
 
 ## Kategorien
 
 Die Kategorie kommt aus dem Produktnamen. Die Regeln werden der Reihe nach geprüft, die erste passende gewinnt:
 
-1. **Vegan**: Vegan, Plant, Soja, Erbse, Reis, Hanf, Mandel, Kürbis.
-2. **Casein**: Casein oder Kasein im Namen.
-3. **Mehrkomponenten**: Komplex, Complex, 3K, Hybrid, Blend.
-4. **Isolat**: Isolat, Iso Whey, Clear, Hydrolysat.
-5. **Whey**: Whey oder Molke.
-6. Alles andere mit „Protein“ im Namen landet bei **Mehrkomponenten**.
+1. **Mehrkomponenten**: Mischungen aus Vegan und Whey.
+2. **Vegan**: Vegan, Plant, Soja, Erbse, Reis, Hanf, Mandel, Kürbis.
+3. **Casein**: Casein oder Kasein im Namen.
+4. **Mehrkomponenten**: Komplex, Complex, 3K, Hybrid, Blend.
+5. **Isolat**: Isolat, Iso Whey, Clear, Hydrolysat.
+6. **Whey**: Whey oder Molke.
+7. Alles andere mit „Protein“ im Namen landet bei **Mehrkomponenten**.
 
 ## Was „geändert“ heißt
 

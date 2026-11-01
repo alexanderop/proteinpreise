@@ -76,18 +76,15 @@ useSeoMeta({
 .prose :deep(.shop-list) {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1px;
-  padding: 0;
+  padding: 0 1px 1px 0;
   list-style: none;
-  background: var(--rule);
-  border: 1px solid var(--rule);
 }
 
 .prose :deep(.shop-list li) {
   display: grid;
-  margin: 0;
+  margin: 0 -1px -1px 0;
   padding: 12px 14px;
-  background: var(--paper);
+  border: 1px solid var(--rule);
 }
 
 .prose :deep(.shop-list a) {

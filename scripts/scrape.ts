@@ -4,7 +4,7 @@ import { parseProductsPage, toOffers, type RawProduct } from '../shared/catalog.
 import { SHOPS, type Shop } from '../shared/shops.ts'
 import type { Offer, ShopRun, Snapshot } from '../shared/types.ts'
 
-const USER_AGENT = 'proteinpreise/1.0 (+https://github.com/alexanderop/proteinpreise; daily price snapshot, one request per page)'
+const USER_AGENT = 'proteinpreise/1.0 (daily price snapshot, one request per page)'
 const PAGE_SIZE = 250
 const MAX_PAGES = 40
 const PAGE_DELAY_MS = 500
