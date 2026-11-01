@@ -36,7 +36,8 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/methodik', ...offerRoutes()],
+      routes: ['/', '/methodik', '/vergleich', ...offerRoutes()],
+      ignore: [/\/vergleich\?/],
     },
   },
 })

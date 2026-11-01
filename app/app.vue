@@ -19,7 +19,8 @@ useHead({
           <span class="wordmark-a">Protein</span><span class="wordmark-b">preise</span>
         </NuxtLink>
         <nav class="nav">
-          <NuxtLink to="/">Übersicht</NuxtLink>
+          <NuxtLink to="/" class="nav-home">Übersicht</NuxtLink>
+          <NuxtLink to="/vergleich">Vergleich</NuxtLink>
           <NuxtLink to="/methodik">Methodik</NuxtLink>
           <ThemeToggle />
         </nav>
@@ -104,6 +105,12 @@ main {
 .nav a.router-link-exact-active {
   color: var(--ink);
   border-bottom-color: var(--accent);
+}
+
+@media (max-width: 480px) {
+  .nav-home {
+    display: none;
+  }
 }
 
 .footer {

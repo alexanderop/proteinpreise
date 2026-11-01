@@ -30,7 +30,7 @@ pnpm generate
 npx serve .output/public
 ```
 
-`pnpm generate` prerenders `/`, `/methodik`, and one `/angebot/<id>` page for every offer that appears in any snapshot. Upload `.output/public` to any static host: Netlify, Cloudflare Pages, GitHub Pages, or a plain web server.
+`pnpm generate` prerenders `/`, `/methodik`, `/vergleich`, and one `/angebot/<id>` page for every offer that appears in any snapshot. `/vergleich` is prerendered once and reads `?a=<id>&b=<id>` in the browser, so any pair of offers has a shareable comparison link without a page per pair. Links with a query are kept out of the prerender crawl in `nuxt.config.ts`. Upload `.output/public` to any static host: Netlify, Cloudflare Pages, GitHub Pages, or a plain web server.
 
 ## Check your change
 
@@ -52,6 +52,7 @@ pnpm typecheck   # vue-tsc over the app, scripts, and tests
 - `shared/shopify.ts` and `shared/gambio.ts` parse each source into the same `RawProduct` shape. Both are pure. The Gambio tests read trimmed real pages from `tests/fixtures/`.
 - `shared/catalog.ts` turns `RawProduct`s into offers. It holds the exclusion table (bars, coffee, bundles, samples), the ordered category table, and the size parser.
 - `shared/prices.ts` derives everything the pages show from the snapshots: €/kg, the price series per offer, changes, new offers, and offers that left the catalog. Every function in it is pure and unit-tested.
+- `shared/compare.ts` compares two offers per kilo from the catalog of every offer ever seen, including offers that left it. The compare page and the selection on the home table only render what it returns.
 - `scripts/scrape.ts` is the only code that talks to the network.
 - `content.config.ts` defines the `snapshots` data collection with a zod schema, and a `pages` collection for the Markdown in `content/pages/`.
 - `app/components/PriceChart.vue` and `app/components/Sparkline.vue` use D3 for scales and path shapes. Vue renders the SVG, so the charts prerender without a browser.
