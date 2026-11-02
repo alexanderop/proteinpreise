@@ -19,6 +19,8 @@ export interface Offer {
   priceCents: number
   compareAtCents: number | null
   flavors: number
+  image: string | null
+  brand: string
 }
 
 export interface ShopRun {

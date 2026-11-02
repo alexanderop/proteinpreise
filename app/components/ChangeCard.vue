@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ChangedRow } from '#shared/prices'
-import { toRouteId } from '#shared/prices'
-import { euro, percent, size } from '#shared/format'
+import { offerPath } from '#shared/routes'
+import { euro, size } from '#shared/format'
 import { shopName } from '#shared/shops'
 
 const props = defineProps<{ row: ChangedRow }>()
@@ -9,93 +9,29 @@ const dir = computed(() => props.row.change.direction)
 </script>
 
 <template>
-  <NuxtLink :to="`/angebot/${toRouteId(row.id)}`" class="card" :data-dir="dir">
-    <div class="card-top">
-      <span class="kicker">{{ shopName(row.shopId) }} · {{ size(row.sizeG) }}</span>
-      <span class="delta" :data-dir="dir">
-        <span aria-hidden="true">{{ dir === 'down' ? '▼' : '▲' }}</span>{{ percent(row.change.pct) }}
-      </span>
+  <NuxtLink
+    :to="offerPath(row.id)"
+    class="group relative flex flex-col gap-3 overflow-hidden rounded-lg bg-surface p-4 shadow-card ring ring-default transition hover:-translate-y-0.5 hover:ring-accented focus-visible:outline-2 focus-visible:outline-primary"
+  >
+    <span class="absolute inset-y-0 left-0 w-1" :class="dir === 'down' ? 'bg-down' : 'bg-up'" aria-hidden="true" />
+    <div class="flex items-start justify-between gap-2">
+      <span class="eyebrow">{{ shopName(row.shopId) }} · {{ size(row.sizeG) }}</span>
+      <PriceDelta :pct="row.change.pct" :direction="dir" size="xs" />
     </div>
-    <h3>{{ row.product }}</h3>
-    <div class="prices">
-      <s class="num old">{{ euro(row.change.fromCents) }}</s>
-      <span class="arrow" aria-hidden="true">→</span>
-      <span class="num new">{{ euro(row.change.toCents) }}</span>
+    <div class="flex items-center gap-3">
+      <ProductImage :src="row.image" :alt="row.product" :width="56" class="size-14" />
+      <h3 class="font-display text-lg leading-tight font-semibold text-highlighted group-hover:text-primary">
+        {{ row.product }}
+      </h3>
     </div>
-    <div class="card-foot">
+    <div class="flex flex-wrap items-baseline gap-2">
+      <s class="num text-sm text-dimmed">{{ euro(row.change.fromCents) }}</s>
+      <UIcon name="i-lucide-arrow-right" class="size-3.5 self-center text-dimmed" />
+      <span class="num text-2xl font-semibold text-highlighted">{{ euro(row.change.toCents) }}</span>
+    </div>
+    <div class="mt-auto flex items-end justify-between border-t border-default pt-3 text-xs text-muted">
       <span class="num">{{ euro(row.perKgCents) }}/kg</span>
       <Sparkline :points="row.history" :direction="dir" :width="80" :height="22" />
     </div>
   </NuxtLink>
 </template>
-
-<style scoped>
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 16px 16px 14px;
-  text-decoration: none;
-  background: var(--paper-2);
-  border-top: 4px solid var(--ink);
-  transition: transform 160ms ease, background 160ms ease;
-}
-
-.card[data-dir='down'] {
-  border-top-color: var(--down);
-}
-
-.card[data-dir='up'] {
-  border-top-color: var(--up);
-}
-
-.card:hover {
-  background: var(--paper-3);
-  transform: translateY(-2px);
-}
-
-.card-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-variation-settings: 'opsz' 36;
-  font-size: 19px;
-  line-height: 1.2;
-}
-
-.prices {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.old {
-  color: var(--ink-3);
-  font-size: 15px;
-}
-
-.arrow {
-  color: var(--ink-3);
-}
-
-.new {
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.card-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  margin-top: auto;
-  font-size: 13px;
-  color: var(--ink-2);
-}
-</style>

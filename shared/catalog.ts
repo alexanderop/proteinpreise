@@ -1,4 +1,5 @@
 import type { Category, Offer } from './types.ts'
+import { brandName, shopBrand } from './brands.ts'
 
 export interface RawVariant {
   title: string
@@ -7,12 +8,28 @@ export interface RawVariant {
   compareAtPrice: string | null
   grams: number | null
   available: boolean
+  image: string | null
 }
 
 export interface RawProduct {
   title: string
   type: string
+  // The maker as the shop names it; null when the shop does not say.
+  brand: string | null
+  image: string | null
   variants: RawVariant[]
+}
+
+export function imageUrl(value: unknown, base: string): string | null {
+  if (typeof value !== 'string' || value.trim() === '') return null
+  try {
+    const url = new URL(value.trim(), base)
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return null
+    url.protocol = 'https:'
+    return url.href
+  } catch {
+    return null
+  }
 }
 
 export const MIN_SIZE_G = 200
@@ -105,6 +122,7 @@ export function toOffers(shopId: string, products: readonly RawProduct[]): Offer
   const groups = new Map<string, { best: Offer; flavors: number }>()
 
   for (const product of products) {
+    const brand = brandName(product.brand, shopBrand(shopId))
     const name = baseName(product.title)
     const category = classify(product)
     if (!category) continue
@@ -130,6 +148,8 @@ export function toOffers(shopId: string, products: readonly RawProduct[]): Offer
         priceCents,
         compareAtCents: toCents(variant.compareAtPrice),
         flavors: 1,
+        image: variant.image ?? product.image,
+        brand,
       }
       const group = groups.get(id)
       if (!group) {

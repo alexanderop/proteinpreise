@@ -1,4 +1,5 @@
 import type { Offer, ShopRun, Snapshot } from './types.ts'
+import { shopBrand } from './brands.ts'
 
 export interface PricePoint {
   date: string
@@ -45,8 +46,22 @@ export function isReduced(offer: Pick<Offer, 'priceCents' | 'compareAtCents'>): 
   return offer.compareAtCents !== null && offer.compareAtCents > offer.priceCents
 }
 
+// The 2026-11-01 snapshot predates `image` and `brand`.
+function withDefaults(offer: Offer): Offer {
+  if (offer.image !== undefined && offer.brand !== undefined) return offer
+  return { ...offer, image: offer.image ?? null, brand: offer.brand ?? shopBrand(offer.shopId) }
+}
+
 function chronological(snapshots: readonly Snapshot[]): Snapshot[] {
-  return [...snapshots].sort((a, b) => a.date.localeCompare(b.date))
+  return [...snapshots]
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((s) => ({ ...s, offers: s.offers.map(withDefaults) }))
+}
+
+function imageIndex(ordered: readonly Snapshot[]): Map<string, string> {
+  const index = new Map<string, string>()
+  for (const s of ordered) for (const offer of s.offers) if (offer.image) index.set(offer.id, offer.image)
+  return index
 }
 
 function point(date: string, offer: Offer): PricePoint {
@@ -94,6 +109,7 @@ export function buildOverview(snapshots: readonly Snapshot[], historyDays = 90):
   }
 
   const index = seriesIndex(ordered)
+  const images = imageIndex(ordered)
   const previousIds = new Set(previous?.offers.map((o) => o.id))
 
   const rows = latest.offers.map((offer): OfferRow => {
@@ -102,6 +118,7 @@ export function buildOverview(snapshots: readonly Snapshot[], historyDays = 90):
     const before = series.at(-2)
     return {
       ...offer,
+      image: images.get(offer.id) ?? null,
       perKgCents: perKgCents(offer),
       reduced: isReduced(offer),
       isNew: previous !== undefined && !previousIds.has(offer.id),
@@ -129,16 +146,9 @@ export function buildOverview(snapshots: readonly Snapshot[], historyDays = 90):
   }
 }
 
-export function toRouteId(id: string): string {
-  return id.replaceAll(':', '_')
-}
-
-export function fromRouteId(routeId: string): string {
-  return routeId.replaceAll('_', ':')
-}
-
 export interface CatalogEntry {
   offer: Offer
+  image: string | null
   listed: boolean
   series: PricePoint[]
 }
@@ -152,6 +162,7 @@ export function buildCatalog(snapshots: readonly Snapshot[]): Catalog {
   const ordered = chronological(snapshots)
   const latest = ordered.at(-1)
   const index = seriesIndex(ordered)
+  const images = imageIndex(ordered)
   const lastSeen = new Map<string, Offer>()
   for (const s of ordered) for (const offer of s.offers) lastSeen.set(offer.id, offer)
   const latestIds = new Set(latest?.offers.map((o) => o.id))
@@ -159,6 +170,7 @@ export function buildCatalog(snapshots: readonly Snapshot[]): Catalog {
     date: latest?.date ?? null,
     entries: [...lastSeen.values()].map((offer) => ({
       offer,
+      image: images.get(offer.id) ?? null,
       listed: latestIds.has(offer.id),
       series: index.get(offer.id) ?? [],
     })),

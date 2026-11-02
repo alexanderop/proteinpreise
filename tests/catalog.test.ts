@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { classify, parseSizeFromText, toOffers, variantSize, type RawProduct, type RawVariant } from '../shared/catalog.ts'
 
 function variant(overrides: Partial<RawVariant>): RawVariant {
-  return { title: 'Default Title', url: 'https://shop.example/p', price: '29.90', compareAtPrice: null, grams: null, available: true, ...overrides }
+  return { title: 'Default Title', url: 'https://shop.example/p', price: '29.90', compareAtPrice: null, grams: null, available: true, image: null, ...overrides }
 }
 
 function product(title: string, variants: RawVariant[], type = ''): RawProduct {
-  return { title, type, variants }
+  return { title, type, brand: null, image: null, variants }
 }
 
 describe('parseSizeFromText', () => {
@@ -98,6 +98,8 @@ describe('toOffers', () => {
         priceCents: 10290,
         compareAtCents: null,
         flavors: 1,
+        image: null,
+        brand: 'test',
       },
       {
         id: 'test:designer-whey-protein:908',
@@ -109,6 +111,8 @@ describe('toOffers', () => {
         priceCents: 4490,
         compareAtCents: 4790,
         flavors: 2,
+        image: null,
+        brand: 'test',
       },
     ])
   })

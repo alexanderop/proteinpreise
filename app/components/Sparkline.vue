@@ -68,25 +68,34 @@ const geometry = computed(() => {
 
 .spark-line {
   fill: none;
-  stroke: var(--ink);
+  stroke: var(--ui-text-toned);
   stroke-width: 1.4;
 }
 
 .spark-base {
-  stroke: var(--rule);
+  stroke: var(--ui-border-accented);
   stroke-width: 1;
   stroke-dasharray: 2 3;
 }
 
 .spark-dot {
-  fill: var(--ink);
+  fill: var(--ui-text-highlighted);
+}
+
+.spark[data-dir='down'] .spark-line,
+.spark[data-dir='down'] .spark-dot {
+  stroke: var(--app-price-down);
 }
 
 .spark[data-dir='down'] .spark-dot {
-  fill: var(--down);
+  fill: var(--app-price-down);
+}
+
+.spark[data-dir='up'] .spark-line {
+  stroke: var(--app-price-up);
 }
 
 .spark[data-dir='up'] .spark-dot {
-  fill: var(--up);
+  fill: var(--app-price-up);
 }
 </style>

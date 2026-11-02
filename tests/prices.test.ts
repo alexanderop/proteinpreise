@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildOverview, fromRouteId, priceSeries, toRouteId } from '../shared/prices.ts'
+import { buildCatalog, buildOverview, priceSeries } from '../shared/prices.ts'
 import type { Offer, Snapshot } from '../shared/types.ts'
 
 function offer(id: string, priceCents: number, overrides: Partial<Offer> = {}): Offer {
@@ -13,6 +13,8 @@ function offer(id: string, priceCents: number, overrides: Partial<Offer> = {}): 
     priceCents,
     compareAtCents: null,
     flavors: 1,
+    image: null,
+    brand: 'Testmarke',
     ...overrides,
   }
 }
@@ -101,10 +103,32 @@ describe('buildOverview', () => {
   })
 })
 
-describe('route ids', () => {
-  it('round-trips offer ids through a url-safe form', () => {
-    const id = 'esn:designer-whey-protein:908'
-    expect(toRouteId(id)).toBe('esn_designer-whey-protein_908')
-    expect(fromRouteId(toRouteId(id))).toBe(id)
+describe('offer images', () => {
+  const legacy = (o: Offer) => {
+    const { image: _, ...rest } = o
+    return rest as Offer
+  }
+  const snapshots = [
+    snapshot('2026-11-01', [legacy(offer('a:whey:1000', 3000)), legacy(offer('a:gone:1000', 3000))]),
+    snapshot('2026-11-02', [offer('a:whey:1000', 3000, { image: 'https://cdn.example/whey.jpg' }), offer('a:new:1000', 3000)]),
+    snapshot('2026-11-03', [offer('a:whey:1000', 3000), offer('a:new:1000', 3000)]),
+  ]
+
+  it('keeps the last known image on a row and treats a missing field as null', () => {
+    const rows = buildOverview(snapshots).rows
+    expect(rows.map((r) => [r.id, r.image])).toEqual([
+      ['a:whey:1000', 'https://cdn.example/whey.jpg'],
+      ['a:new:1000', null],
+    ])
+  })
+
+  it('exposes the image on every catalog entry, including offers that left', () => {
+    const entries = buildCatalog(snapshots).entries
+    expect(Object.fromEntries(entries.map((e) => [e.offer.id, e.image]))).toEqual({
+      'a:whey:1000': 'https://cdn.example/whey.jpg',
+      'a:gone:1000': null,
+      'a:new:1000': null,
+    })
+    expect(entries.find((e) => e.offer.id === 'a:gone:1000')?.offer.image).toBeNull()
   })
 })

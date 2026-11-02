@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { buildOverview, toRouteId, type OfferRow } from '#shared/prices'
+import { buildOverview, type OfferRow } from '#shared/prices'
+import { offerPath } from '#shared/routes'
 import { CATEGORIES, CATEGORY_LABEL } from '#shared/types'
 import { day, euro } from '#shared/format'
 import { shopName } from '#shared/shops'
@@ -19,6 +20,7 @@ const ov = computed(() => overview.value!)
 const shopsOk = computed(() => ov.value.shops.filter((s) => s.ok))
 const shopsFailed = computed(() => ov.value.shops.filter((s) => !s.ok))
 const dateline = computed(() => (ov.value.date ? LONG_DATE.format(new Date(`${ov.value.date}T00:00:00Z`)) : ''))
+const drops = computed(() => ov.value.changes.filter((c) => c.change.direction === 'down').length)
 
 const CARD_LIMIT = 8
 const showAllChanges = ref(false)
@@ -33,6 +35,16 @@ const lows = computed(() =>
   }),
 )
 
+const stats = computed(() => [
+  { label: 'Angebote', value: ov.value.rows.length },
+  { label: 'Shops', value: shopsOk.value.length },
+  {
+    label: ov.value.previousDate ? `Änderungen seit ${day(ov.value.previousDate)}` : 'Änderungen',
+    value: ov.value.changes.length,
+    accent: true,
+  },
+])
+
 const selected = ref<string[]>([])
 const picks = computed(() => selected.value.flatMap((id) => ov.value.rows.find((r) => r.id === id) ?? []))
 const toggle = (id: string) => {
@@ -40,291 +52,137 @@ const toggle = (id: string) => {
 }
 
 useSeoMeta({
-  title: 'Proteinpreise: Proteinpulver-Preise deutscher Shops im Vergleich',
+  title: 'Proteinpulver-Preise deutscher Shops im Vergleich',
   description: () =>
-    `${ov.value.rows.length} Proteinpulver-Angebote aus ${shopsOk.value.length} deutschen Shops, täglich aktualisiert, mit Preisverlauf.`,
+    `${ov.value.rows.length} Proteinpulver-Angebote aus ${shopsOk.value.length} deutschen Shops, täglich aktualisiert, pro Kilo umgerechnet, mit Preisverlauf.`,
+})
+
+defineOgImage('Proteinpreise', {
+  eyebrow: ov.value.date ? `Ausgabe ${day(ov.value.date)}` : '',
+  title: 'Was Proteinpulver heute kostet.',
+  note: `${ov.value.rows.length} Angebote aus ${shopsOk.value.length} Shops, pro Kilo verglichen`,
 })
 </script>
 
 <template>
-  <div v-if="ov.date" class="wrap">
-    <section class="hero">
-      <p class="kicker dateline">Ausgabe vom {{ dateline }}</p>
-      <h1>Was Proteinpulver <em>heute</em> kostet.</h1>
-      <p class="lede">
-        Jeden Morgen lesen wir die Kataloge deutscher Supplement-Shops und rechnen jeden Preis auf das Kilo um. Was
-        sich seit dem letzten Abruf bewegt hat, steht oben.
-      </p>
-      <dl class="stats">
-        <div class="stat" style="--i: 0">
-          <dt>Angebote</dt>
-          <dd class="num">{{ ov.rows.length }}</dd>
-        </div>
-        <div class="stat" style="--i: 1">
-          <dt>Shops</dt>
-          <dd class="num">{{ shopsOk.length }}</dd>
-        </div>
-        <div class="stat stat-accent" style="--i: 2">
-          <dt>{{ ov.previousDate ? `Preisänderungen seit ${day(ov.previousDate)}` : 'Preisänderungen seit gestern' }}</dt>
-          <dd class="num">{{ ov.changes.length }}</dd>
+  <UContainer v-if="ov.date">
+    <section class="grid gap-10 pt-12 pb-10 sm:pt-20 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-end">
+      <div>
+        <p class="eyebrow mb-5 flex items-center gap-2">
+          <span class="relative flex size-2">
+            <span class="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60" />
+            <span class="relative inline-flex size-2 rounded-full bg-primary" />
+          </span>
+          Ausgabe vom {{ dateline }}
+        </p>
+        <h1 class="display max-w-[13ch] animate-rise text-hero text-highlighted">
+          Was Proteinpulver <em class="pr-[0.08em] font-normal text-primary">heute</em> kostet.
+        </h1>
+        <p class="mt-6 max-w-[52ch] text-base text-muted sm:text-lg">
+          Jeden Morgen lesen wir die Kataloge deutscher Supplement-Shops und rechnen jeden Preis auf das Kilo um. Was
+          sich seit dem letzten Abruf bewegt hat, steht oben.
+        </p>
+      </div>
+
+      <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-(--ui-border) ring ring-default">
+        <div
+          v-for="(s, i) in stats"
+          :key="s.label"
+          class="animate-rise bg-surface p-5"
+          :class="{ 'col-span-2': s.accent }"
+          :style="{ animationDelay: `${120 + i * 90}ms` }"
+        >
+          <dt class="eyebrow">{{ s.label }}</dt>
+          <dd class="num mt-2 text-5xl leading-none font-medium" :class="s.accent ? 'text-primary' : 'text-highlighted'">
+            {{ s.value }}
+          </dd>
+          <dd v-if="s.accent && ov.changes.length" class="mt-2 text-sm text-muted">
+            <span class="font-semibold text-down">{{ drops }} günstiger</span>,
+            <span class="font-semibold text-up">{{ ov.changes.length - drops }} teurer</span>
+          </dd>
         </div>
       </dl>
     </section>
 
-    <section class="lows" aria-labelledby="lows-title">
-      <h2 id="lows-title" class="kicker">Tiefstwert je Kategorie, pro Kilo Pulver</h2>
-      <ol class="board">
-        <li v-for="({ category, row }, i) in lows" :key="category" :style="{ '--i': i }">
-          <NuxtLink :to="`/angebot/${toRouteId(row.id)}`">
-            <span class="board-cat">{{ CATEGORY_LABEL[category] }}</span>
-            <span class="board-value num">{{ euro(row.perKgCents) }}</span>
-            <span class="board-who">{{ row.product }}, {{ shopName(row.shopId) }}</span>
+    <section aria-labelledby="lows-title">
+      <h2 id="lows-title" class="eyebrow mb-3">Tiefstwert je Kategorie, pro Kilo Pulver</h2>
+      <ol class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+        <li
+          v-for="({ category, row }, i) in lows"
+          :key="category"
+          class="animate-rise last:odd:col-span-2 md:last:odd:col-span-1"
+          :style="{ animationDelay: `${300 + i * 70}ms` }"
+        >
+          <NuxtLink
+            :to="offerPath(row.id)"
+            class="group flex h-full flex-col gap-1.5 rounded-lg bg-surface p-4 shadow-card ring ring-default transition hover:ring-primary/60"
+          >
+            <span class="flex items-start justify-between gap-2">
+              <span class="text-sm font-semibold text-toned">{{ CATEGORY_LABEL[category] }}</span>
+              <ProductImage :src="row.image" :alt="row.product" :width="44" class="size-11" />
+            </span>
+            <span class="num text-2xl font-semibold text-highlighted group-hover:text-primary">
+              {{ euro(row.perKgCents) }}<span class="text-sm font-normal text-dimmed">/kg</span>
+            </span>
+            <span class="mt-auto text-xs leading-snug text-muted">{{ row.product }}, {{ shopName(row.shopId) }}</span>
           </NuxtLink>
         </li>
       </ol>
     </section>
 
-    <section aria-labelledby="changes-title">
-      <header class="section-head">
-        <h2 id="changes-title">Preisänderungen</h2>
-        <p v-if="ov.previousDate" class="kicker">
+    <section aria-labelledby="changes-title" class="mt-16">
+      <SectionHead id="changes-title" title="Preisänderungen">
+        <template v-if="ov.previousDate">
           gegenüber {{ day(ov.previousDate) }}
           <template v-if="ov.gone.length"> · {{ ov.gone.length }} nicht mehr gelistet</template>
-        </p>
-      </header>
+        </template>
+      </SectionHead>
       <template v-if="ov.changes.length">
-        <div class="cards">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-4">
           <ChangeCard v-for="row in shownChanges" :key="row.id" :row="row" />
         </div>
-        <button v-if="ov.changes.length > CARD_LIMIT" type="button" class="more" @click="showAllChanges = !showAllChanges">
-          {{ showAllChanges ? 'Weniger zeigen' : `Alle ${ov.changes.length} Änderungen zeigen` }}
-        </button>
+        <div v-if="ov.changes.length > CARD_LIMIT" class="mt-6 flex justify-center">
+          <UButton
+            color="neutral"
+            variant="outline"
+            :trailing-icon="showAllChanges ? 'i-lucide-minus' : 'i-lucide-plus'"
+            @click="showAllChanges = !showAllChanges"
+          >
+            {{ showAllChanges ? 'Weniger zeigen' : `Alle ${ov.changes.length} Änderungen zeigen` }}
+          </UButton>
+        </div>
       </template>
-      <div v-else class="quiet">
-        <p v-if="ov.previousDate">
+      <EmptyNote v-else>
+        <template v-if="ov.previousDate">
           Kein Preis hat sich seit {{ day(ov.previousDate) }} bewegt. Ruhiger Tag am Pulvermarkt.
-        </p>
-        <p v-else>
+        </template>
+        <template v-else>
           Die Aufzeichnung beginnt am {{ day(ov.firstDate!) }}. Ab dem nächsten Abruf erscheinen hier alle Preise, die
           sich verändert haben, mit altem und neuem Preis.
-        </p>
-      </div>
+        </template>
+      </EmptyNote>
     </section>
 
-    <section aria-labelledby="all-title">
-      <header class="section-head">
-        <h2 id="all-title">Alle Angebote</h2>
-        <p class="kicker">günstigster Geschmack je Packung</p>
-      </header>
-      <p v-if="shopsFailed.length" class="warn">
-        Heute nicht erreichbar: {{ shopsFailed.map((s) => shopName(s.shopId)).join(', ') }}. Diese Angebote fehlen
-        für {{ day(ov.date) }}.
-      </p>
+    <section aria-labelledby="all-title" class="mt-16">
+      <SectionHead id="all-title" title="Alle Angebote">günstigster Geschmack je Packung</SectionHead>
+      <UAlert
+        v-if="shopsFailed.length"
+        class="mb-4"
+        color="error"
+        variant="subtle"
+        icon="i-lucide-circle-alert"
+        :title="`Heute nicht erreichbar: ${shopsFailed.map((s) => shopName(s.shopId)).join(', ')}`"
+        :description="`Diese Angebote fehlen für ${day(ov.date)}.`"
+      />
       <OfferBrowser :rows="ov.rows" :selected="selected" @toggle="toggle" />
     </section>
+
     <template v-if="picks.length">
-      <div class="bar-spacer" aria-hidden="true" />
+      <div class="h-32" aria-hidden="true" />
       <CompareBar :picks="picks" @remove="toggle" @clear="selected = []" />
     </template>
-  </div>
-  <div v-else class="wrap quiet">
-    <p>Noch keine Daten. Führe <code>node scripts/scrape.ts</code> aus.</p>
-  </div>
+  </UContainer>
+  <UContainer v-else class="py-16">
+    <EmptyNote>Noch keine Daten. Führe <code>node scripts/scrape.ts</code> aus.</EmptyNote>
+  </UContainer>
 </template>
-
-<style scoped>
-.hero {
-  padding: clamp(36px, 7vw, 80px) 0 32px;
-}
-
-.dateline {
-  margin: 0 0 18px;
-}
-
-h1 {
-  margin: 0;
-  max-width: 14ch;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-variation-settings: 'opsz' 144;
-  font-size: clamp(44px, 9vw, 104px);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-  animation: rise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-h1 em {
-  padding-right: 0.12em;
-  font-weight: 400;
-  color: var(--accent);
-}
-
-.lede {
-  max-width: 52ch;
-  margin: 22px 0 0;
-  font-size: clamp(16px, 2vw, 18px);
-  color: var(--ink-2);
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 40px 0 0;
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
-}
-
-.stat {
-  padding: 16px 16px 18px 0;
-  animation: rise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  animation-delay: calc(120ms + var(--i) * 90ms);
-}
-
-.stat + .stat {
-  padding-left: 16px;
-  border-left: 1px solid var(--rule);
-}
-
-.stat dt {
-  font-family: var(--font-num);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-}
-
-.stat dd {
-  margin: 6px 0 0;
-  font-size: clamp(36px, 6vw, 64px);
-  font-weight: 500;
-  line-height: 1;
-}
-
-.stat-accent dd {
-  color: var(--accent);
-}
-
-.lows {
-  margin-top: 28px;
-}
-
-.lows h2 {
-  margin: 0 0 12px;
-}
-
-.board {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-}
-
-.board li {
-  background: var(--paper);
-  animation: rise 500ms ease both;
-  animation-delay: calc(300ms + var(--i) * 70ms);
-}
-
-.board a {
-  display: grid;
-  gap: 4px;
-  height: 100%;
-  padding: 14px;
-  text-decoration: none;
-}
-
-.board a:hover {
-  background: var(--paper-2);
-}
-
-.board-cat {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.board-value {
-  font-size: 22px;
-  font-weight: 600;
-}
-
-.board-who {
-  font-size: 12px;
-  color: var(--ink-2);
-  line-height: 1.35;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
-}
-
-.more {
-  display: block;
-  margin: 20px auto 0;
-  min-height: 42px;
-  padding: 8px 20px;
-  border: 1px solid var(--ink);
-  background: transparent;
-  color: var(--ink);
-  font: 500 14px var(--font-text);
-  cursor: pointer;
-}
-
-.more:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.quiet {
-  padding: 28px 24px;
-  border: 1px dashed var(--rule);
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(18px, 2.4vw, 22px);
-  line-height: 1.4;
-  color: var(--ink-2);
-}
-
-.quiet p {
-  margin: 0;
-  max-width: 56ch;
-}
-
-.bar-spacer {
-  height: 120px;
-}
-
-.warn {
-  padding: 10px 14px;
-  background: var(--up-bg);
-  font-size: 14px;
-}
-
-@media (max-width: 860px) {
-  .board {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .board li:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 520px) {
-  .stats {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .stat-accent {
-    grid-column: 1 / -1;
-    padding-left: 0 !important;
-    border-left: 0 !important;
-    border-top: 1px solid var(--rule);
-  }
-}
-</style>

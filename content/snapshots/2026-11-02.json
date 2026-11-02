@@ -1,6 +1,6 @@
 {
   "date": "2026-11-02",
-  "fetchedAt": "2026-11-02T05:21:49.071Z",
+  "fetchedAt": "2026-11-02T17:15:57.195Z",
   "shops": [
     {
       "shopId": "esn",
@@ -58,7 +58,9 @@
       "sizeG": 2350,
       "priceCents": 8499,
       "compareAtCents": 8490,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/scitec_100_casein_complex_2350g_belgian_chocolate_1.jpg?v=1790319962",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:100-casein-gold-standard:1820",
@@ -69,7 +71,9 @@
       "sizeG": 1820,
       "priceCents": 12499,
       "compareAtCents": 12499,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_gscasein_4lb_straw_6058646_fr250630.png?v=1788960858",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:100-casein:924",
@@ -80,7 +84,9 @@
       "sizeG": 924,
       "priceCents": 7199,
       "compareAtCents": 7199,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_gscasein_2lb_van_6058641_fr250630.png?v=1788960858",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:100-gold-standard-isolate:930",
@@ -91,7 +97,9 @@
       "sizeG": 930,
       "priceCents": 7299,
       "compareAtCents": 7299,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_gs_isolate_2lb_van_6059700_fr250630.png?v=1788960898",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:100-hydro-isolate:2000",
@@ -102,7 +110,9 @@
       "sizeG": 2000,
       "priceCents": 9299,
       "compareAtCents": 9890,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/scitec_100_hydroisolate_2000g-vanilla_7dd83b95-fa21-4e8b-9b2c-e28b722d8fe5.jpg?v=1788960814",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:100-natural-whey-protein-isolate:600",
@@ -113,7 +123,9 @@
       "sizeG": 600,
       "priceCents": 4999,
       "compareAtCents": 5799,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/olimp-naturel-whey-isolat-neutral-2023_c0559f60-0652-4464-93ba-1ee047669294.jpg?v=1788960569",
+      "brand": "Olimp"
     },
     {
       "id": "bodylab:100-pure-whey:2000",
@@ -124,7 +136,9 @@
       "sizeG": 2000,
       "priceCents": 7290,
       "compareAtCents": 7290,
-      "flavors": 9
+      "flavors": 9,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/71g6-abw9dl._ac_sl1500_vanillafront260723.jpg?v=1788960889",
+      "brand": "BioTech USA"
     },
     {
       "id": "bodylab:100-vegan-protein:400",
@@ -135,7 +149,9 @@
       "sizeG": 400,
       "priceCents": 1990,
       "compareAtCents": 1990,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/veganwhey400gscitec260724vanilla.png?v=1788960844",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:100-whey-gold-standard:2040",
@@ -146,7 +162,9 @@
       "sizeG": 2040,
       "priceCents": 11999,
       "compareAtCents": 12399,
-      "flavors": 9
+      "flavors": 9,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_on_gsw_5lb_tub_2kg_2ply_vic_6078370_angle01260318_763e98d1-4410-4f9e-aac8-a2ab15565642.png?v=1788960927",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:100-whey-gold-standard:450",
@@ -157,7 +175,9 @@
       "sizeG": 450,
       "priceCents": 2999,
       "compareAtCents": 2999,
-      "flavors": 6
+      "flavors": 6,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_gsw_1lb_drc_6063137250701.png?v=1788960867",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:100-whey-gold-standard:4530",
@@ -168,7 +188,9 @@
       "sizeG": 4530,
       "priceCents": 19990,
       "compareAtCents": 18399,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_gsw_10lb_drc_6063134_fr250701.png?v=1788960833",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:100-whey-gold-standard:780",
@@ -179,7 +201,9 @@
       "sizeG": 780,
       "priceCents": 5899,
       "compareAtCents": 5899,
-      "flavors": 9
+      "flavors": 9,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_on_gsw_2lb_tub_780g_vic_6078371_angle01260318.png?v=1788960917",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:100-whey-isolate:1816",
@@ -190,7 +214,9 @@
       "sizeG": 1816,
       "priceCents": 7990,
       "compareAtCents": 7990,
-      "flavors": 7
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/100wheyisolate_1816g_8000ml_vanilla.png?v=1788960950",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:100-whey-premium:2270",
@@ -201,7 +227,9 @@
       "sizeG": 2270,
       "priceCents": 11990,
       "compareAtCents": 11900,
-      "flavors": 10
+      "flavors": 10,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/519dwvi9fsl._ac_sl1000_vanilla.jpg?v=1788960966",
+      "brand": "All Stars"
     },
     {
       "id": "bodylab:100-whey-protein-concentrate:700",
@@ -212,7 +240,9 @@
       "sizeG": 700,
       "priceCents": 2999,
       "compareAtCents": 3599,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/81bayqebmsl._ac_sl1500_wheyconcentrate260827_a1974f40-53a5-4dbd-8a66-6b3f00ab5668.jpg?v=1788960745",
+      "brand": "Olimp"
     },
     {
       "id": "bodylab:100-whey-protein-professional:1816",
@@ -223,7 +253,9 @@
       "sizeG": 1816,
       "priceCents": 6990,
       "compareAtCents": 6990,
-      "flavors": 14
+      "flavors": 14,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/wheyprofessionalvanilla260724.png?v=1788960924",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:100-whey-protein-professional:4000",
@@ -234,7 +266,9 @@
       "sizeG": 4000,
       "priceCents": 13390,
       "compareAtCents": 13390,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/wheyprofessional4000g260724vanilla_3fbdf27b-6cec-4657-ba0d-e5d8fed7a22d.png?v=1788960836",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:3k-protein:1000",
@@ -245,7 +279,9 @@
       "sizeG": 1000,
       "priceCents": 4099,
       "compareAtCents": 3699,
-      "flavors": 6
+      "flavors": 6,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1-bodylab-3k-protein-vanilla-sunshine-1000g-int_1.png?v=1788960851",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:active-protein-organic:1000",
@@ -256,7 +292,9 @@
       "sizeG": 1000,
       "priceCents": 5195,
       "compareAtCents": 4999,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/2024-04-25_sunwarrior_organic_schoko_1_f90d3221-9f8b-47da-80fd-e97c5ea23f72.jpg?v=1788960857",
+      "brand": "Sunwarrior"
     },
     {
       "id": "bodylab:animal-isolate-loaded-whey:2270",
@@ -267,7 +305,9 @@
       "sizeG": 2270,
       "priceCents": 10499,
       "compareAtCents": 7340,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/animal_isolate_loaded_whey_-_2270g_-_chocolate_new_ac8364d6-ab1b-49f3-a28c-ca43e6d2705a.jpg?v=1788960848",
+      "brand": "Universal Nutrition"
     },
     {
       "id": "bodylab:bio-erbsenprotein-pulver:1000",
@@ -278,7 +318,9 @@
       "sizeG": 1000,
       "priceCents": 2399,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/erbsenprotein_pulver_bio_ah2026m03v1_f29f5cce-1c95-496f-a442-23a96f66372e.png?v=1788960613",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "bodylab:bio-erbsenprotein-pulver:250",
@@ -289,7 +331,9 @@
       "sizeG": 250,
       "priceCents": 1099,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/erbsenprotein_pulver_bio_ah2026m03v1_2_d557953a-dfb1-4853-bff1-1b5d16537335.png?v=1788960611",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "bodylab:bio-erbsenprotein-pulver:400",
@@ -300,7 +344,9 @@
       "sizeG": 400,
       "priceCents": 1999,
       "compareAtCents": 1990,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/4019839892157-raab-bio-erbsenprotein-pulver-400g-shopify-pdp_102f4ed1-b115-49e9-b918-d8636fdac978.png?v=1788960683",
+      "brand": "Raab Vitalfood"
     },
     {
       "id": "bodylab:bio-erbsenprotein-pulver:500",
@@ -311,7 +357,9 @@
       "sizeG": 500,
       "priceCents": 1795,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/erbsenprotein_pulver_bio_ah2026m03v1_1.png?v=1788960613",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "bodylab:bio-kuerbiskern-protein:500",
@@ -322,7 +370,9 @@
       "sizeG": 500,
       "priceCents": 1399,
       "compareAtCents": 1590,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/4019839892454-raab-bio-kuerbiskern-protein-500g-shopify-pdp.png?v=1788960757",
+      "brand": "Raab Vitalfood"
     },
     {
       "id": "bodylab:bio-protein-shake-pur-plus:500",
@@ -333,7 +383,9 @@
       "sizeG": 500,
       "priceCents": 2199,
       "compareAtCents": 2290,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/4019839892782-raab-bio-protein-shake-pur-plus-500g-shopify-pdp_bc6dffe6-cf61-4769-98f6-20f7478479ee.png?v=1788960771",
+      "brand": "Raab Vitalfood"
     },
     {
       "id": "bodylab:bio-protein-shake-pure:500",
@@ -344,7 +396,9 @@
       "sizeG": 500,
       "priceCents": 2099,
       "compareAtCents": 2190,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/4019839892706-raab-bio-protein-shake-pur-500g-shopify-pdp.png?v=1788960672",
+      "brand": "Raab Vitalfood"
     },
     {
       "id": "bodylab:bio-reis-protein-pulver:400",
@@ -355,7 +409,9 @@
       "sizeG": 400,
       "priceCents": 1690,
       "compareAtCents": 1690,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/4019839892072-raab-bio-reis-protein-pulver-400g-shopify-pdp_3ba5e020-5f66-48a1-924d-4f2df0576ec0.png?v=1788960735",
+      "brand": "Raab Vitalfood"
     },
     {
       "id": "bodylab:bio-reisprotein-pulver:1000",
@@ -366,7 +422,9 @@
       "sizeG": 1000,
       "priceCents": 2599,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/reisprotein_pulver_bio_ah2026m04v1.png?v=1788960615",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "bodylab:bio-reisprotein-pulver:250",
@@ -377,7 +435,9 @@
       "sizeG": 250,
       "priceCents": 1099,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/reisprotein_pulver_bio_ah2026m04v1_2.png?v=1788960612",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "bodylab:bio-reisprotein-pulver:500",
@@ -388,7 +448,9 @@
       "sizeG": 500,
       "priceCents": 1599,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/reisprotein_pulver_bio_ah2026m04v1_1.png?v=1788960616",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "bodylab:casein-micellar:1750",
@@ -399,7 +461,9 @@
       "sizeG": 1750,
       "priceCents": 5999,
       "compareAtCents": null,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1-bodylab-micellar-casein-1.75kg-5.0vk-iml-int.png?v=1788960938",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:classic-protein-bio:750",
@@ -410,7 +474,9 @@
       "sizeG": 750,
       "priceCents": 4099,
       "compareAtCents": 3995,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/classic_750_schoko_1_1f019659-960f-4b77-937f-c0c279c9b20d.jpg?v=1788960868",
+      "brand": "Sunwarrior"
     },
     {
       "id": "bodylab:clear-isolate:500",
@@ -421,7 +487,9 @@
       "sizeG": 500,
       "priceCents": 4499,
       "compareAtCents": 4999,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/weider_clear_isolate_peach_isolate_new_c3bf4e27-5876-4ff0-9c26-e1e898035950.jpg?v=1788960981",
+      "brand": "Weider"
     },
     {
       "id": "bodylab:clear-protein-100-plant-protein-isolate:280",
@@ -432,7 +500,9 @@
       "sizeG": 280,
       "priceCents": 3299,
       "compareAtCents": 2999,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_on_clear_plant_peach_6069680_fr_adj_2bcf3600-86c0-4e75-a9e5-cb85e67d6753.png?v=1788960934",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:clear-protein:480",
@@ -443,7 +513,9 @@
       "sizeG": 480,
       "priceCents": 3499,
       "compareAtCents": 3499,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_clear_protein_20srv_opm_378mm_x_121mm_mango_6079631_alt3.png?v=1789110310",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:clear-whey-isolate:960",
@@ -454,7 +526,9 @@
       "sizeG": 960,
       "priceCents": 5199,
       "compareAtCents": 5999,
-      "flavors": 14
+      "flavors": 14,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/clear-whey-isolate-960g-int-peach.png?v=1788960996",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:concentrate-whey:400",
@@ -465,7 +539,9 @@
       "sizeG": 400,
       "priceCents": 1499,
       "compareAtCents": 1491,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/concentrate_whey_-_400g_-_vanilla.jpg?v=1788960823",
+      "brand": "Powergym"
     },
     {
       "id": "bodylab:creamy-protein-shake:420",
@@ -476,7 +552,9 @@
       "sizeG": 420,
       "priceCents": 2299,
       "compareAtCents": 1999,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/11700_creamyproteinshake_vanilla_72dpi_rgb_adj_f0a75e18-87a0-4a0a-a8a1-95ac30a3fde6.png?v=1788960992",
+      "brand": "Multipower"
     },
     {
       "id": "bodylab:elite-100-whey:2100",
@@ -487,7 +565,9 @@
       "sizeG": 2100,
       "priceCents": 13999,
       "compareAtCents": 11990,
-      "flavors": 5
+      "flavors": 5,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/61anu94m3yl._ac_sl1200_90907e5a-5108-4441-83ad-db456ac48a25.jpg?v=1788960980",
+      "brand": "Dymatize"
     },
     {
       "id": "bodylab:formel-90-protein:3000",
@@ -498,7 +578,9 @@
       "sizeG": 3000,
       "priceCents": 10999,
       "compareAtCents": 9999,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/formel_90_protein_-_3000g_-_schokolade_new_1.jpg?v=1791197099",
+      "brand": "Mammut"
     },
     {
       "id": "bodylab:gold-whey-protein:2000",
@@ -509,7 +591,9 @@
       "sizeG": 2000,
       "priceCents": 8999,
       "compareAtCents": 9599,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/weider_31209_gold_whey_2kg_beutel_vanille_53128310-ac64-47eb-82ab-9ae8f6d47907.png?v=1788960824",
+      "brand": "Weider"
     },
     {
       "id": "bodylab:gold-whey-protein:500",
@@ -520,7 +604,9 @@
       "sizeG": 500,
       "priceCents": 2399,
       "compareAtCents": 2499,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/weider_31215_gold_whey_500g_beutel_vanilleadj_23e01650-551c-4046-9bbb-918be3808ab4.png?v=1788960813",
+      "brand": "Weider"
     },
     {
       "id": "bodylab:iso-whey-clear:1025",
@@ -531,7 +617,9 @@
       "sizeG": 1025,
       "priceCents": 5699,
       "compareAtCents": 5190,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/71rtlwssgll._ac_sx522_mangopfirsich_1_cd0f4f96-85ff-42fe-8df3-387adf83528b.jpg?v=1788960917",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:iso-whey-zero-black:1816",
@@ -542,7 +630,9 @@
       "sizeG": 1816,
       "priceCents": 9599,
       "compareAtCents": 8990,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/isowheyzero_black_1816g_vanilla_8l_600x600_1.png?v=1788960848",
+      "brand": "BioTech USA"
     },
     {
       "id": "bodylab:iso-whey-zero:1816",
@@ -553,7 +643,9 @@
       "sizeG": 1816,
       "priceCents": 9090,
       "compareAtCents": 9090,
-      "flavors": 10
+      "flavors": 10,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/isowheyzero_1816g_vanilla_2000x2000_2824a79b-e722-413c-980b-e0c3c119ee4d.png?v=1788960900",
+      "brand": "BioTech USA"
     },
     {
       "id": "bodylab:iso-whey:2300",
@@ -564,7 +656,9 @@
       "sizeG": 2300,
       "priceCents": 13990,
       "compareAtCents": 12490,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/frey_dose_black_iso-whey_2300g_vanille_front_freigestellt_260218_ec8c60fc-0424-44eb-bd31-549bba0cec0e.png?v=1788960929",
+      "brand": "Frey Nutrition"
     },
     {
       "id": "bodylab:iso-whey:900",
@@ -575,7 +669,9 @@
       "sizeG": 900,
       "priceCents": 5990,
       "compareAtCents": 5990,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/iso-whey_900g_black_vanille_front_freisteller_260323.png?v=1789542417",
+      "brand": "Frey Nutrition"
     },
     {
       "id": "bodylab:mammut-whey-protein:1000",
@@ -586,7 +682,9 @@
       "sizeG": 1000,
       "priceCents": 7999,
       "compareAtCents": 7999,
-      "flavors": 10
+      "flavors": 10,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1000714-whey-protein-vanilla-1000-g-zipp-beutel_1_3b1edfff-80a8-44db-ba93-e8816a51e29c.jpg?v=1788960980",
+      "brand": "Mammut"
     },
     {
       "id": "bodylab:platinum-hydro-whey:1600",
@@ -597,7 +695,9 @@
       "sizeG": 1600,
       "priceCents": 13999,
       "compareAtCents": 13999,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/eu_hydrowhey_4lb_choc_6059703_fr250701_5d297cd4-8052-4dd7-acc8-ab333246e3dd.png?v=1788960865",
+      "brand": "Optimum Nutrition"
     },
     {
       "id": "bodylab:premium-whey-protein:2300",
@@ -608,7 +708,9 @@
       "sizeG": 2300,
       "priceCents": 11999,
       "compareAtCents": 13999,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/weider_30031_premium_whey_vanilla_caramel_2_3kg_doseadj1_01bd3870-2781-4538-bf8b-0af5c2f71954.png?v=1788960833",
+      "brand": "Weider"
     },
     {
       "id": "bodylab:premium-whey-protein:500",
@@ -619,7 +721,9 @@
       "sizeG": 500,
       "priceCents": 2799,
       "compareAtCents": 3199,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/weider_30035_premium_whey_500g_beutel_vanilleadj1_960193b9-4eb0-4242-a7a5-d3dd0087d37c.png?v=1788960826",
+      "brand": "Weider"
     },
     {
       "id": "bodylab:protein-80-plus:2000",
@@ -630,7 +734,9 @@
       "sizeG": 2000,
       "priceCents": 9799,
       "compareAtCents": 9899,
-      "flavors": 5
+      "flavors": 5,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/weider_30109_protein_80plus_2kg_beutel_vanillaadj_1_b8f84ea7-f1df-4c4f-9cdb-7477e1748234.png?v=1788960837",
+      "brand": "Weider"
     },
     {
       "id": "bodylab:protein-80-plus:500",
@@ -641,7 +747,9 @@
       "sizeG": 500,
       "priceCents": 2599,
       "compareAtCents": 2999,
-      "flavors": 15
+      "flavors": 15,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/weider_30075_protein_80plus_500g_beutel_rasp_creamadj_63ef66be-eb7b-4853-a35b-9f0dc4602cf8.png?v=1788960903",
+      "brand": "Weider"
     },
     {
       "id": "bodylab:protein-96:2300",
@@ -652,7 +760,9 @@
       "sizeG": 2300,
       "priceCents": 10490,
       "compareAtCents": 10490,
-      "flavors": 8
+      "flavors": 8,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/protein-96_2300g_dose_white_vanille_front_freigestellt_260710.png?v=1788961021",
+      "brand": "Frey Nutrition"
     },
     {
       "id": "bodylab:protein-96:500",
@@ -663,7 +773,9 @@
       "sizeG": 500,
       "priceCents": 3290,
       "compareAtCents": 3290,
-      "flavors": 9
+      "flavors": 9,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/protein-96_500g_vanille_front_schatten_251022_08db2c01-186c-42d4-8314-642e6e7b06ec.jpg?v=1788960978",
+      "brand": "Frey Nutrition"
     },
     {
       "id": "bodylab:protein-96:900",
@@ -674,7 +786,9 @@
       "sizeG": 900,
       "priceCents": 4990,
       "compareAtCents": 4990,
-      "flavors": 7
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/frey_protein_96_-_900g_-_schoko.jpg?v=1788960844",
+      "brand": "Frey Nutrition"
     },
     {
       "id": "bodylab:protein-complex-100:700",
@@ -685,7 +799,9 @@
       "sizeG": 700,
       "priceCents": 2899,
       "compareAtCents": 2799,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/protein_complex_zip_700g_192x300_vanilla_0002__ol_1_261006.png?v=1791302725",
+      "brand": "Olimp"
     },
     {
       "id": "bodylab:pure-whey-isolate-95:600",
@@ -696,7 +812,9 @@
       "sizeG": 600,
       "priceCents": 4999,
       "compareAtCents": 5950,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/71twul7spzl._ac_sl1500__pure_whey_isolate.jpg?v=1788960978",
+      "brand": "Olimp"
     },
     {
       "id": "bodylab:radical-whey:1000",
@@ -707,7 +825,9 @@
       "sizeG": 1000,
       "priceCents": 3099,
       "compareAtCents": 2790,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/radicalwhey_vanilla_1000g_4000ml_2000x2000_1.png?v=1788960895",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:radical-whey:2000",
@@ -718,7 +838,9 @@
       "sizeG": 2000,
       "priceCents": 6099,
       "compareAtCents": 5490,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/radicalwhey_vanilla_2000g_8000ml_2000x2000_1_d5f42485-7578-461c-abf1-ed5359a57a09.png?v=1788960898",
+      "brand": "Scitec Nutrition"
     },
     {
       "id": "bodylab:roctane-protein-recovery:915",
@@ -729,7 +851,9 @@
       "sizeG": 915,
       "priceCents": 4999,
       "compareAtCents": 4990,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/gu_roctane_protein_recovery_drink_mix_chocolate_smoothie_beutel_02d5088c-1fb4-4114-ac2e-3384675aab59.jpg?v=1788960919",
+      "brand": "Gu Energy Labs"
     },
     {
       "id": "bodylab:snickers-protein-powder:455",
@@ -740,7 +864,9 @@
       "sizeG": 455,
       "priceCents": 2099,
       "compareAtCents": 1599,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/51-kqfjsxdl._ac_sl1000_80be86d7-d413-421b-8228-77fedfb66b47.jpg?v=1788960569",
+      "brand": "Mars Protein"
     },
     {
       "id": "bodylab:snickers-protein-powder:875",
@@ -751,7 +877,9 @@
       "sizeG": 875,
       "priceCents": 3699,
       "compareAtCents": 2990,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/71aazwjw1tl._ac_sl1500_ec6f2321-ed13-42e2-be3d-68b7ab53a420.jpg?v=1788960802",
+      "brand": "Mars Protein"
     },
     {
       "id": "bodylab:snickers-white-chocolate-protein-powder:455",
@@ -762,7 +890,9 @@
       "sizeG": 455,
       "priceCents": 2099,
       "compareAtCents": 1599,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/snicker_protein_455g_white_new_59264220-0667-4669-91f4-8cca6d60f8a7.jpg?v=1788960569",
+      "brand": "Mars Protein"
     },
     {
       "id": "bodylab:soja-protein-isolat:1000",
@@ -773,7 +903,9 @@
       "sizeG": 1000,
       "priceCents": 2599,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1_bodylab-soy-protein-isolate-1kg-buckets-1000px_1_0a87663d-9503-4425-843a-1dad1f63f552.jpg?v=1788960878",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:twix-protein-powder:455",
@@ -784,7 +916,9 @@
       "sizeG": 455,
       "priceCents": 2099,
       "compareAtCents": 1599,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/617-mujttol._ac_sl1000_240b6c73-2d14-4754-ab5f-f412c0d6883a.jpg?v=1788960569",
+      "brand": "Mars Protein"
     },
     {
       "id": "bodylab:vegan-protein-bio:700",
@@ -795,7 +929,9 @@
       "sizeG": 700,
       "priceCents": 3490,
       "compareAtCents": 3490,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/veganfront_1_9abb793e-4a9f-4dc3-807e-58791554ffd6.jpg?v=1788960975",
+      "brand": "Orgainic"
     },
     {
       "id": "bodylab:vegan-protein-choco-toffee-swirl:750",
@@ -806,7 +942,9 @@
       "sizeG": 750,
       "priceCents": 2999,
       "compareAtCents": 2499,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/de_bb_vegan750g_chocotoffeeswirl_1.0.png?v=1788960612",
+      "brand": "Barebells"
     },
     {
       "id": "bodylab:vegan-protein-shake:420",
@@ -817,7 +955,9 @@
       "sizeG": 420,
       "priceCents": 1899,
       "compareAtCents": 1799,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/veganprotein2_bfa9b6ea-fbc5-4817-8a88-3d7b4a8b1ecd.jpg?v=1788960972",
+      "brand": "Multipower"
     },
     {
       "id": "bodylab:vegan-protein:1000",
@@ -828,7 +968,9 @@
       "sizeG": 1000,
       "priceCents": 3099,
       "compareAtCents": null,
-      "flavors": 21
+      "flavors": 21,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1600x1600_bl_google_veganprotein_appetite_1kg_260824_17_vanillekaramel_f75814c5-8712-42f5-9380-23b0a6f97d15.jpg?v=1788961042",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:vegan-protein:460",
@@ -839,7 +981,9 @@
       "sizeG": 460,
       "priceCents": 2399,
       "compareAtCents": 2399,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/b0b59qxfkw.main_adj_a3db82c2-e28d-4ec5-98ea-2d1a1c24c243.png?v=1788960925",
+      "brand": "Mammut"
     },
     {
       "id": "bodylab:vegan-protein:500",
@@ -850,7 +994,9 @@
       "sizeG": 500,
       "priceCents": 2299,
       "compareAtCents": 2490,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/veganprotein_500g_bal-min_605b3da5-2e88-46e2-966a-ebcebe957260.jpg?v=1788960941",
+      "brand": "BioTech USA"
     },
     {
       "id": "bodylab:whey-100-protein-creatin:1800",
@@ -861,7 +1007,9 @@
       "sizeG": 1800,
       "priceCents": 5499,
       "compareAtCents": 6120,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/whey_100_-_1800g_-_vanilla.jpg?v=1788960820",
+      "brand": "Powergym"
     },
     {
       "id": "bodylab:whey-protein-bio:1000",
@@ -872,7 +1020,9 @@
       "sizeG": 1000,
       "priceCents": 6490,
       "compareAtCents": 5890,
-      "flavors": 7
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/orgainic-whey-front_1_0204c16c-603e-4314-8867-8e49d97abac1.jpg?v=1788961012",
+      "brand": "Orgainic"
     },
     {
       "id": "bodylab:whey-protein-complex-100:700",
@@ -883,7 +1033,9 @@
       "sizeG": 700,
       "priceCents": 2999,
       "compareAtCents": 3599,
-      "flavors": 5
+      "flavors": 5,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/wpc_zip_700g_192x300_vanilla_0004__ol_1__0001260825.png?v=1788960872",
+      "brand": "Olimp"
     },
     {
       "id": "bodylab:whey-protein-isolat:2000",
@@ -894,7 +1046,9 @@
       "sizeG": 2000,
       "priceCents": 8990,
       "compareAtCents": 9499,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1-bodylab-bucket-2kg-whey-isolate-1000px_3_5658bd72-4da1-4e5a-bb6f-69c46bfed6db.jpg?v=1788960883",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:whey-protein-isolat:900",
@@ -905,7 +1059,9 @@
       "sizeG": 900,
       "priceCents": 5190,
       "compareAtCents": 5499,
-      "flavors": 6
+      "flavors": 6,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1-bodylab-whey-isolate-900g-basic_e3f42317-0db4-4f0f-a0d2-2a3ae8bb7e4b.jpg?v=1788960949",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:whey-protein-shake:420",
@@ -916,7 +1072,9 @@
       "sizeG": 420,
       "priceCents": 2399,
       "compareAtCents": 1999,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/wheyshake2_6137c932-e929-46c4-ad74-df63930ad362.jpg?v=1788960988",
+      "brand": "Multipower"
     },
     {
       "id": "bodylab:whey-protein-xplode:2250",
@@ -927,7 +1085,9 @@
       "sizeG": 2250,
       "priceCents": 7499,
       "compareAtCents": 8650,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/wheyprotein_xplode_zip_2250g_vanilla_ar_0001__ol_1__0001_4c48d5d5-3eb9-4104-8321-ed098914a1e1.png?v=1788960911",
+      "brand": "Olimp"
     },
     {
       "id": "bodylab:whey-protein-xplode:700",
@@ -938,7 +1098,9 @@
       "sizeG": 700,
       "priceCents": 2899,
       "compareAtCents": 2899,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/wheyprotein_xplode_zip_700g_vanilla_ar_0002__ol_1__0001_147aede8-8b5a-4298-99b8-341b77b210c1.png?v=1788960899",
+      "brand": "Olimp"
     },
     {
       "id": "bodylab:whey-protein:1000",
@@ -949,7 +1111,9 @@
       "sizeG": 1000,
       "priceCents": 3490,
       "compareAtCents": 5799,
-      "flavors": 66
+      "flavors": 65,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1-bodylab-whey-1kg-2.5vk-iml-int_1.png?v=1788961167",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:whey-protein:2000",
@@ -960,7 +1124,9 @@
       "sizeG": 2000,
       "priceCents": 7190,
       "compareAtCents": 10999,
-      "flavors": 49
+      "flavors": 49,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/1-bodylab-whey-2kg-5.0vk-iml-int-final_1.png?v=1788961140",
+      "brand": "Bodylab"
     },
     {
       "id": "bodylab:whey-protein:900",
@@ -971,7 +1137,9 @@
       "sizeG": 900,
       "priceCents": 3499,
       "compareAtCents": 3499,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/de_bb_vassle900g_saltedmilkchocolate_1.0_26c0ed57-dce9-40e7-bd12-a079fca8ced1.png?v=1788960825",
+      "brand": "Barebells"
     },
     {
       "id": "esn:basic-whey:1000",
@@ -982,7 +1150,9 @@
       "sizeG": 1000,
       "priceCents": 3690,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/BasicWhey_1000g_Beutel_2024x2024_shop-SZUbIo4x_1ff182ea-e92c-4334-8dc8-4690db466bff.jpg?v=1786618196",
+      "brand": "ESN"
     },
     {
       "id": "esn:basic-whey:2000",
@@ -993,7 +1163,9 @@
       "sizeG": 2000,
       "priceCents": 6590,
       "compareAtCents": null,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/BasicWhey_2000g_Beutel_2024x2024_shop-moC2-H_o_03ad0263-d069-411a-86e2-38de92efb54c.jpg?v=1784806744",
+      "brand": "ESN"
     },
     {
       "id": "esn:designer-protein-extra-creamy:480",
@@ -1004,7 +1176,9 @@
       "sizeG": 480,
       "priceCents": 2790,
       "compareAtCents": null,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/DesignerProtein_ExtraCreamy_480g_VanillaMilkFlavour_2024x2024_shop-HN4ZpfLH_27099224-b2dd-4106-b58d-0fb15c983e22.jpg?v=1789390895",
+      "brand": "ESN"
     },
     {
       "id": "esn:designer-whey-protein:2000",
@@ -1015,7 +1189,9 @@
       "sizeG": 2000,
       "priceCents": 10290,
       "compareAtCents": null,
-      "flavors": 5
+      "flavors": 5,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/DesignerWhey_2000g_Beutel_2024x2024_shop-0YT16UnQ_e26a4091-d9b6-4ce7-a8f4-b9c4b0ebe647.jpg?v=1784804950",
+      "brand": "ESN"
     },
     {
       "id": "esn:designer-whey-protein:420",
@@ -1026,7 +1202,9 @@
       "sizeG": 420,
       "priceCents": 1603,
       "compareAtCents": 2290,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/DesignerWhey_420g_Beutel_DarkCookiesCreamFlavor_2024x2024_shop-aHqb_tCQ_a88d0ce9-90c7-4173-97bc-06a5aa9025ae.jpg?v=1781612722",
+      "brand": "ESN"
     },
     {
       "id": "esn:designer-whey-protein:908",
@@ -1037,7 +1215,9 @@
       "sizeG": 908,
       "priceCents": 4790,
       "compareAtCents": null,
-      "flavors": 17
+      "flavors": 17,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/DesignerWheyProtein_908g_HoneyCerealFlavor_2024x2024_shop-YUGBUucN_0514e1fd-a353-4abf-959b-550e7a400465.jpg?v=1769161364",
+      "brand": "ESN"
     },
     {
       "id": "esn:fruity-whey-isolate:1000",
@@ -1048,7 +1228,9 @@
       "sizeG": 1000,
       "priceCents": 4490,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/Fruity_WheyIsolate_1000g_GreenAppleFlavor_2024x2024_shop-Y5Tq3Q3n_b581e312-7d16-479b-889a-c34cd1b8e5df.jpg?v=1784798660",
+      "brand": "ESN"
     },
     {
       "id": "esn:iso-whey-protein-isolat:908",
@@ -1059,7 +1241,9 @@
       "sizeG": 908,
       "priceCents": 5490,
       "compareAtCents": null,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/IsoWhey_908g_MilkChocolateFlavor_2024x2024_shop-mGqONHGd_14469e79-03a6-4d5c-9686-9da42a1ee539.jpg?v=1749636717",
+      "brand": "ESN"
     },
     {
       "id": "esn:isoclear-whey-protein-isolate:2000",
@@ -1070,7 +1254,9 @@
       "sizeG": 2000,
       "priceCents": 11290,
       "compareAtCents": null,
-      "flavors": 7
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/IsoClear_2000g_Beutel_2024x2024-DSRJiuZa_8870a415-270c-4604-8f7d-0626c1a20ca0.jpg?v=1784788826",
+      "brand": "ESN"
     },
     {
       "id": "esn:isoclear-whey-protein-isolate:300",
@@ -1081,7 +1267,9 @@
       "sizeG": 300,
       "priceCents": 2290,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/IsoClear_300g_FreshCherryFlavor_2024x2024_shop-yhha1wdc_2ddf014f-92ea-4b38-8ba0-61439fcb62fb.jpg?v=1771412113",
+      "brand": "ESN"
     },
     {
       "id": "esn:isoclear-whey-protein-isolate:540",
@@ -1092,7 +1280,9 @@
       "sizeG": 540,
       "priceCents": 3690,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/IsoClear_540g_GingerLemonFlavor_2024x2024_shop-OxaECcVp_907cf30c-8c0a-4ae7-b4f4-ced9001f6786.jpg?v=1784550281",
+      "brand": "ESN"
     },
     {
       "id": "esn:isoclear-whey-protein-isolate:900",
@@ -1103,7 +1293,9 @@
       "sizeG": 900,
       "priceCents": 5890,
       "compareAtCents": null,
-      "flavors": 8
+      "flavors": 8,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/IsoClear_900g_LessSweet_BlackberryFlavour_2024x2024_shop-IdQVSsP3_e8ffe9c3-de4f-4936-91e2-2a246d17efce.jpg?v=1788783691",
+      "brand": "ESN"
     },
     {
       "id": "esn:isoclear-whey-protein-isolate:908",
@@ -1114,7 +1306,9 @@
       "sizeG": 908,
       "priceCents": 5890,
       "compareAtCents": null,
-      "flavors": 13
+      "flavors": 13,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/IsoClear_908g_GummyBearFlavor_2024x2024_shop-3G7pXHIm_e031760e-6ac3-41ee-a077-96c1fdae3264.jpg?v=1771831441",
+      "brand": "ESN"
     },
     {
       "id": "esn:performance-whey-protein-hydrolysate-isolate:908",
@@ -1125,7 +1319,9 @@
       "sizeG": 908,
       "priceCents": 5790,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/EliteWhey_908g_ChocolateFlavor_2024x2024_shop-JmAktlFt_757d1c84-7c0f-49ea-a51f-8df2a4d34b2b.jpg?v=1748254244",
+      "brand": "ESN"
     },
     {
       "id": "esn:veganes-proteinpulver-designer-plant-based-protein:960",
@@ -1136,7 +1332,9 @@
       "sizeG": 960,
       "priceCents": 3990,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0845/1358/7515/files/DesignerPlantBasedProtein_960g_DarkCookiesFlavor_2024x2024_shop-5qVIzow4_2ce4b94c-84d2-441c-a324-5ae2138a0377.jpg?v=1770189836",
+      "brand": "ESN"
     },
     {
       "id": "gymqueen:3k-protein:1000",
@@ -1147,7 +1345,9 @@
       "sizeG": 1000,
       "priceCents": 4099,
       "compareAtCents": 3699,
-      "flavors": 6
+      "flavors": 6,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/1-bodylab-3k-protein-vanilla-sunshine-1000g-int_1.png?v=1783515974",
+      "brand": "Bodylab"
     },
     {
       "id": "gymqueen:bio-erbsenprotein-pulver:1000",
@@ -1158,7 +1358,9 @@
       "sizeG": 1000,
       "priceCents": 2299,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/erbsenprotein_pulver_bio_ah2026m03v1.png?v=1778515591",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-erbsenprotein-pulver:250",
@@ -1169,7 +1371,9 @@
       "sizeG": 250,
       "priceCents": 999,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/erbsenprotein_pulver_bio_ah2026m03v1_2.png?v=1778515591",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-erbsenprotein-pulver:500",
@@ -1180,7 +1384,9 @@
       "sizeG": 500,
       "priceCents": 1695,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/erbsenprotein_pulver_bio_ah2026m03v1_1.png?v=1778515586",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-hanfprotein-pulver:1000",
@@ -1191,7 +1397,9 @@
       "sizeG": 1000,
       "priceCents": 1999,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/hanfprotein_bio_ah2026m03v1.png?v=1778515584",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-hanfprotein-pulver:250",
@@ -1202,7 +1410,9 @@
       "sizeG": 250,
       "priceCents": 595,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/hanfprotein_bio_ah2026m03v1_2.png?v=1778515599",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-hanfprotein-pulver:500",
@@ -1213,7 +1423,9 @@
       "sizeG": 500,
       "priceCents": 1049,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/hanfprotein_bio_ah2026m03v1_1.png?v=1778515593",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-mandelprotein-pulver:1000",
@@ -1224,7 +1436,9 @@
       "sizeG": 1000,
       "priceCents": 4295,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/mandelprotein_pulver_bio_ah2026m05v1_1.png?v=1779520055",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-mandelprotein-pulver:250",
@@ -1235,7 +1449,9 @@
       "sizeG": 250,
       "priceCents": 1495,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/mandelprotein_pulver_bio_ah2026m05v1_1_2.png?v=1779520056",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-mandelprotein-pulver:500",
@@ -1246,7 +1462,9 @@
       "sizeG": 500,
       "priceCents": 2495,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/mandelprotein_pulver_bio_ah2026m05v1_1_1.png?v=1779520054",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-reisprotein-pulver:1000",
@@ -1257,7 +1475,9 @@
       "sizeG": 1000,
       "priceCents": 2499,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/reisprotein_pulver_bio_ah2026m04v1.png?v=1778515589",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-reisprotein-pulver:250",
@@ -1268,7 +1488,9 @@
       "sizeG": 250,
       "priceCents": 999,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/reisprotein_pulver_bio_ah2026m04v1_2.png?v=1778515594",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:bio-reisprotein-pulver:500",
@@ -1279,7 +1501,9 @@
       "sizeG": 500,
       "priceCents": 1499,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/reisprotein_pulver_bio_ah2026m04v1_1.png?v=1778515584",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:casein-micellar:1750",
@@ -1290,7 +1514,9 @@
       "sizeG": 1750,
       "priceCents": 5999,
       "compareAtCents": null,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/1-bodylab-micellar-casein-1.75kg-5.0vk-iml-int_b193f4ad-c783-4146-a85d-79eb927bb3c4.png?v=1776496393",
+      "brand": "Bodylab"
     },
     {
       "id": "gymqueen:clear-whey-isolate:960",
@@ -1301,7 +1527,9 @@
       "sizeG": 960,
       "priceCents": 5199,
       "compareAtCents": 5999,
-      "flavors": 14
+      "flavors": 14,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/clear-whey-isolate-960g-int-peach.png?v=1775632367",
+      "brand": "Bodylab"
     },
     {
       "id": "gymqueen:kuerbiskern-proteinmehl-bio:1000",
@@ -1312,7 +1540,9 @@
       "sizeG": 1000,
       "priceCents": 1495,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/k_rbiskernmehl_bio_bag_ah-2026m09v1.png?v=1790246049",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:kuerbiskern-proteinmehl-bio:500",
@@ -1323,7 +1553,9 @@
       "sizeG": 500,
       "priceCents": 895,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/k_rbiskernmehl_bio_bag_ah-2026m09v1_1.png?v=1790246052",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:soja-protein-isolat:1000",
@@ -1334,7 +1566,9 @@
       "sizeG": 1000,
       "priceCents": 2599,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/1_bodylab-soy-protein-isolate-1kg-buckets-1000px_1_e64ebbc8-a537-427d-9c3f-ec8b262f7022.jpg?v=1767805692",
+      "brand": "Bodylab"
     },
     {
       "id": "gymqueen:vegan-protein:1000",
@@ -1345,7 +1579,9 @@
       "sizeG": 1000,
       "priceCents": 3099,
       "compareAtCents": null,
-      "flavors": 21
+      "flavors": 21,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/1600x1600_bl_google_veganprotein_appetite_1kg_260824_17_vanillekaramel.jpg?v=1787901028",
+      "brand": "Bodylab"
     },
     {
       "id": "gymqueen:veganes-protein-pulver:250",
@@ -1356,7 +1592,9 @@
       "sizeG": 250,
       "priceCents": 995,
       "compareAtCents": 995,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/protein_vegan_pulver_konv_ah2026m03v1_1.png?v=1778515550",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:veganes-protein-pulver:500",
@@ -1367,7 +1605,9 @@
       "sizeG": 500,
       "priceCents": 1895,
       "compareAtCents": 1895,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/protein_vegan_pulver_konv_ah2026m03v1.png?v=1778515553",
+      "brand": "Vom Achterhof"
     },
     {
       "id": "gymqueen:whey-protein-isolat:2000",
@@ -1378,7 +1618,9 @@
       "sizeG": 2000,
       "priceCents": 7199,
       "compareAtCents": 8999,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/1-bodylab-bucket-2kg-whey-isolate-strawberry_1_f83218df-365b-4f7d-966e-bc6a4c311ee0.jpg?v=1763399360",
+      "brand": "Bodylab"
     },
     {
       "id": "gymqueen:whey-protein-isolat:900",
@@ -1389,7 +1631,9 @@
       "sizeG": 900,
       "priceCents": 2799,
       "compareAtCents": 4999,
-      "flavors": 6
+      "flavors": 6,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/1-bodylab-isolate-900g-banana_1bc814a6-6eab-4e55-a3d7-9f11df166f8a.jpg?v=1763399384",
+      "brand": "Bodylab"
     },
     {
       "id": "gymqueen:whey-protein:1000",
@@ -1400,7 +1644,9 @@
       "sizeG": 1000,
       "priceCents": 3490,
       "compareAtCents": 5799,
-      "flavors": 53
+      "flavors": 52,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/1600x1600_whey1kg_appetite_260402_06_erdbeer.jpg?v=1776701504",
+      "brand": "Bodylab"
     },
     {
       "id": "gymqueen:whey-protein:2000",
@@ -1411,7 +1657,9 @@
       "sizeG": 2000,
       "priceCents": 7190,
       "compareAtCents": 10999,
-      "flavors": 48
+      "flavors": 48,
+      "image": "https://cdn.shopify.com/s/files/1/0725/0591/7595/files/1-bodylab-whey-2kg-5.0vk-iml-int-final_1.png?v=1777911267",
+      "brand": "Bodylab"
     },
     {
       "id": "innonature:bio-veganer-protein-mix-pure:450",
@@ -1422,7 +1670,9 @@
       "sizeG": 450,
       "priceCents": 3290,
       "compareAtCents": 3290,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/1940/5741/files/20260615_4-Active_Membrandose_P6_Protein-Mix-Pure_MU_01_3d18ae18-f5a5-4fe4-9482-11b50a07c7cf.jpg?v=1784608650",
+      "brand": "innonature"
     },
     {
       "id": "innonature:bio-veganer-protein-mix-schoko:450",
@@ -1433,7 +1683,9 @@
       "sizeG": 450,
       "priceCents": 3290,
       "compareAtCents": 3290,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/1940/5741/files/20260729_4-Active_SBB_Protein-Mix-Schoko_MU_02.jpg?v=1789369318",
+      "brand": "innonature"
     },
     {
       "id": "innonature:bio-veganer-protein-mix-vanille:450",
@@ -1444,7 +1696,9 @@
       "sizeG": 450,
       "priceCents": 3290,
       "compareAtCents": 3290,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/1940/5741/files/20260729_4-Active_SBB_Protein-Mix-Vanille_MU_02.jpg?v=1788531394",
+      "brand": "innonature"
     },
     {
       "id": "ironmaxx:100-casein-protein:750",
@@ -1455,7 +1709,9 @@
       "sizeG": 750,
       "priceCents": 3690,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_100__Casein_Protein_Vanille_750g_Persp_2_Kopie.png?v=1753867613",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:100-isolat-plant:500",
@@ -1466,7 +1722,9 @@
       "sizeG": 500,
       "priceCents": 1990,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/100__isolat_creamy_chocolate_main.png?v=1757570235",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:100-milk-protein:500",
@@ -1477,7 +1735,9 @@
       "sizeG": 500,
       "priceCents": 2500,
       "compareAtCents": null,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/Milk-Protein_Milky-chocolate_main.png?v=1757570822",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:100-vegan-protein-zero:500",
@@ -1488,7 +1748,9 @@
       "sizeG": 500,
       "priceCents": 2399,
       "compareAtCents": null,
-      "flavors": 11
+      "flavors": 11,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_100__Vegan_Protein_Cinnamon_Churro_500gcopy.png?v=1776167297",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:100-whey-isolate-zero:400",
@@ -1499,7 +1761,9 @@
       "sizeG": 400,
       "priceCents": 2690,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_100__Whey_Isolate_ZERO_400g_Vanille_copy_854a9bd8-419c-4e97-92ab-d59db94c5328.png?v=1751281179",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:100-whey-protein:2350",
@@ -1510,7 +1774,9 @@
       "sizeG": 2350,
       "priceCents": 10999,
       "compareAtCents": null,
-      "flavors": 7
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_100__Whey_Protein_2350g_Vanilla_Ice_Cream_Persp_2Kopie.png?v=1766132326",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:100-whey-protein:300",
@@ -1521,7 +1787,9 @@
       "sizeG": 300,
       "priceCents": 1899,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_100__Whey_Protein_300g_Milchschokolade_Persp_2copy.png?v=1760006676",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:100-whey-protein:500",
@@ -1532,7 +1800,9 @@
       "sizeG": 500,
       "priceCents": 2014,
       "compareAtCents": 2590,
-      "flavors": 32
+      "flavors": 32,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_100__Whey_Protein_500g_Vanilla_Chocolate_Chunkcopy.png?v=1757922480",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:100-whey-protein:900",
@@ -1543,7 +1813,9 @@
       "sizeG": 900,
       "priceCents": 4490,
       "compareAtCents": null,
-      "flavors": 23
+      "flavors": 23,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_100__Whey_Protein_900g_Vanilla_Ice_Cream_Persp_2Kopie_10c738b6-5ef7-4b98-a25a-cb010e9fde82.png?v=1758285119",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:clear-plant-protein-zero:400",
@@ -1554,7 +1826,9 @@
       "sizeG": 400,
       "priceCents": 2690,
       "compareAtCents": null,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_Clear_Plant_Protein_ZERO_Peach_Ice_Tea_400g_PERSP_2_copy_057683d0-96e2-4d14-8ab8-4a9e4cfe04b4.png?v=1751902492",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:clear-whey-isolate-zero:400",
@@ -1565,7 +1839,9 @@
       "sizeG": 400,
       "priceCents": 2690,
       "compareAtCents": null,
-      "flavors": 15
+      "flavors": 16,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_Clear_Whey_Isolate_Zero_Mango_Peach_Ice_Tea_400g_PERSP_2_copy_d99b3b65-e9c9-4ea8-a716-1ae47648b937.png?v=1751902511",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:coconut-milk-protein-dose:500",
@@ -1576,7 +1852,9 @@
       "sizeG": 500,
       "priceCents": 2499,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_Coconut_Milk_Protein_500g_Dose_Persp_2copy.png?v=1780048625",
+      "brand": "IronMaxx"
     },
     {
       "id": "ironmaxx:coconut-milk-protein:500",
@@ -1587,7 +1865,9 @@
       "sizeG": 500,
       "priceCents": 2390,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0908/0350/3435/files/IronMaxx_Coconut_Milk_Protein_500gcopy.png?v=1759317267",
+      "brand": "IronMaxx"
     },
     {
       "id": "more:more-clear-protein:500",
@@ -1598,7 +1878,9 @@
       "sizeG": 500,
       "priceCents": 3999,
       "compareAtCents": null,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0503/7536/0676/files/More_Protein_Iced_Clear_500g_Redesign_Juice_Style_Mango_4096x4096_1-RhsXAph9_ccac7523-6114-4dc5-9b6d-eb13fb0c692e.png?v=1793116936",
+      "brand": "MORE Nutrition"
     },
     {
       "id": "more:more-clear-protein:600",
@@ -1609,18 +1891,22 @@
       "sizeG": 600,
       "priceCents": 4099,
       "compareAtCents": null,
-      "flavors": 5
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0503/7536/0676/files/more_clear_strawberry_lime-vySNH9tI_4de9e20d-e7ae-4ba2-b4c5-b404d164ad2d.png?v=1768395269",
+      "brand": "MORE Nutrition"
     },
     {
       "id": "more:more-protein:600",
       "shopId": "more",
       "product": "More Protein",
-      "url": "https://www.morenutrition.de/products/more-protein-milkshake?variant=51094755573924",
+      "url": "https://www.morenutrition.de/products/more-protein-milkshake?variant=51137601732880",
       "category": "mehrkomponenten",
       "sizeG": 600,
       "priceCents": 3699,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0503/7536/0676/files/More_Protein_Milkshake_Style_Chocolate_Crispy_Cream_600g_4096x4096-x9ejDwxw_a2565e3a-5ddc-4540-82b4-f3743297a1ba.png?v=1771850379",
+      "brand": "MORE Nutrition"
     },
     {
       "id": "more:more-vegan-protein:600",
@@ -1631,7 +1917,9 @@
       "sizeG": 600,
       "priceCents": 3499,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0503/7536/0676/files/more_total_protein_vegan_600g_banana_bread-9Jr2ALUs_f315dfad-2a96-46c4-a854-0a846367da8c.png?v=1791381604",
+      "brand": "MORE Nutrition"
     },
     {
       "id": "peak:anabolic-protein-selection:900",
@@ -1642,7 +1930,9 @@
       "sizeG": 900,
       "priceCents": 3990,
       "compareAtCents": null,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/Anabolic-Protein-Selection_Chocolate.jpg?v=1793004078",
+      "brand": "Peak"
     },
     {
       "id": "peak:micellar-casein:900",
@@ -1653,7 +1943,9 @@
       "sizeG": 900,
       "priceCents": 2990,
       "compareAtCents": null,
-      "flavors": 8
+      "flavors": 8,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/Micellar-Casein_Chocolate.jpg?v=1791269755",
+      "brand": "Peak"
     },
     {
       "id": "peak:soja-protein-isolat:750",
@@ -1664,7 +1956,9 @@
       "sizeG": 750,
       "priceCents": 1790,
       "compareAtCents": null,
-      "flavors": 5
+      "flavors": 5,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5453001863702__spi---750g_chocolate.jpg?v=1725808719",
+      "brand": "Peak"
     },
     {
       "id": "peak:vegan-protein-isolat:750",
@@ -1675,7 +1969,9 @@
       "sizeG": 750,
       "priceCents": 1790,
       "compareAtCents": null,
-      "flavors": 10
+      "flavors": 10,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5453001865799__Vegan-Protein-750g-BANANA.jpg?v=1725808738",
+      "brand": "Peak"
     },
     {
       "id": "peak:whey-selection:900",
@@ -1686,7 +1982,9 @@
       "sizeG": 900,
       "priceCents": 5490,
       "compareAtCents": null,
-      "flavors": 7
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5407010240009__WS-900g-BANANA.jpg?v=1725808797",
+      "brand": "Peak"
     },
     {
       "id": "ruehl:2k-ei-whey-protein-isolat-92:1000",
@@ -1697,7 +1995,9 @@
       "sizeG": 1000,
       "priceCents": 2995,
       "compareAtCents": null,
-      "flavors": 6
+      "flavors": 6,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Beutel-2K-Ei-Whey-Protein-Vanille.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:2k-whey-casein-protein:1000",
@@ -1708,7 +2008,9 @@
       "sizeG": 1000,
       "priceCents": 3195,
       "compareAtCents": null,
-      "flavors": 11
+      "flavors": 11,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/2K-Kirsche.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:bester-mix-whey-protein-konzentrat-isolat:1000",
@@ -1719,7 +2021,9 @@
       "sizeG": 1000,
       "priceCents": 3395,
       "compareAtCents": null,
-      "flavors": 10
+      "flavors": 10,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Bester-Mix-Cornflakes.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:casein-protein-instant:1000",
@@ -1730,7 +2034,9 @@
       "sizeG": 1000,
       "priceCents": 2695,
       "compareAtCents": null,
-      "flavors": 11
+      "flavors": 11,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Casein-Orange-Maracuja.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:clear-whey-protein-isolat:800",
@@ -1741,7 +2047,9 @@
       "sizeG": 800,
       "priceCents": 3395,
       "compareAtCents": null,
-      "flavors": 14
+      "flavors": 14,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Clear-Whey-Protein-Isolat-Himbeer-Shop.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:crazy-whey-protein-isolat-zero-l:500",
@@ -1752,7 +2060,9 @@
       "sizeG": 500,
       "priceCents": 1995,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Whey-Protein-Isolat-Thunfisch.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:ei-protein-isolat-94:1000",
@@ -1763,7 +2073,9 @@
       "sizeG": 1000,
       "priceCents": 2395,
       "compareAtCents": null,
-      "flavors": 7
+      "flavors": 8,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Beutel-Ei-Protein-Orange-Maracuja.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:ei-soja-protein-isolat-91:1000",
@@ -1774,7 +2086,9 @@
       "sizeG": 1000,
       "priceCents": 2195,
       "compareAtCents": null,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Ei-Soja-Protein-91_Snickerdoodles.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:hyclear-whey-protein-hydrolysat:800",
@@ -1785,7 +2099,9 @@
       "sizeG": 800,
       "priceCents": 3795,
       "compareAtCents": null,
-      "flavors": 5
+      "flavors": 5,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/HyClear-Apfel-Birne.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:kristall-whey-protein-isolat:800",
@@ -1796,7 +2112,9 @@
       "sizeG": 800,
       "priceCents": 3395,
       "compareAtCents": null,
-      "flavors": 14
+      "flavors": 14,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Kristall-Whey-Protein-Isolat-Ananas-Shop.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:milky-protein-isolat-zero-l:1000",
@@ -1807,7 +2125,9 @@
       "sizeG": 1000,
       "priceCents": 2495,
       "compareAtCents": null,
-      "flavors": 5
+      "flavors": 5,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Beutel-Milky-Protein-Zero-Pur.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:protein-wasser:800",
@@ -1818,7 +2138,9 @@
       "sizeG": 800,
       "priceCents": 3495,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Protein-Wasser-mit-Glas.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:whey-ei-protein-konzentrat-82:1000",
@@ -1829,7 +2151,9 @@
       "sizeG": 1000,
       "priceCents": 2595,
       "compareAtCents": null,
-      "flavors": 7
+      "flavors": 7,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Ei-Protein-Konzentrat-Vanille.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:whey-protein-isolat-90:1000",
@@ -1840,7 +2164,9 @@
       "sizeG": 1000,
       "priceCents": 3995,
       "compareAtCents": null,
-      "flavors": 17
+      "flavors": 17,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Whey-Protein-Iso90-Zitrone.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:whey-protein-isolat-zero-l-super-instant-pur:900",
@@ -1851,7 +2177,9 @@
       "sizeG": 900,
       "priceCents": 3895,
       "compareAtCents": null,
-      "flavors": 1
+      "flavors": 1,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Zero-L-Super-Instant.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:whey-protein-isolat-zero-l:900",
@@ -1862,7 +2190,9 @@
       "sizeG": 900,
       "priceCents": 3895,
       "compareAtCents": null,
-      "flavors": 22
+      "flavors": 22,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Zero-L_Waldmeister.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:whey-protein-konzentrat:1000",
@@ -1873,7 +2203,9 @@
       "sizeG": 1000,
       "priceCents": 2771,
       "compareAtCents": null,
-      "flavors": 22
+      "flavors": 25,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Whey-Protein-Konzentrat-Milchschokolade.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "ruehl:whey-protein-konzentrat:500",
@@ -1884,7 +2216,9 @@
       "sizeG": 500,
       "priceCents": 1571,
       "compareAtCents": null,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://www.ruehl24.de/images/product_images/info_images/Whey-Protein-Konzentrat-Erdbeere.jpg",
+      "brand": "Rühls Bestes"
     },
     {
       "id": "weider:clear-isolate:500",
@@ -1895,7 +2229,9 @@
       "sizeG": 500,
       "priceCents": 4499,
       "compareAtCents": null,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/ClearIsolatePeach1.webp?v=1765809484",
+      "brand": "Weider"
     },
     {
       "id": "weider:gold-whey:2000",
@@ -1906,7 +2242,9 @@
       "sizeG": 2000,
       "priceCents": 9999,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/weider_gold_whey_milchschokolade_2kg_f2ed4df9-454d-425b-a336-d0b798ed6472.png?v=1768487603",
+      "brand": "Weider"
     },
     {
       "id": "weider:gold-whey:500",
@@ -1917,7 +2255,9 @@
       "sizeG": 500,
       "priceCents": 2499,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/weider_gold_whey_milchschokolade_500g.png?v=1768486341",
+      "brand": "Weider"
     },
     {
       "id": "weider:isolate-whey-100-cfm:2000",
@@ -1928,7 +2268,9 @@
       "sizeG": 2000,
       "priceCents": 9999,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/IsoWhey100StrawberryFront.webp?v=1768485531",
+      "brand": "Weider"
     },
     {
       "id": "weider:isolate-whey-100-cfm:420",
@@ -1939,7 +2281,9 @@
       "sizeG": 420,
       "priceCents": 2999,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/Isolate_Banane.webp?v=1788780992",
+      "brand": "Weider"
     },
     {
       "id": "weider:isolate-whey-100-cfm:908",
@@ -1950,7 +2294,9 @@
       "sizeG": 908,
       "priceCents": 5999,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/IsolateWhey_Strawberry_Front.webp?v=1788253048",
+      "brand": "Weider"
     },
     {
       "id": "weider:premium-whey:2300",
@@ -1961,7 +2307,9 @@
       "sizeG": 2300,
       "priceCents": 11249,
       "compareAtCents": 12499,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/Weider_Premium_Whey_Chocolate_Nougat_2.3kg_Front_Online_Shop_Kopie.webp?v=1768487448",
+      "brand": "Weider"
     },
     {
       "id": "weider:premium-whey:500",
@@ -1972,7 +2320,9 @@
       "sizeG": 500,
       "priceCents": 2699,
       "compareAtCents": 2999,
-      "flavors": 4
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/Weider_PremiumWheyChocolateNougat500gFront_OnlineShopKopie.webp?v=1760468402",
+      "brand": "Weider"
     },
     {
       "id": "weider:protein-80-plus:2000",
@@ -1983,7 +2333,9 @@
       "sizeG": 2000,
       "priceCents": 9699,
       "compareAtCents": null,
-      "flavors": 5
+      "flavors": 5,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/Weider_P80_Vanilla_2kg_Front_Online_Shop_Kopie.webp?v=1773831260",
+      "brand": "Weider"
     },
     {
       "id": "weider:protein-80-plus:500",
@@ -1994,7 +2346,9 @@
       "sizeG": 500,
       "priceCents": 2599,
       "compareAtCents": null,
-      "flavors": 15
+      "flavors": 15,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/Weider_P80_Vanilla_500g_Front_Online_Shop_Kopie.webp?v=1776242648",
+      "brand": "Weider"
     },
     {
       "id": "weider:vegan-protein:540",
@@ -2005,7 +2359,9 @@
       "sizeG": 540,
       "priceCents": 2499,
       "compareAtCents": null,
-      "flavors": 2
+      "flavors": 2,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/vegan_540g_brownie_front_c271c41f-9a93-47fc-b61f-e2b5673c760c.webp?v=1788780812",
+      "brand": "Weider"
     },
     {
       "id": "weider:vegan-protein:750",
@@ -2016,7 +2372,9 @@
       "sizeG": 750,
       "priceCents": 3399,
       "compareAtCents": null,
-      "flavors": 3
+      "flavors": 3,
+      "image": "https://cdn.shopify.com/s/files/1/0873/9812/1757/files/Vegan_Protein_Choco_Hazelnut_Front_0d3f4e0d-6815-439b-9ae7-5a47933f2b04.webp?v=1788780812",
+      "brand": "Weider"
     }
   ]
 }

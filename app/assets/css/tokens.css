@@ -1,0 +1,248 @@
+/*
+ * Design tokens. The only file allowed to hold raw color values (tests/design-tokens.test.ts enforces it).
+ *
+ * Layer 1, primitives: color scales, fonts, type scale, radii, motion. Named for what they are.
+ * Layer 2, semantic: what a value means (surface, text, price down, series A). Components use only these.
+ * Layer 3, component: Nuxt UI slot overrides in app/app.config.ts, built from layer 2 utilities.
+ *
+ * Nuxt UI maps its color aliases to the scales here in app.config.ts:
+ *   primary → tomato, secondary/info → cobalt, success → pine, warning → ochre, error → brick, neutral → sand
+ */
+
+/* ── Layer 1: primitives ───────────────────────────────────────────────── */
+
+@theme static {
+  /* Sand: warm paper neutral. Every surface, line and text tone comes from here. */
+  --color-sand-50: oklch(98.4% 0.007 85);
+  --color-sand-100: oklch(96% 0.012 85);
+  --color-sand-200: oklch(91.8% 0.018 84);
+  --color-sand-300: oklch(86% 0.024 82);
+  --color-sand-400: oklch(71% 0.028 80);
+  --color-sand-500: oklch(57.5% 0.026 78);
+  --color-sand-600: oklch(47.5% 0.022 76);
+  --color-sand-700: oklch(38.5% 0.018 74);
+  --color-sand-800: oklch(27.5% 0.012 72);
+  --color-sand-900: oklch(20.5% 0.009 70);
+  --color-sand-950: oklch(15.5% 0.007 70);
+
+  /* Tomato: the brand accent. */
+  --color-tomato-50: oklch(97.3% 0.016 45);
+  --color-tomato-100: oklch(94% 0.037 45);
+  --color-tomato-200: oklch(88.5% 0.072 42);
+  --color-tomato-300: oklch(80.5% 0.12 40);
+  --color-tomato-400: oklch(71.5% 0.175 38);
+  --color-tomato-500: oklch(64% 0.205 36);
+  --color-tomato-600: oklch(56.5% 0.2 34);
+  --color-tomato-700: oklch(48% 0.172 33);
+  --color-tomato-800: oklch(40.5% 0.14 33);
+  --color-tomato-900: oklch(35% 0.11 33);
+  --color-tomato-950: oklch(24% 0.075 32);
+
+  /* Pine: prices that went down. */
+  --color-pine-50: oklch(97.5% 0.02 160);
+  --color-pine-100: oklch(94.5% 0.045 160);
+  --color-pine-200: oklch(89% 0.085 160);
+  --color-pine-300: oklch(81% 0.13 158);
+  --color-pine-400: oklch(73% 0.155 157);
+  --color-pine-500: oklch(62% 0.15 156);
+  --color-pine-600: oklch(51.5% 0.13 156);
+  --color-pine-700: oklch(43.5% 0.11 157);
+  --color-pine-800: oklch(36% 0.088 158);
+  --color-pine-900: oklch(30.5% 0.07 159);
+  --color-pine-950: oklch(20.5% 0.048 160);
+
+  /* Brick: prices that went up, errors. */
+  --color-brick-50: oklch(97% 0.014 20);
+  --color-brick-100: oklch(93.6% 0.032 20);
+  --color-brick-200: oklch(88.5% 0.062 20);
+  --color-brick-300: oklch(80.8% 0.112 22);
+  --color-brick-400: oklch(72% 0.17 24);
+  --color-brick-500: oklch(62.5% 0.215 26);
+  --color-brick-600: oklch(55% 0.21 27);
+  --color-brick-700: oklch(48% 0.185 27);
+  --color-brick-800: oklch(41% 0.15 26);
+  --color-brick-900: oklch(36% 0.12 25);
+  --color-brick-950: oklch(25% 0.085 25);
+
+  /* Cobalt: comparison side A. */
+  --color-cobalt-50: oklch(97% 0.014 255);
+  --color-cobalt-100: oklch(93.2% 0.032 257);
+  --color-cobalt-200: oklch(88% 0.06 258);
+  --color-cobalt-300: oklch(80.5% 0.1 259);
+  --color-cobalt-400: oklch(70.5% 0.15 260);
+  --color-cobalt-500: oklch(60.5% 0.19 262);
+  --color-cobalt-600: oklch(52.5% 0.2 263);
+  --color-cobalt-700: oklch(46% 0.18 264);
+  --color-cobalt-800: oklch(39.5% 0.145 265);
+  --color-cobalt-900: oklch(34% 0.11 266);
+  --color-cobalt-950: oklch(25% 0.075 267);
+
+  /* Ochre: comparison side B, "reduced" markers. */
+  --color-ochre-50: oklch(98.5% 0.025 95);
+  --color-ochre-100: oklch(96% 0.06 93);
+  --color-ochre-200: oklch(92.5% 0.115 92);
+  --color-ochre-300: oklch(87.5% 0.155 88);
+  --color-ochre-400: oklch(82% 0.165 80);
+  --color-ochre-500: oklch(75.5% 0.16 72);
+  --color-ochre-600: oklch(65% 0.15 62);
+  --color-ochre-700: oklch(54.5% 0.13 58);
+  --color-ochre-800: oklch(45.5% 0.105 58);
+  --color-ochre-900: oklch(39% 0.085 60);
+  --color-ochre-950: oklch(27% 0.06 60);
+
+  --font-sans: 'IBM Plex Sans', 'Helvetica Neue', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+
+  /* Type scale for headlines and figures. Body sizes use Tailwind's text-xs … text-xl. */
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--letter-spacing: 0.14em;
+  --text-eyebrow--line-height: 1.2;
+  --text-figure: clamp(1.75rem, 4vw, 2.5rem);
+  --text-figure--line-height: 1;
+  --text-headline: clamp(1.625rem, 3.6vw, 2.375rem);
+  --text-headline--line-height: 1.05;
+  --text-headline--letter-spacing: -0.02em;
+  --text-title: clamp(2.25rem, 6.5vw, 4.5rem);
+  --text-title--line-height: 0.98;
+  --text-title--letter-spacing: -0.03em;
+  --text-hero: clamp(2.75rem, 8.5vw, 6.5rem);
+  --text-hero--line-height: 0.94;
+  --text-hero--letter-spacing: -0.035em;
+
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-rise: rise 600ms var(--ease-out-soft) both;
+  --animate-grow: grow 700ms var(--ease-out-soft) 150ms both;
+  --animate-slide-up: slide-up 260ms var(--ease-out-soft) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @keyframes grow {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+    }
+  }
+}
+
+/* ── Layer 2: semantic ─────────────────────────────────────────────────── */
+
+:root {
+  --ui-radius: 0.375rem;
+  --ui-container: 74rem;
+  --ui-header-height: 4rem;
+
+  --ui-primary: var(--ui-color-primary-600);
+
+  --ui-bg: var(--ui-color-neutral-50);
+  --ui-bg-muted: var(--ui-color-neutral-100);
+  --ui-bg-elevated: var(--ui-color-neutral-100);
+  --ui-bg-accented: var(--ui-color-neutral-200);
+  --ui-text: var(--ui-color-neutral-800);
+  --ui-text-toned: var(--ui-color-neutral-700);
+  --ui-text-muted: var(--ui-color-neutral-600);
+  --ui-text-dimmed: var(--ui-color-neutral-500);
+  --ui-text-highlighted: var(--ui-color-neutral-950);
+  --ui-text-inverted: var(--ui-color-neutral-50);
+  --ui-border: var(--ui-color-neutral-200);
+  --ui-border-muted: var(--ui-color-neutral-200);
+  --ui-border-accented: var(--ui-color-neutral-300);
+  --ui-border-inverted: var(--ui-color-neutral-950);
+  --ui-bg-inverted: var(--ui-color-neutral-950);
+
+  /* Raised cards sit one step lighter than the page. */
+  --app-surface: var(--color-white);
+  --app-price-down: var(--ui-color-success-600);
+  --app-price-down-soft: var(--ui-color-success-100);
+  --app-price-up: var(--ui-color-error-600);
+  --app-price-up-soft: var(--ui-color-error-100);
+  --app-series-a: var(--ui-color-secondary-600);
+  --app-series-b: var(--ui-color-warning-600);
+  --app-marker: var(--ui-color-warning-300);
+  --app-marker-text: var(--ui-color-warning-950);
+  --app-chart-fill: color-mix(in oklab, var(--ui-primary) 12%, transparent);
+  --app-shadow-color: color-mix(in oklab, var(--ui-color-neutral-900) 10%, transparent);
+}
+
+.dark {
+  --ui-primary: var(--ui-color-primary-400);
+
+  --ui-bg: var(--ui-color-neutral-950);
+  --ui-bg-muted: var(--ui-color-neutral-900);
+  --ui-bg-elevated: var(--ui-color-neutral-900);
+  --ui-bg-accented: var(--ui-color-neutral-800);
+  --ui-text: var(--ui-color-neutral-200);
+  --ui-text-toned: var(--ui-color-neutral-300);
+  --ui-text-muted: var(--ui-color-neutral-400);
+  --ui-text-dimmed: var(--ui-color-neutral-500);
+  --ui-text-highlighted: var(--ui-color-neutral-50);
+  --ui-text-inverted: var(--ui-color-neutral-950);
+  --ui-border: var(--ui-color-neutral-800);
+  --ui-border-muted: var(--ui-color-neutral-800);
+  --ui-border-accented: var(--ui-color-neutral-700);
+  --ui-border-inverted: var(--ui-color-neutral-50);
+  --ui-bg-inverted: var(--ui-color-neutral-50);
+
+  --app-surface: var(--ui-color-neutral-900);
+  --app-price-down: var(--ui-color-success-400);
+  --app-price-down-soft: color-mix(in oklab, var(--ui-color-success-500) 18%, transparent);
+  --app-price-up: var(--ui-color-error-400);
+  --app-price-up-soft: color-mix(in oklab, var(--ui-color-error-500) 18%, transparent);
+  --app-series-a: var(--ui-color-secondary-400);
+  --app-series-b: var(--ui-color-warning-500);
+  --app-marker: var(--ui-color-warning-400);
+  --app-marker-text: var(--ui-color-warning-950);
+  --app-shadow-color: color-mix(in oklab, var(--color-black) 45%, transparent);
+}
+
+/* Semantic tokens as Tailwind utilities: bg-surface, text-down, bg-series-a, … */
+@theme inline {
+  --color-surface: var(--app-surface);
+  /* Shop photos are shot on white, so they sit on white in both modes. */
+  --color-photo: var(--color-white);
+  --color-down: var(--app-price-down);
+  --color-down-soft: var(--app-price-down-soft);
+  --color-up: var(--app-price-up);
+  --color-up-soft: var(--app-price-up-soft);
+  --color-series-a: var(--app-series-a);
+  --color-series-b: var(--app-series-b);
+  --color-marker: var(--app-marker);
+  --color-marker-text: var(--app-marker-text);
+  --color-chart-fill: var(--app-chart-fill);
+  --shadow-card: 0 1px 0 var(--app-shadow-color), 0 8px 24px -12px var(--app-shadow-color);
+  --shadow-float: 0 -1px 0 var(--app-shadow-color), 0 18px 48px -12px var(--app-shadow-color);
+}
+
+/* Patterns that repeat across pages, built only from tokens above. */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  color: var(--ui-text-muted);
+}
+
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 144;
+}

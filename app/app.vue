@@ -1,136 +1,53 @@
 <script setup lang="ts">
-useHead({
-  script: [
-    {
-      key: 'theme',
-      tagPosition: 'head',
-      innerHTML:
-        "try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}",
-    },
-  ],
-})
+import { ROUTES } from '#shared/routes'
+import { de } from '@nuxt/ui/locale'
+import type { NavigationMenuItem } from '@nuxt/ui'
+
+const route = useRoute()
+
+const links = computed<NavigationMenuItem[]>(() => [
+  { label: 'Übersicht', to: ROUTES.home, active: route.path === ROUTES.home },
+  { label: 'Vergleich', to: ROUTES.compare },
+  { label: 'Methodik', to: ROUTES.method },
+])
 </script>
 
 <template>
-  <div class="shell">
-    <header class="masthead">
-      <div class="wrap masthead-row">
-        <NuxtLink to="/" class="wordmark" aria-label="Proteinpreise, zur Übersicht">
-          <span class="wordmark-a">Protein</span><span class="wordmark-b">preise</span>
-        </NuxtLink>
-        <nav class="nav">
-          <NuxtLink to="/" class="nav-home">Übersicht</NuxtLink>
-          <NuxtLink to="/vergleich">Vergleich</NuxtLink>
-          <NuxtLink to="/methodik">Methodik</NuxtLink>
-          <ThemeToggle />
-        </nav>
-      </div>
-    </header>
-    <main>
+  <UApp :locale="de">
+    <UHeader :to="ROUTES.home" mode="drawer">
+      <template #title>
+        <span class="text-2xl leading-none tracking-tight text-highlighted" aria-label="Proteinpreise">
+          <span class="display">Protein</span><span class="font-display font-normal italic text-primary">preise</span>
+        </span>
+      </template>
+
+      <UNavigationMenu :items="links" variant="link" color="neutral" />
+
+      <template #right>
+        <UColorModeButton color="neutral" variant="ghost" />
+      </template>
+
+      <template #body>
+        <UNavigationMenu :items="links" orientation="vertical" color="neutral" class="-mx-2.5" />
+      </template>
+    </UHeader>
+
+    <UMain>
       <NuxtPage />
-    </main>
-    <footer class="footer">
-      <div class="wrap footer-row">
-        <p>
+    </UMain>
+
+    <UFooter class="mt-24 border-t border-default">
+      <template #left>
+        <p class="max-w-prose text-sm text-muted">
           Preise aus den öffentlichen Katalogen der Shops, einmal täglich abgerufen. Ohne Gewähr, maßgeblich ist der
           Preis im Shop.
         </p>
-        <NuxtLink to="/methodik">Wie das funktioniert</NuxtLink>
-      </div>
-    </footer>
-  </div>
+      </template>
+      <template #right>
+        <UButton :to="ROUTES.method" variant="link" color="neutral" trailing-icon="i-lucide-arrow-right">
+          Wie das funktioniert
+        </UButton>
+      </template>
+    </UFooter>
+  </UApp>
 </template>
-
-<style scoped>
-.shell {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-}
-
-.masthead {
-  border-bottom: 1px solid var(--rule);
-}
-
-.masthead-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 64px;
-}
-
-.wordmark {
-  text-decoration: none;
-  font-family: var(--font-display);
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  white-space: nowrap;
-}
-
-.wordmark-a {
-  font-weight: 800;
-  font-variation-settings: 'opsz' 144;
-}
-
-.wordmark-b {
-  font-weight: 400;
-  font-style: italic;
-  color: var(--accent);
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 3vw, 24px);
-  font-size: 14px;
-}
-
-.nav a {
-  text-decoration: none;
-  color: var(--ink-2);
-  padding: 4px 0;
-  border-bottom: 2px solid transparent;
-}
-
-.nav a:hover {
-  color: var(--ink);
-}
-
-.nav a.router-link-exact-active {
-  color: var(--ink);
-  border-bottom-color: var(--accent);
-}
-
-@media (max-width: 480px) {
-  .nav-home {
-    display: none;
-  }
-}
-
-.footer {
-  margin-top: 96px;
-  border-top: 1px solid var(--rule);
-  font-size: 13px;
-  color: var(--ink-2);
-}
-
-.footer-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding-top: 20px;
-  padding-bottom: 32px;
-}
-
-.footer-row p {
-  margin: 0;
-  max-width: 60ch;
-}
-</style>

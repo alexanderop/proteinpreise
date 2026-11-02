@@ -30,7 +30,7 @@ pnpm generate
 npx serve .output/public
 ```
 
-`pnpm generate` prerenders `/`, `/methodik`, `/vergleich`, and one `/angebot/<id>` page for every offer that appears in any snapshot. `/vergleich` is prerendered once and reads `?a=<id>&b=<id>` in the browser, so any pair of offers has a shareable comparison link without a page per pair. Links with a query are kept out of the prerender crawl in `nuxt.config.ts`. Upload `.output/public` to any static host: Netlify, Cloudflare Pages, GitHub Pages, or a plain web server.
+`pnpm generate` prerenders `/`, `/methodik/`, `/vergleich/`, and one `/angebot/<shop>-<slug>-<size>/` page (for example `/angebot/esn-designer-whey-protein-908/`) for every offer that appears in any snapshot. Every URL is built in `shared/routes.ts`; the `proteinpreise/no-raw-route` oxlint rule (`lint/proteinpreise.js`) and `tests/routes.test.ts` reject hand-written internal paths. `/vergleich/` is prerendered once and reads `?a=<id>&b=<id>` in the browser, so any pair of offers has a shareable comparison link without a page per pair. Links with a query are kept out of the prerender crawl in `nuxt.config.ts`. Upload `.output/public` to any static host: Netlify, Cloudflare Pages, GitHub Pages, or a plain web server.
 
 ## Check your change
 
@@ -55,6 +55,9 @@ pnpm typecheck   # vue-tsc over the app, scripts, and tests
 - `shared/compare.ts` compares two offers per kilo from the catalog of every offer ever seen, including offers that left it. The compare page and the selection on the home table only render what it returns.
 - `scripts/scrape.ts` is the only code that talks to the network.
 - `content.config.ts` defines the `snapshots` data collection with a zod schema, and a `pages` collection for the Markdown in `content/pages/`.
+- `app/assets/css/tokens.css` is the design token system, in three layers. Primitives are the OKLCH color scales (sand, tomato, pine, brick, cobalt, ochre), fonts and the type scale. Semantic tokens say what a value means (`--ui-text-muted`, `--app-price-down`, `--app-series-a`) and are exposed as utilities (`text-down`, `bg-series-a`, `bg-surface`). `app/app.config.ts` maps Nuxt UI's color aliases onto the scales and sets component defaults. `tests/design-tokens.test.ts` fails if a hex value, color function, palette utility (`text-red-500`) or palette variable appears anywhere in `app/` outside `tokens.css`.
+- `@nuxtjs/seo` sets the title template, canonical URLs, the sitemap, Schema.org (a `Product` with brand and the shop's `Offer` on each offer page) and OG images. `app/components/OgImage/Proteinpreise.takumi.vue` is the OG template. With `ogImage.zeroRuntime` every image is rendered to a PNG during `pnpm generate`, so the static host only serves files. The template reads its colors from `tokens.css`. There is no `robots.txt`, because a GitHub Pages project site doesn't own the domain root. `NUXT_SITE_URL` is the origin only; the path comes from `NUXT_APP_BASE_URL`.
+- `shared/brands.ts` maps each shop's vendor spelling ("IronMaxx® Nutrition", "BODYLAB") to one brand name. Products without a vendor get the shop's own label.
 - `app/components/PriceChart.vue` and `app/components/Sparkline.vue` use D3 for scales and path shapes. Vue renders the SVG, so the charts prerender without a browser.
 
 ## Data shape
@@ -70,6 +73,7 @@ interface Offer {
   priceCents: number       // cheapest available flavor at this size
   compareAtCents: number | null
   flavors: number          // available flavors at this size
+  image: string | null     // absolute https URL of the cheapest flavor's picture, else the product's
 }
 
 interface Snapshot {
@@ -79,5 +83,7 @@ interface Snapshot {
   offers: Offer[]
 }
 ```
+
+Shopify offers take the variant's `featured_image`, else the product's first image. These are `cdn.shopify.com` URLs that accept `&width=<px>` to resize. Rühl24 offers take the flavor's JSON-LD image, else the product's, else `og:image`. Snapshots from before 2026-11-02 have no `image`; `shared/prices.ts` reads that as `null` and gives every `OfferRow` and `CatalogEntry` the last image seen for that offer.
 
 `/methodik` on the site explains the rules in German, including why €/kg of powder is not €/kg of protein.

@@ -1,6 +1,7 @@
 import type { Offer } from './types.ts'
-import { fromRouteId, type Catalog, type CatalogEntry, type PricePoint } from './prices.ts'
+import { type Catalog, type CatalogEntry, type PricePoint } from './prices.ts'
 import { shopName } from './shops.ts'
+import { fromRouteId } from './routes.ts'
 
 export type Side = 'a' | 'b'
 
@@ -77,7 +78,8 @@ export type Slot = { kind: 'empty' } | { kind: 'unknown'; routeId: string } | { 
 
 export function resolveSlot(catalog: Catalog, routeId: string | null): Slot {
   if (!routeId) return { kind: 'empty' }
-  const entry = findEntry(catalog, fromRouteId(routeId))
+  const id = fromRouteId(routeId)
+  const entry = id ? findEntry(catalog, id) : null
   return entry ? { kind: 'offer', entry } : { kind: 'unknown', routeId }
 }
 

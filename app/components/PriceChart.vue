@@ -21,9 +21,9 @@ const HEIGHT = 320
 const M = { top: 20, right: 20, bottom: 34, left: 68 }
 const DAY_MS = 86_400_000
 const TONE: Record<ChartSeries['tone'], string> = {
-  accent: 'var(--accent)',
-  a: 'var(--series-a)',
-  b: 'var(--series-b)',
+  accent: 'var(--ui-primary)',
+  a: 'var(--app-series-a)',
+  b: 'var(--app-series-b)',
 }
 
 const container = ref<HTMLElement | null>(null)
@@ -171,7 +171,7 @@ const tickLabel = (value: number) =>
       @pointermove="onMove"
       @pointerleave="hover = null"
     >
-      <g class="grid">
+      <g class="chart-grid">
         <g v-for="t in chart.yTicks" :key="`y${t}`">
           <line :x1="chart.left" :x2="chart.innerRight" :y1="chart.y(t)" :y2="chart.y(t)" />
           <text :x="chart.left - 10" :y="chart.y(t)" dy="0.32em" text-anchor="end" class="num">{{ tickLabel(t) }}</text>
@@ -285,7 +285,7 @@ const tickLabel = (value: number) =>
 }
 
 .readout-date {
-  color: var(--ink-2);
+  color: var(--ui-text-muted);
   font-size: 14px;
 }
 
@@ -327,7 +327,7 @@ const tickLabel = (value: number) =>
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--ink-2);
+  color: var(--ui-text-muted);
 }
 
 .legend-value {
@@ -336,7 +336,7 @@ const tickLabel = (value: number) =>
 }
 
 .legend-date {
-  color: var(--ink-3);
+  color: var(--ui-text-dimmed);
   font-size: 13px;
 }
 
@@ -348,22 +348,23 @@ const tickLabel = (value: number) =>
   cursor: crosshair;
 }
 
-.grid line {
-  stroke: var(--rule);
+.chart-grid line {
+  shape-rendering: crispEdges;
+  stroke: var(--ui-border);
   stroke-width: 1;
 }
 
-.grid .axis {
-  stroke: var(--ink);
+.chart-grid .axis {
+  stroke: var(--ui-text-highlighted);
 }
 
-.grid text {
-  fill: var(--ink-2);
+.chart-grid text {
+  fill: var(--ui-text-muted);
   font-size: 11px;
 }
 
 .area {
-  fill: var(--chart-fill);
+  fill: var(--app-chart-fill);
 }
 
 .line {
@@ -374,7 +375,7 @@ const tickLabel = (value: number) =>
 }
 
 .dot {
-  fill: var(--paper);
+  fill: var(--app-surface);
   stroke: var(--tone);
   stroke-width: 2;
 }
@@ -391,21 +392,21 @@ const tickLabel = (value: number) =>
 }
 
 .single-note {
-  fill: var(--ink-2);
+  fill: var(--ui-text-muted);
   font-family: var(--font-display);
   font-style: italic;
   font-size: 15px;
 }
 
 .hover line {
-  stroke: var(--ink);
+  stroke: var(--ui-text-highlighted);
   stroke-width: 1;
   stroke-dasharray: 2 3;
 }
 
 .hover circle {
   fill: none;
-  stroke: var(--ink);
+  stroke: var(--ui-text-highlighted);
   stroke-width: 1.5;
 }
 
@@ -416,12 +417,13 @@ const tickLabel = (value: number) =>
   display: grid;
   gap: 2px;
   padding: 8px 10px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--ui-bg-inverted);
+  color: var(--ui-text-inverted);
   font-size: 12px;
   white-space: nowrap;
   pointer-events: none;
-  border-radius: 2px;
+  border-radius: var(--ui-radius);
+  box-shadow: var(--shadow-float);
 }
 
 .tip.flip {
@@ -451,7 +453,7 @@ const tickLabel = (value: number) =>
   height: 8px;
   border-radius: 50%;
   background: var(--tone);
-  box-shadow: 0 0 0 1.5px var(--paper);
+  box-shadow: 0 0 0 1.5px var(--ui-bg-inverted);
 }
 
 .tip-mark.tone-b {

@@ -11,6 +11,10 @@ const offer = z.object({
   priceCents: z.number().int().positive(),
   compareAtCents: z.number().int().positive().nullable(),
   flavors: z.number().int().positive(),
+  // Absent in snapshots written before 2026-11-02; readers treat it as null.
+  image: z.string().url().nullable().optional(),
+  // Absent in the 2026-11-01 snapshot; readers fall back to the shop's own label.
+  brand: z.string().optional(),
 })
 
 export default defineContentConfig({

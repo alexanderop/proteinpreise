@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+@import './tokens.css';
+
+@source '../../../content';
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-default font-sans text-default antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--app-marker);
+    color: var(--app-marker-text);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

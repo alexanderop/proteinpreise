@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { buildCatalog, toRouteId, type PricePoint } from '#shared/prices'
+import { buildCatalog, type PricePoint } from '#shared/prices'
+import { ROUTES, toRouteId } from '#shared/routes'
 import { cheapestRival, compareOffers, resolveSlot, standing, type Side, type Slot } from '#shared/compare'
 import { CATEGORY_LABEL } from '#shared/types'
 import { day, euro, share, size } from '#shared/format'
@@ -121,110 +122,147 @@ useSeoMeta({
   title: 'Vergleich: zwei Proteinpulver pro Kilo gegenübergestellt',
   description: 'Zwei Proteinpulver-Angebote nebeneinander: Preis pro Kilo, Packung, Sorten und Preisverlauf.',
 })
+
+defineOgImage('Proteinpreise', {
+  eyebrow: 'Vergleich',
+  title: 'Zwei Pulver, ein Urteil.',
+  note: 'Pro Kilo umgerechnet: welches günstiger ist und um wie viel',
+})
 </script>
 
 <template>
-  <div class="wrap">
-    <header class="hero">
-      <p class="kicker">Gegenüberstellung<template v-if="catalog.date"> · Preise vom {{ day(catalog.date) }}</template></p>
+  <UContainer>
+    <header class="pt-12 pb-8 sm:pt-16">
+      <p class="eyebrow mb-4">Gegenüberstellung<template v-if="catalog.date"> · Preise vom {{ day(catalog.date) }}</template></p>
       <template v-if="verdict && !verdict.tie">
-        <h1>
-          <span class="who" :class="`tone-${verdict.side}`">{{ verdict.winner.offer.product }}</span>{{ ' ' }}<span class="from">von {{ verdict.winner.shop }}</span>
-          ist pro Kilo <em class="num">{{ share(verdict.pct) }}</em> günstiger.
+        <h1 class="display max-w-[22ch] animate-rise text-title break-words text-highlighted">
+          <span
+            class="bg-[length:100%_0.09em] bg-[position:0_92%] bg-no-repeat"
+            :class="verdict.side === 'a' ? 'bg-linear-to-r from-series-a to-series-a' : 'bg-linear-to-r from-series-b to-series-b'"
+          >{{ verdict.winner.offer.product }}</span>{{ ' ' }}<span class="font-normal italic">von {{ verdict.winner.shop }}</span>
+          ist pro Kilo <em class="font-display text-down not-italic">{{ share(verdict.pct) }}</em> günstiger.
         </h1>
-        <p class="lede">
-          <strong class="num">{{ euro(verdict.diff) }}</strong> weniger je Kilo Pulver als {{ verdict.loser.offer.product }}
-          von {{ verdict.loser.shop }}<template v-if="verdict.winner.offer.sizeG !== verdict.loser.offer.sizeG">, auf das Kilo
-          umgerechnet aus {{ size(verdict.winner.offer.sizeG) }} gegen {{ size(verdict.loser.offer.sizeG) }}</template>.
+        <p class="mt-5 max-w-[60ch] text-base text-muted sm:text-lg">
+          <strong class="num text-highlighted">{{ euro(verdict.diff) }}</strong> weniger je Kilo Pulver als
+          {{ verdict.loser.offer.product }} von {{ verdict.loser.shop
+          }}<template v-if="verdict.winner.offer.sizeG !== verdict.loser.offer.sizeG">, auf das Kilo umgerechnet aus
+            {{ size(verdict.winner.offer.sizeG) }} gegen {{ size(verdict.loser.offer.sizeG) }}</template>.
         </p>
       </template>
       <template v-else-if="verdict?.tie">
-        <h1>Gleichstand: beide kosten <em class="num">{{ euro(verdict.perKg) }}</em> pro Kilo.</h1>
-        <p class="lede">Pro Kilo Pulver nimmt sich keins etwas. Packungsgröße und Sortenwahl entscheiden.</p>
+        <h1 class="display max-w-[22ch] animate-rise text-title text-highlighted">
+          Gleichstand: beide kosten <em class="text-primary not-italic">{{ euro(verdict.perKg) }}</em> pro Kilo.
+        </h1>
+        <p class="mt-5 max-w-[60ch] text-lg text-muted">Pro Kilo Pulver nimmt sich keins etwas. Packungsgröße und Sortenwahl entscheiden.</p>
       </template>
       <template v-else-if="lone">
-        <h1>{{ lone.entry.offer.product }} <em>gegen …?</em></h1>
-        <p class="lede">
+        <h1 class="display max-w-[22ch] animate-rise text-title break-words text-highlighted">
+          {{ lone.entry.offer.product }} <em class="font-normal text-primary">gegen …?</em>
+        </h1>
+        <p class="mt-5 max-w-[60ch] text-lg text-muted">
           Wähle ein zweites Angebot. Oder nimm das günstigste
           {{ CATEGORY_LABEL[lone.entry.offer.category] }} pro Kilo als Gegner.
         </p>
-        <button
+        <UButton
           v-if="lone.rival"
-          type="button"
-          class="suggest"
+          class="mt-5"
+          size="lg"
+          trailing-icon="i-lucide-arrow-right"
           @click="choose(lone.side === 'a' ? 'b' : 'a', lone.rival.offer.id)"
         >
           Gegen {{ lone.rival.offer.product }}, {{ shopName(lone.rival.offer.shopId) }} antreten lassen
-        </button>
+        </UButton>
       </template>
       <template v-else>
-        <h1>Zwei Pulver, <em>ein Urteil.</em></h1>
-        <p class="lede">
+        <h1 class="display max-w-[22ch] animate-rise text-title text-highlighted">
+          Zwei Pulver, <em class="font-normal text-primary">ein Urteil.</em>
+        </h1>
+        <p class="mt-5 max-w-[60ch] text-lg text-muted">
           Wähle zwei Angebote. Wir rechnen beide auf das Kilo um und sagen, welches günstiger ist und um wie viel.
         </p>
       </template>
     </header>
 
-    <section class="duel" :class="{ pending: !hydrated }" aria-label="Die beiden Angebote">
+    <section
+      class="grid items-stretch gap-4 transition-opacity md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-5"
+      :class="{ 'opacity-0': !hydrated }"
+      aria-label="Die beiden Angebote"
+    >
       <CompareCard side="a" :state="slots.a" :standing="standings.a" @pick="picking = 'a'" />
-      <div class="versus">
-        <span class="vs" aria-hidden="true">gegen</span>
-        <button
-          type="button"
-          class="swap"
+      <div class="flex items-center justify-between gap-3 md:flex-col md:justify-center">
+        <span class="font-display text-xl text-muted italic" aria-hidden="true">gegen</span>
+        <UButton
+          color="neutral"
+          variant="outline"
+          class="rounded-full"
+          icon="i-lucide-arrow-left-right"
           :disabled="slots.a.kind === 'empty' && slots.b.kind === 'empty'"
           aria-label="Seiten tauschen"
           @click="swap"
         >
-          <span aria-hidden="true">⇄</span> Tausch
-        </button>
+          Tausch
+        </UButton>
       </div>
       <CompareCard side="b" :state="slots.b" :standing="standings.b" @pick="picking = 'b'" />
     </section>
 
     <template v-if="comparison && scale">
-      <section class="scale" aria-labelledby="scale-title">
-        <h2 id="scale-title" class="kicker">Preis pro Kilo, nebeneinander</h2>
-        <div v-for="s in (['a', 'b'] as const)" :key="s" class="bar-row" :class="`tone-${s}`">
-          <span class="bar-letter">{{ s.toUpperCase() }}</span>
-          <span class="bar-track">
-            <span class="bar" :style="{ '--w': scale[s] }" />
+      <UCard class="mt-8" :ui="{ body: 'grid gap-3' }">
+        <h2 class="eyebrow">Preis pro Kilo, nebeneinander</h2>
+        <div v-for="s in (['a', 'b'] as const)" :key="s" class="grid grid-cols-[1.75rem_minmax(0,1fr)_auto] items-center gap-3">
+          <span class="display text-xl" :class="s === 'a' ? 'text-series-a' : 'text-series-b'">{{ s.toUpperCase() }}</span>
+          <span class="h-4 overflow-hidden rounded-full bg-elevated">
+            <span
+              class="block h-full origin-left animate-grow rounded-full"
+              :class="s === 'a' ? 'bg-series-a' : 'bg-series-b'"
+              :style="{ width: `${scale[s] * 100}%` }"
+            />
           </span>
-          <span class="bar-value num">{{ euro(comparison[s].current.perKgCents) }}</span>
+          <span class="num min-w-[7.5em] text-right text-lg font-semibold text-highlighted">{{ euro(comparison[s].current.perKgCents) }}</span>
         </div>
+      </UCard>
+
+      <section aria-labelledby="chart-title" class="mt-16">
+        <SectionHead id="chart-title" title="Preis pro Kilo im Verlauf">Treppe: Preis gilt bis zum nächsten Abruf</SectionHead>
+        <UCard>
+          <PriceChart :series="chartSeries" metric="perKgCents" />
+        </UCard>
       </section>
 
-      <section aria-labelledby="chart-title">
-        <header class="section-head">
-          <h2 id="chart-title">Preis pro Kilo im Verlauf</h2>
-          <p class="kicker">Treppe: Preis gilt bis zum nächsten Abruf</p>
-        </header>
-        <PriceChart :series="chartSeries" metric="perKgCents" />
-      </section>
-
-      <section aria-labelledby="facts-title">
-        <header class="section-head">
-          <h2 id="facts-title">Im Einzelnen</h2>
-        </header>
-        <table class="facts">
-          <thead>
-            <tr>
-              <th scope="col"><span class="sr-only">Kennzahl</span></th>
-              <th scope="col" class="tone-a"><span class="th-letter">A</span> {{ comparison.a.offer.product }}</th>
-              <th scope="col" class="tone-b"><span class="th-letter">B</span> {{ comparison.b.offer.product }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="row in facts" :key="row.label">
-              <th scope="row">{{ row.label }}</th>
-              <td class="num" :class="{ better: row.better === 'a' }">{{ row.a }}</td>
-              <td class="num" :class="{ better: row.better === 'b' }">{{ row.b }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="footnote">
+      <section aria-labelledby="facts-title" class="mt-16">
+        <SectionHead id="facts-title" title="Im Einzelnen" />
+        <UCard variant="outline" :ui="{ body: 'p-0 sm:p-0 overflow-x-auto' }">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-default">
+                <th scope="col" class="w-[28%] p-3"><span class="sr-only">Kennzahl</span></th>
+                <th v-for="s in (['a', 'b'] as const)" :key="s" scope="col" class="p-3 text-left align-bottom font-display text-base font-bold text-highlighted">
+                  <span
+                    class="mr-1.5 inline-grid size-5.5 place-items-center rounded text-xs font-extrabold text-inverted"
+                    :class="s === 'a' ? 'bg-series-a' : 'bg-series-b'"
+                  >{{ s.toUpperCase() }}</span>
+                  {{ comparison[s].offer.product }}
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-default">
+              <tr v-for="row in facts" :key="row.label">
+                <th scope="row" class="eyebrow p-3 text-left">{{ row.label }}</th>
+                <td
+                  v-for="s in (['a', 'b'] as const)"
+                  :key="s"
+                  class="num border-l border-default p-3"
+                  :class="row.better === s ? 'font-semibold text-down' : 'text-default'"
+                >
+                  <UIcon v-if="row.better === s" name="i-lucide-trending-down" class="mr-1 size-3.5 align-[-0.125em]" />{{ row[s] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </UCard>
+        <p class="mt-3 text-sm text-muted">
           Pro Kilo Pulver, nicht pro Kilo Protein. Der Proteinanteil steht nicht in den Shop-Katalogen.
-          <NuxtLink to="/methodik">Mehr zur Methodik</NuxtLink>
+          <ULink :to="ROUTES.method" class="text-primary underline-offset-4 hover:underline">Mehr zur Methodik</ULink>
         </p>
       </section>
     </template>
@@ -236,300 +274,5 @@ useSeoMeta({
       @select="(id) => choose(picking!, id)"
       @close="picking = null"
     />
-  </div>
+  </UContainer>
 </template>
-
-<style scoped>
-.hero {
-  padding: clamp(32px, 6vw, 64px) 0 28px;
-}
-
-.hero .kicker {
-  margin: 0 0 16px;
-}
-
-h1 {
-  margin: 0;
-  max-width: 22ch;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-variation-settings: 'opsz' 144;
-  font-size: clamp(34px, 6.4vw, 76px);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  overflow-wrap: anywhere;
-  animation: rise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-h1 em {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent);
-}
-
-h1 em.num {
-  font-family: var(--font-display);
-  font-style: normal;
-  font-weight: 800;
-  color: var(--down);
-}
-
-.who {
-  background-image: linear-gradient(var(--tone), var(--tone));
-  background-size: 100% 0.09em;
-  background-position: 0 92%;
-  background-repeat: no-repeat;
-}
-
-.from {
-  font-weight: 400;
-  font-style: italic;
-}
-
-.tone-a {
-  --tone: var(--series-a);
-}
-
-.tone-b {
-  --tone: var(--series-b);
-}
-
-.lede {
-  max-width: 60ch;
-  margin: 20px 0 0;
-  font-size: clamp(16px, 2vw, 19px);
-  color: var(--ink-2);
-}
-
-.lede strong {
-  color: var(--ink);
-}
-
-.suggest {
-  margin-top: 20px;
-  min-height: 44px;
-  padding: 8px 18px;
-  border: 0;
-  background: var(--accent);
-  color: var(--accent-ink);
-  font: 600 15px var(--font-text);
-  text-align: left;
-  cursor: pointer;
-}
-
-.suggest:hover {
-  filter: brightness(1.08);
-}
-
-.duel {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: stretch;
-  gap: 0 20px;
-  transition: opacity 200ms ease;
-}
-
-.duel.pending {
-  opacity: 0;
-}
-
-.versus {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-
-.vs {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 22px;
-  color: var(--ink-2);
-}
-
-.swap {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 40px;
-  padding: 6px 14px;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  background: var(--paper);
-  color: var(--ink);
-  font: 500 14px var(--font-text);
-  cursor: pointer;
-}
-
-.swap span {
-  font-size: 18px;
-  line-height: 1;
-}
-
-.swap:hover:not(:disabled) {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.swap:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
-.scale {
-  display: grid;
-  gap: 10px;
-  margin-top: 36px;
-  padding-top: 14px;
-  border-top: 1px solid var(--ink);
-}
-
-.scale h2 {
-  margin: 0 0 4px;
-}
-
-.bar-row {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-}
-
-.bar-letter {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 22px;
-  color: var(--tone);
-}
-
-.bar-track {
-  height: 18px;
-  background: var(--paper-2);
-}
-
-.bar {
-  display: block;
-  height: 100%;
-  width: calc(var(--w) * 100%);
-  background: var(--tone);
-  border-radius: 0 4px 4px 0;
-  transform-origin: left;
-  animation: grow 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both 150ms;
-}
-
-.bar-value {
-  min-width: 7.5em;
-  text-align: right;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-@keyframes grow {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-.facts {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 15px;
-}
-
-.facts thead th {
-  padding: 0 10px 10px;
-  border-bottom: 2px solid var(--ink);
-  text-align: left;
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 700;
-  vertical-align: bottom;
-}
-
-.th-letter {
-  display: inline-grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  margin-right: 6px;
-  background: var(--tone);
-  color: var(--paper);
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.facts tbody th {
-  padding: 11px 10px 11px 0;
-  text-align: left;
-  font-family: var(--font-num);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  width: 28%;
-}
-
-.facts td {
-  padding: 11px 10px;
-  border-left: 1px solid var(--rule);
-  width: 36%;
-}
-
-.facts tbody tr {
-  border-bottom: 1px solid var(--rule);
-}
-
-.facts td.better {
-  font-weight: 600;
-  color: var(--down);
-}
-
-.facts td.better::before {
-  content: '▼ ';
-  font-size: 0.8em;
-}
-
-.footnote {
-  margin: 14px 0 0;
-  font-size: 13px;
-  color: var(--ink-2);
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-}
-
-@media (max-width: 760px) {
-  .duel {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-  }
-
-  .versus {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 12px 0;
-  }
-
-  .facts thead th {
-    font-size: 14px;
-  }
-
-  .facts tbody th {
-    width: 30%;
-    font-size: 10px;
-    letter-spacing: 0.06em;
-  }
-
-  .facts td {
-    font-size: 13px;
-    padding: 10px 6px;
-  }
-}
-</style>

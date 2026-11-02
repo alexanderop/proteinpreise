@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "jsPlugins": [
+    "./lint/proteinpreise.js"
+  ],
+  "ignorePatterns": [
+    ".nuxt",
+    ".output",
+    ".data",
+    "node_modules"
+  ],
+  "rules": {
+    "proteinpreise/no-raw-route": "error"
+  },
+  "overrides": [
+    {
+      "files": [
+        "tests/**"
+      ],
+      "rules": {
+        "proteinpreise/no-raw-route": "off"
+      }
+    }
+  ]
+}

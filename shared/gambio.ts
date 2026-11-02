@@ -1,4 +1,4 @@
-import type { RawProduct, RawVariant } from './catalog.ts'
+import { imageUrl, type RawProduct, type RawVariant } from './catalog.ts'
 
 export interface Listing {
   products: string[]
@@ -9,6 +9,8 @@ const PRODUCT_LINK = /<a\s[^>]*class="product-url\s*"[^>]*>/g
 const NEXT_LINK = /<a\s[^>]*title="nächste Seite"[^>]*>/
 const HREF = /\shref="([^"]+)"/
 const JSON_LD = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g
+const OG_IMAGE = /<meta\s[^>]*property="og:image"[^>]*>/
+const CONTENT = /\scontent="([^"]+)"/
 
 function href(tag: string, base: string): string | null {
   const match = HREF.exec(tag)
@@ -42,7 +44,25 @@ function referenceGrams(offer: Json | undefined): number | null {
   return null
 }
 
-function variant(title: string, offer: Json | undefined, fallback: Json, pageUrl: string): RawVariant {
+function jsonLdImage(value: unknown, pageUrl: string): string | null {
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const url = jsonLdImage(item, pageUrl)
+      if (url) return url
+    }
+    return null
+  }
+  const object = record(value)
+  return imageUrl(object ? (object.url ?? object.contentUrl) : value, pageUrl)
+}
+
+function ogImage(html: string, pageUrl: string): string | null {
+  const tag = OG_IMAGE.exec(html)
+  const content = tag ? CONTENT.exec(tag[0]) : null
+  return content ? imageUrl(content[1]!.replaceAll('&amp;', '&'), pageUrl) : null
+}
+
+function variant(title: string, offer: Json | undefined, fallback: Json, pageUrl: string, image: string | null): RawVariant {
   return {
     title,
     url: text(offer?.url) ?? pageUrl,
@@ -51,6 +71,7 @@ function variant(title: string, offer: Json | undefined, fallback: Json, pageUrl
     compareAtPrice: null,
     grams: referenceGrams(offer) ?? referenceGrams(fallback),
     available: (text(offer?.availability) ?? text(fallback.availability) ?? '').endsWith('InStock'),
+    image,
   }
 }
 
@@ -71,8 +92,9 @@ export function parseProductPage(html: string, pageUrl: string): RawProduct | nu
   const models = Array.isArray(product.model) ? product.model.map(record).filter((m) => m !== undefined) : []
   const variants =
     models.length > 0
-      ? models.map((m) => variant(text(m.model) ?? text(m.name) ?? '', record(m.offers), offer, text(m.url) ?? pageUrl))
-      : [variant(text(product.model) ?? '', offer, offer, pageUrl)]
+      ? models.map((m) => variant(text(m.model) ?? text(m.name) ?? '', record(m.offers), offer, text(m.url) ?? pageUrl, jsonLdImage(m.image, pageUrl)))
+      : [variant(text(product.model) ?? '', offer, offer, pageUrl, null)]
 
-  return { title, type: '', variants }
+  const brand = record(product.brand)
+  return { title, type: '', brand: text(brand ? brand.name : product.brand) ?? null, image: jsonLdImage(product.image, pageUrl) ?? ogImage(html, pageUrl), variants }
 }

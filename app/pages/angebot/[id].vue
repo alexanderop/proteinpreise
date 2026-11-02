@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { buildOverview, fromRouteId, priceSeries, toRouteId } from '#shared/prices'
+import { buildOverview, priceSeries } from '#shared/prices'
+import { ROUTES, comparePath, fromRouteId, offerPath } from '#shared/routes'
 import { CATEGORY_LABEL } from '#shared/types'
 import { day, euro, percent, size } from '#shared/format'
 import { shopName } from '#shared/shops'
 
 const route = useRoute()
-const id = fromRouteId(String(route.params.id))
+const id = fromRouteId(String(route.params.id)) ?? ''
 
 const { data } = await useAsyncData(`offer:${id}`, async () => {
   const snapshots = await loadSnapshots()
@@ -41,328 +42,168 @@ const stats = computed(() => {
 const listed = computed(() => d.value.row !== null)
 const chartSeries = computed(() => [{ id: d.value.offer.id, label: d.value.offer.product, points: d.value.series, tone: 'accent' as const }])
 const rival = computed(() => d.value.peers[0] ?? null)
+const crumbs = computed(() => [
+  { label: 'Übersicht', to: ROUTES.home },
+  { label: CATEGORY_LABEL[d.value.offer.category] },
+  { label: d.value.offer.product },
+])
+const facts = computed(() => [
+  { label: 'Tiefster Preis', value: euro(stats.value.low.priceCents), note: day(stats.value.low.date) },
+  { label: 'Höchster Preis', value: euro(stats.value.high.priceCents), note: day(stats.value.high.date) },
+  {
+    label: 'Erfasst seit',
+    value: day(stats.value.first.date),
+    note: `${d.value.series.length} ${d.value.series.length === 1 ? 'Messpunkt' : 'Messpunkte'}`,
+  },
+  { label: 'Sorten in dieser Größe', value: String(d.value.offer.flavors), note: 'Preis der günstigsten' },
+])
+const metricTabs = [
+  { label: 'Preis', value: 'priceCents' },
+  { label: '€/kg', value: 'perKgCents' },
+]
 
 useSeoMeta({
-  title: () => `${d.value.offer.product} ${size(d.value.offer.sizeG)} bei ${shopName(d.value.offer.shopId)}: Preisverlauf`,
+  title: () => `${d.value.offer.product} ${size(d.value.offer.sizeG)} bei ${shopName(d.value.offer.shopId)}: Preis & Verlauf`,
   description: () =>
-    `${d.value.offer.product} (${size(d.value.offer.sizeG)}) kostet ${euro(current.value.priceCents)}, ${euro(current.value.perKgCents)} pro kg. Preisverlauf seit ${day(stats.value.first.date)}.`,
+    `${d.value.offer.brand} ${d.value.offer.product} (${size(d.value.offer.sizeG)}) kostet bei ${shopName(d.value.offer.shopId)} ${euro(current.value.priceCents)}, das sind ${euro(current.value.perKgCents)} pro Kilo. Preisverlauf seit ${day(stats.value.first.date)}.`,
 })
+
+defineOgImage('Proteinpreise', {
+  eyebrow: `${shopName(d.value.offer.shopId)} · ${size(d.value.offer.sizeG)}`,
+  title: d.value.offer.product,
+  price: euro(current.value.priceCents),
+  perKg: `${euro(current.value.perKgCents)}/kg`,
+  note: `${d.value.offer.brand} · ${CATEGORY_LABEL[d.value.offer.category]}`,
+  image: d.value.offer.image,
+})
+
+useSchemaOrg([
+  defineProduct({
+    name: d.value.offer.product,
+    brand: { '@type': 'Brand', name: d.value.offer.brand },
+    category: CATEGORY_LABEL[d.value.offer.category],
+    image: d.value.offer.image ?? undefined,
+    offers: {
+      price: (current.value.priceCents / 100).toFixed(2),
+      priceCurrency: 'EUR',
+      url: d.value.offer.url,
+      availability: listed.value ? 'https://schema.org/InStock' : 'https://schema.org/Discontinued',
+      seller: { '@type': 'Organization', name: shopName(d.value.offer.shopId) },
+    },
+  }),
+])
 </script>
 
 <template>
-  <div class="wrap">
-    <nav class="crumbs kicker"><NuxtLink to="/">Übersicht</NuxtLink> / {{ CATEGORY_LABEL[d.offer.category] }}</nav>
+  <UContainer class="pt-8">
+    <UBreadcrumb :items="crumbs" :ui="{ link: 'text-sm' }" />
 
-    <header class="head">
-      <p class="kicker">{{ shopName(d.offer.shopId) }} · {{ size(d.offer.sizeG) }} · {{ CATEGORY_LABEL[d.offer.category] }}</p>
-      <h1>{{ d.offer.product }}</h1>
-      <div class="price-line">
-        <span class="price num">{{ euro(current.priceCents) }}</span>
-        <span class="perkg num">{{ euro(current.perKgCents) }}/kg</span>
-        <span v-if="d.row?.reduced" class="tag tag-reduced">Reduziert, statt {{ euro(d.offer.compareAtCents!) }}</span>
-        <span v-if="d.row?.change" class="delta" :data-dir="d.row.change.direction">
-          <span aria-hidden="true">{{ d.row.change.direction === 'down' ? '▼' : '▲' }}</span>
-          {{ percent(d.row.change.pct) }} seit {{ day(d.row.change.previousDate) }}
-        </span>
-      </div>
-      <p v-if="!listed" class="gone">
-        Am {{ day(d.latestDate!) }} nicht mehr im Katalog. Zuletzt gesehen am {{ day(current.date) }}.
-      </p>
-      <div class="actions">
-        <a :href="d.offer.url" class="shop-link" rel="noopener nofollow" target="_blank">
-          Zum Shop: {{ shopName(d.offer.shopId) }} <span aria-hidden="true">↗</span>
-        </a>
-        <NuxtLink
-          v-if="rival"
-          :to="{ path: '/vergleich', query: { a: toRouteId(d.offer.id), b: toRouteId(rival.id) } }"
-          class="compare-link"
-        >
-          <span class="compare-kicker">Vergleichen mit</span>
-          <span class="compare-name">{{ rival.product }}, {{ shopName(rival.shopId) }}</span>
-          <span class="compare-note num">günstigstes {{ CATEGORY_LABEL[d.offer.category] }} · {{ euro(rival.perKgCents) }}/kg</span>
-        </NuxtLink>
+    <header class="grid gap-8 pt-8 pb-4 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:items-center">
+      <ProductImage :src="d.offer.image" :alt="d.offer.product" :width="240" eager class="aspect-square w-40 md:w-full" />
+      <div>
+        <p class="eyebrow">{{ shopName(d.offer.shopId) }} · {{ size(d.offer.sizeG) }} · {{ CATEGORY_LABEL[d.offer.category] }}</p>
+        <h1 class="display mt-3 mb-5 max-w-[20ch] animate-rise text-title break-words text-highlighted">{{ d.offer.product }}</h1>
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <span class="num text-5xl font-semibold text-highlighted">{{ euro(current.priceCents) }}</span>
+          <span class="num text-lg text-muted">{{ euro(current.perKgCents) }}/kg</span>
+          <UBadge v-if="d.row?.reduced" size="lg" class="bg-marker text-marker-text">
+            Reduziert, statt {{ euro(d.offer.compareAtCents!) }}
+          </UBadge>
+          <PriceDelta v-if="d.row?.change" :pct="d.row.change.pct" :direction="d.row.change.direction" size="md">
+            <span class="font-normal">seit {{ day(d.row.change.previousDate) }}</span>
+          </PriceDelta>
+        </div>
+        <UAlert
+          v-if="!listed"
+          class="mt-4"
+          color="error"
+          variant="subtle"
+          icon="i-lucide-circle-alert"
+          :title="`Am ${day(d.latestDate!)} nicht mehr im Katalog`"
+          :description="`Zuletzt gesehen am ${day(current.date)}.`"
+        />
+        <div class="mt-6 flex flex-wrap items-stretch gap-3">
+          <UButton
+            :to="d.offer.url"
+            target="_blank"
+            rel="noopener nofollow"
+            size="xl"
+            trailing-icon="i-lucide-external-link"
+          >
+            Zum Shop: {{ shopName(d.offer.shopId) }}
+          </UButton>
+          <NuxtLink
+            v-if="rival"
+            :to="comparePath(d.offer.id, rival.id)"
+            class="group grid min-w-0 gap-px rounded-md px-4 py-2 ring ring-accented transition hover:bg-elevated"
+          >
+            <span class="eyebrow">Vergleichen mit</span>
+            <span class="font-semibold break-words text-highlighted group-hover:text-primary">
+              {{ rival.product }}, {{ shopName(rival.shopId) }}
+            </span>
+            <span class="num text-xs text-muted">günstigstes {{ CATEGORY_LABEL[d.offer.category] }} · {{ euro(rival.perKgCents) }}/kg</span>
+          </NuxtLink>
+        </div>
       </div>
     </header>
 
-    <section class="chart-section" aria-labelledby="chart-title">
-      <header class="section-head">
-        <h2 id="chart-title">Preisverlauf</h2>
-        <div class="seg" role="group" aria-label="Kennzahl">
-          <button type="button" :aria-pressed="metric === 'priceCents'" @click="metric = 'priceCents'">Preis</button>
-          <button type="button" :aria-pressed="metric === 'perKgCents'" @click="metric = 'perKgCents'">€/kg</button>
-        </div>
-      </header>
-      <PriceChart :series="chartSeries" :metric="metric" />
-      <dl class="facts">
-        <div>
-          <dt>Tiefster Preis</dt>
-          <dd class="num">{{ euro(stats.low.priceCents) }}</dd>
-          <dd class="when">{{ day(stats.low.date) }}</dd>
-        </div>
-        <div>
-          <dt>Höchster Preis</dt>
-          <dd class="num">{{ euro(stats.high.priceCents) }}</dd>
-          <dd class="when">{{ day(stats.high.date) }}</dd>
-        </div>
-        <div>
-          <dt>Erfasst seit</dt>
-          <dd class="num">{{ day(stats.first.date) }}</dd>
-          <dd class="when">{{ d.series.length }} {{ d.series.length === 1 ? 'Messpunkt' : 'Messpunkte' }}</dd>
-        </div>
-        <div>
-          <dt>Sorten in dieser Größe</dt>
-          <dd class="num">{{ d.offer.flavors }}</dd>
-          <dd class="when">Preis der günstigsten</dd>
+    <section aria-labelledby="chart-title" class="mt-12">
+      <SectionHead id="chart-title" title="Preisverlauf">
+        <template #aside>
+          <UTabs v-model="metric" :items="metricTabs" :content="false" size="xs" aria-label="Kennzahl" />
+        </template>
+      </SectionHead>
+      <UCard>
+        <PriceChart :series="chartSeries" :metric="metric" />
+      </UCard>
+      <dl class="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div v-for="f in facts" :key="f.label" class="rounded-lg bg-surface p-4 shadow-card ring ring-default">
+          <dt class="eyebrow">{{ f.label }}</dt>
+          <dd class="num mt-1.5 text-xl font-semibold text-highlighted">{{ f.value }}</dd>
+          <dd class="text-sm text-muted">{{ f.note }}</dd>
         </div>
       </dl>
     </section>
 
-    <div class="related">
+    <div class="mt-16 grid gap-x-10 gap-y-16 lg:grid-cols-2">
       <section v-if="d.siblings.length" aria-labelledby="sizes-title">
-        <header class="section-head">
-          <h2 id="sizes-title">Andere Größen</h2>
-        </header>
-        <ul class="list sizes">
-          <li v-for="r in d.siblings" :key="r.id">
-            <NuxtLink :to="`/angebot/${toRouteId(r.id)}`">
-              <span>{{ size(r.sizeG) }}</span>
-              <span class="num">{{ euro(r.priceCents) }}</span>
-              <span class="num strong">{{ euro(r.perKgCents) }}/kg</span>
-            </NuxtLink>
-          </li>
-        </ul>
+        <SectionHead id="sizes-title" title="Andere Größen" />
+        <UCard variant="outline" :ui="{ body: 'p-0 sm:p-0' }">
+          <ul class="divide-y divide-default">
+            <li v-for="r in d.siblings" :key="r.id">
+              <NuxtLink
+                :to="offerPath(r.id)"
+                class="grid grid-cols-[minmax(0,1fr)_auto_minmax(7.5em,auto)] items-baseline gap-4 px-4 py-3 text-right transition hover:bg-elevated/60"
+              >
+                <span class="text-left font-medium text-highlighted">{{ size(r.sizeG) }}</span>
+                <span class="num text-muted">{{ euro(r.priceCents) }}</span>
+                <span class="num font-semibold text-highlighted">{{ euro(r.perKgCents) }}/kg</span>
+              </NuxtLink>
+            </li>
+          </ul>
+        </UCard>
       </section>
       <section aria-labelledby="peers-title">
-        <header class="section-head">
-          <h2 id="peers-title">Pro Kilo am günstigsten</h2>
-          <p class="kicker">{{ CATEGORY_LABEL[d.offer.category] }}</p>
-        </header>
-        <ul class="list">
-          <li v-for="r in d.peers" :key="r.id">
-            <NuxtLink :to="`/angebot/${toRouteId(r.id)}`">
-              <span>
-                {{ r.product }}
-                <small>{{ shopName(r.shopId) }} · {{ size(r.sizeG) }}</small>
-              </span>
-              <span class="num strong">{{ euro(r.perKgCents) }}/kg</span>
-            </NuxtLink>
-          </li>
-        </ul>
+        <SectionHead id="peers-title" title="Pro Kilo am günstigsten">{{ CATEGORY_LABEL[d.offer.category] }}</SectionHead>
+        <UCard variant="outline" :ui="{ body: 'p-0 sm:p-0' }">
+          <ol class="divide-y divide-default">
+            <li v-for="(r, i) in d.peers" :key="r.id">
+              <NuxtLink
+                :to="offerPath(r.id)"
+                class="group flex items-center gap-3 px-4 py-3 transition hover:bg-elevated/60"
+              >
+                <span class="num w-4 text-sm text-dimmed">{{ i + 1 }}</span>
+                <ProductImage :src="r.image" :alt="r.product" :width="44" class="size-11" />
+                <span class="min-w-0 flex-1">
+                  <span class="block truncate font-medium text-highlighted group-hover:text-primary">{{ r.product }}</span>
+                  <span class="block text-xs text-muted">{{ shopName(r.shopId) }} · {{ size(r.sizeG) }}</span>
+                </span>
+                <span class="num font-semibold whitespace-nowrap text-highlighted">{{ euro(r.perKgCents) }}/kg</span>
+              </NuxtLink>
+            </li>
+          </ol>
+        </UCard>
       </section>
     </div>
-  </div>
+  </UContainer>
 </template>
-
-<style scoped>
-.crumbs {
-  margin: 28px 0 0;
-}
-
-.crumbs a {
-  text-decoration: none;
-  color: var(--ink);
-}
-
-.head {
-  padding: 28px 0 8px;
-}
-
-h1 {
-  margin: 10px 0 18px;
-  max-width: 20ch;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-variation-settings: 'opsz' 144;
-  font-size: clamp(36px, 7vw, 72px);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
-  overflow-wrap: anywhere;
-}
-
-.price-line {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-}
-
-.price {
-  font-size: clamp(32px, 6vw, 48px);
-  font-weight: 600;
-}
-
-.perkg {
-  font-size: 18px;
-  color: var(--ink-2);
-}
-
-.gone {
-  margin: 12px 0 0;
-  padding: 8px 12px;
-  background: var(--up-bg);
-  font-size: 14px;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  gap: 12px;
-  margin-top: 22px;
-}
-
-.shop-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 18px;
-  background: var(--accent);
-  color: var(--accent-ink);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.shop-link:hover {
-  filter: brightness(1.08);
-}
-
-.compare-link {
-  display: grid;
-  gap: 1px;
-  min-width: 0;
-  padding: 8px 16px 9px;
-  border: 1px solid var(--ink);
-  text-decoration: none;
-}
-
-.compare-link:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.compare-kicker {
-  font-family: var(--font-num);
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0.75;
-}
-
-.compare-name {
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-.compare-note {
-  font-size: 12px;
-  opacity: 0.75;
-}
-
-.seg {
-  display: inline-flex;
-  border: 1px solid var(--ink);
-}
-
-.seg button {
-  min-height: 34px;
-  padding: 4px 14px;
-  border: 0;
-  background: transparent;
-  color: var(--ink);
-  font: 500 13px var(--font-num);
-  cursor: pointer;
-}
-
-.seg button[aria-pressed='true'] {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.facts {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 24px 0 0;
-  border-top: 1px solid var(--ink);
-}
-
-.facts div {
-  padding: 14px 14px 0 0;
-}
-
-.facts dt {
-  font-family: var(--font-num);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-}
-
-.facts dd {
-  margin: 4px 0 0;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.facts .when {
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--ink-2);
-}
-
-.related {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 0 40px;
-}
-
-.list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.list li + li {
-  border-top: 1px solid var(--rule);
-}
-
-.list a {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-  padding: 12px 0;
-  text-decoration: none;
-}
-
-.sizes a {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(7.5em, auto);
-  text-align: right;
-}
-
-.sizes a span:first-child {
-  text-align: left;
-}
-
-.list a:hover {
-  color: var(--accent);
-}
-
-.list small {
-  display: block;
-  color: var(--ink-2);
-  font-size: 12.5px;
-}
-
-.strong {
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-@media (max-width: 640px) {
-  .facts {
-    grid-template-columns: 1fr 1fr;
-    row-gap: 12px;
-  }
-}
-</style>

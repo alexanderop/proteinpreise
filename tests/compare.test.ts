@@ -15,6 +15,8 @@ function offer(id: string, priceCents: number, overrides: Partial<Offer> = {}): 
     priceCents,
     compareAtCents: null,
     flavors: 1,
+    image: null,
+    brand: 'Testmarke',
     ...overrides,
   }
 }
@@ -80,8 +82,8 @@ describe('toggleSelection', () => {
 describe('resolveSlot', () => {
   it('tells an empty slot from an unknown id and a known offer', () => {
     expect(resolveSlot(history, null)).toEqual({ kind: 'empty' })
-    expect(resolveSlot(history, 'nope_x_1')).toEqual({ kind: 'unknown', routeId: 'nope_x_1' })
-    expect(resolveSlot(history, 'peak_old_1000')).toMatchObject({ kind: 'offer', entry: { listed: false } })
+    expect(resolveSlot(history, 'nope-x-1')).toEqual({ kind: 'unknown', routeId: 'nope-x-1' })
+    expect(resolveSlot(history, 'peak-old-1000')).toMatchObject({ kind: 'offer', entry: { listed: false } })
   })
 })
 
