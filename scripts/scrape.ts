@@ -1,48 +1,81 @@
-import { mkdir, rename, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, rename, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { toOffers, type RawProduct } from '../shared/catalog.ts'
+import { classify, toOffers, type RawProduct } from '../shared/catalog.ts'
 import { parseListing, parseProductPage } from '../shared/gambio.ts'
-import { parseProductsPage } from '../shared/shopify.ts'
+import { offerDrops, SnapshotRuns } from '../shared/health.ts'
+import { parseProductsPage, productJsUrl, withNetGrams, type ShopifyProduct } from '../shared/shopify.ts'
 import { SHOPS, type Shop, type Source } from '../shared/shops.ts'
 import type { Offer, ShopRun, Snapshot } from '../shared/types.ts'
+import { parseWith } from '../shared/validate.ts'
 
 const USER_AGENT = 'proteinpreise/1.0 (daily price snapshot, one request per page)'
 const PAGE_SIZE = 250
 const MAX_PAGES = 40
 const PAGE_DELAY_MS = 500
 const TIMEOUT_MS = 20_000
+const ATTEMPTS = 3
+const MAX_RETRY_AFTER_MS = 60_000
 const OUT_DIR = join(import.meta.dirname, '..', 'content', 'snapshots')
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+const message = (error: unknown) => (error instanceof Error ? error.message : String(error))
+
+// Seconds or an HTTP date, capped so one shop cannot stall the whole run.
+function retryAfterMs(header: string | null): number | null {
+  if (header === null) return null
+  const seconds = Number(header)
+  const ms = Number.isFinite(seconds) ? seconds * 1000 : Date.parse(header) - Date.now()
+  return Number.isFinite(ms) ? Math.min(Math.max(ms, 0), MAX_RETRY_AFTER_MS) : null
+}
 
 async function fetchText(url: string, accept: string): Promise<string> {
   let lastError: unknown
-  for (let attempt = 1; attempt <= 2; attempt++) {
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
+    let wait = PAGE_DELAY_MS * 4 * attempt
     try {
       const response = await fetch(url, {
         headers: { 'user-agent': USER_AGENT, accept },
         signal: AbortSignal.timeout(TIMEOUT_MS),
       })
-      if (!response.ok) throw new Error(`HTTP ${response.status} für ${url}`)
-      return await response.text()
+      if (response.ok) return await response.text()
+      lastError = new Error(`HTTP ${response.status} für ${url}`)
+      // Other client errors (404, 403) will not fix themselves on a retry.
+      if (response.status < 500 && response.status !== 429) throw lastError
+      wait = retryAfterMs(response.headers.get('retry-after')) ?? wait
     } catch (error) {
+      if (error === lastError) throw error
       lastError = error
-      await sleep(PAGE_DELAY_MS * 4)
     }
+    if (attempt < ATTEMPTS) await sleep(wait)
   }
   throw lastError
 }
 
 async function fetchShopify(shop: Shop<'shopify'>): Promise<RawProduct[]> {
-  const products: RawProduct[] = []
+  const products: ShopifyProduct[] = []
   for (let page = 1; page <= MAX_PAGES; page++) {
     const url = `https://${shop.domain}/products.json?limit=${PAGE_SIZE}&page=${page}`
     const batch = parseProductsPage(JSON.parse(await fetchText(url, 'application/json')), shop)
-    if (batch.length === 0) return products
+    if (batch.length === 0) return shop.gramsField === 'gross' ? withUnitPrices(shop, products) : products
     products.push(...batch)
     await sleep(PAGE_DELAY_MS)
   }
   throw new Error(`mehr als ${MAX_PAGES} Seiten, Abbruch`)
+}
+
+// Only the protein products need a second request: the rest are filtered out anyway.
+async function withUnitPrices(shop: Shop<'shopify'>, products: ShopifyProduct[]): Promise<RawProduct[]> {
+  const sized: RawProduct[] = []
+  for (const product of products) {
+    if (classify(product) === null) continue
+    try {
+      sized.push(withNetGrams(shop, product, JSON.parse(await fetchText(productJsUrl(shop, product), 'application/json'))))
+    } catch (error) {
+      console.warn(`::warning::${shop.id}: ${product.handle} ohne Grundpreis übersprungen (${message(error)})`)
+    }
+    await sleep(PAGE_DELAY_MS)
+  }
+  return sized
 }
 
 async function fetchGambio(shop: Shop<'gambio'>): Promise<RawProduct[]> {
@@ -59,8 +92,12 @@ async function fetchGambio(shop: Shop<'gambio'>): Promise<RawProduct[]> {
   }
   const products: RawProduct[] = []
   for (const url of pages) {
-    const product = parseProductPage(await fetchText(url, 'text/html'), url)
-    if (product) products.push(product)
+    try {
+      const product = parseProductPage(await fetchText(url, 'text/html'), url)
+      if (product) products.push(product)
+    } catch (error) {
+      console.warn(`::warning::${shop.id}: ${url} übersprungen (${message(error)})`)
+    }
     await sleep(PAGE_DELAY_MS)
   }
   if (products.length === 0) throw new Error(`keine Produktdaten auf ${pages.size} Produktseiten`)
@@ -82,8 +119,7 @@ async function scrapeShop(shop: Shop): Promise<{ run: ShopRun; offers: Offer[]; 
     const offers = toOffers(shop.id, products)
     return { run: { shopId: shop.id, ok: true, offers: offers.length }, offers, products: products.length }
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    return { run: { shopId: shop.id, ok: false, offers: 0, error: message }, offers: [], products: 0 }
+    return { run: { shopId: shop.id, ok: false, offers: 0, error: message(error) }, offers: [], products: 0 }
   }
 }
 
@@ -113,6 +149,22 @@ console.table(
 
 if (results.every((r) => !r.run.ok)) {
   console.error('Kein Shop erreichbar, kein Snapshot geschrieben.')
+  process.exit(1)
+}
+
+for (const run of snapshot.shops.filter((s) => !s.ok)) console.warn(`::warning::${run.shopId} fehlgeschlagen: ${run.error}`)
+
+async function previousSnapshot(before: string) {
+  const files = await readdir(OUT_DIR).catch(() => [])
+  const latest = files.filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f) && f < `${before}.json`).sort().at(-1)
+  return latest ? parseWith(SnapshotRuns, JSON.parse(await readFile(join(OUT_DIR, latest), 'utf8')), latest) : null
+}
+
+const previous = await previousSnapshot(snapshot.date)
+const drops = previous ? offerDrops(previous, snapshot) : []
+if (drops.length > 0 && process.env.ALLOW_OFFER_DROP !== '1') {
+  for (const d of drops) console.error(`::error::${d.shopId}: ${d.before} → ${d.after} Angebote seit ${previous!.date}`)
+  console.error('Mehr als die Hälfte der Angebote eines Shops ist weg, kein Snapshot geschrieben. Bewusst? Mit ALLOW_OFFER_DROP=1 erneut starten.')
   process.exit(1)
 }
 

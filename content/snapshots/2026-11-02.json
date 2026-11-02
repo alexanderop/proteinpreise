@@ -1,6 +1,6 @@
 {
   "date": "2026-11-02",
-  "fetchedAt": "2026-11-02T17:15:57.195Z",
+  "fetchedAt": "2026-11-02T18:43:38.610Z",
   "shops": [
     {
       "shopId": "esn",
@@ -40,7 +40,7 @@
     {
       "shopId": "peak",
       "ok": true,
-      "offers": 5
+      "offers": 16
     },
     {
       "shopId": "ruehl",
@@ -853,7 +853,7 @@
       "compareAtCents": 4990,
       "flavors": 2,
       "image": "https://cdn.shopify.com/s/files/1/0625/2501/4129/files/gu_roctane_protein_recovery_drink_mix_chocolate_smoothie_beutel_02d5088c-1fb4-4114-ac2e-3384675aab59.jpg?v=1788960919",
-      "brand": "Gu Energy Labs"
+      "brand": "GU Energy Labs"
     },
     {
       "id": "bodylab:snickers-protein-powder:455",
@@ -1935,6 +1935,97 @@
       "brand": "Peak"
     },
     {
+      "id": "peak:beer-whey-isolate:450",
+      "shopId": "peak",
+      "product": "\"Beer Whey\" Isolate",
+      "url": "https://www.peak.ag/products/clear-whey-limited-edition?variant=49446932742479",
+      "category": "isolate",
+      "sizeG": 450,
+      "priceCents": 3990,
+      "compareAtCents": null,
+      "flavors": 1,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/clear-whey-isolate_beer.jpg?v=1789633524",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:clear-protein:450",
+      "shopId": "peak",
+      "product": "Clear Protein",
+      "url": "https://www.peak.ag/products/clear-protein?variant=56263416676737",
+      "category": "isolate",
+      "sizeG": 450,
+      "priceCents": 2990,
+      "compareAtCents": null,
+      "flavors": 5,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/Clear-Protein_Calamansi-Citrus.jpg?v=1789462027",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:clear-whey-isolate:450",
+      "shopId": "peak",
+      "product": "Clear Whey Isolate",
+      "url": "https://www.peak.ag/products/clear-whey-isolate?variant=49446931661135",
+      "category": "isolate",
+      "sizeG": 450,
+      "priceCents": 3990,
+      "compareAtCents": null,
+      "flavors": 4,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5453001869513_clear-whey-isolate_blue-raspberry.jpg?v=1725796189",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:daily-protein:900",
+      "shopId": "peak",
+      "product": "Daily Protein",
+      "url": "https://www.peak.ag/products/daily-protein?variant=55756387549569",
+      "category": "mehrkomponenten",
+      "sizeG": 900,
+      "priceCents": 2990,
+      "compareAtCents": null,
+      "flavors": 5,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/Daily-Protein_Chocolate.jpg?v=1780563278",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:delicious-whey:900",
+      "shopId": "peak",
+      "product": "Delicious Whey",
+      "url": "https://www.peak.ag/products/delicious-whey-protein?variant=56151310303617",
+      "category": "whey",
+      "sizeG": 900,
+      "priceCents": 4990,
+      "compareAtCents": null,
+      "flavors": 8,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/Delicious-Whey_Chocolate-Milkshake_f01eaeac-3856-42dc-9d36-fd305b44c733.jpg?v=1789987444",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:fruity-vegan-protein:400",
+      "shopId": "peak",
+      "product": "Fruity Vegan Protein",
+      "url": "https://www.peak.ag/products/fruity-vegan-protein?variant=56263354057089",
+      "category": "vegan",
+      "sizeG": 400,
+      "priceCents": 2990,
+      "compareAtCents": null,
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/Fruity-Vegan-Protein_Calamansi-Citrus.jpg?v=1789461542",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:hybrid-protein:900",
+      "shopId": "peak",
+      "product": "Hybrid Protein",
+      "url": "https://www.peak.ag/products/hybrid-protein?variant=53996636995969",
+      "category": "mehrkomponenten",
+      "sizeG": 900,
+      "priceCents": 3990,
+      "compareAtCents": null,
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/Hybrid-Protein_Cereal-Milk.jpg?v=1787824550",
+      "brand": "Peak"
+    },
+    {
       "id": "peak:micellar-casein:900",
       "shopId": "peak",
       "product": "Micellar Casein",
@@ -1948,29 +2039,68 @@
       "brand": "Peak"
     },
     {
+      "id": "peak:protein-85:900",
+      "shopId": "peak",
+      "product": "Protein 85",
+      "url": "https://www.peak.ag/products/protein-85?variant=49446921732431",
+      "category": "mehrkomponenten",
+      "sizeG": 900,
+      "priceCents": 2490,
+      "compareAtCents": null,
+      "flavors": 6,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/PROTEIN-85_BANANA.jpg?v=1792407008",
+      "brand": "Peak"
+    },
+    {
       "id": "peak:soja-protein-isolat:750",
       "shopId": "peak",
       "product": "Soja Protein Isolat",
-      "url": "https://www.peak.ag/products/sp-isolat-750?variant=49446925041999",
+      "url": "https://www.peak.ag/products/soja-protein-isolat-natural?variant=53655360045391",
       "category": "vegan",
       "sizeG": 750,
-      "priceCents": 1790,
+      "priceCents": 1690,
       "compareAtCents": null,
-      "flavors": 5,
-      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5453001863702__spi---750g_chocolate.jpg?v=1725808719",
+      "flavors": 6,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5453001863719__spi---750g_natural.jpg?v=1723382705",
       "brand": "Peak"
     },
     {
       "id": "peak:vegan-protein-isolat:750",
       "shopId": "peak",
       "product": "Vegan Protein Isolat",
-      "url": "https://www.peak.ag/products/vegan-protein-750?variant=49446925074767",
+      "url": "https://www.peak.ag/products/vegan-protein-isolat-natural?variant=53655958880591",
       "category": "vegan",
       "sizeG": 750,
       "priceCents": 1790,
       "compareAtCents": null,
-      "flavors": 10,
-      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5453001865799__Vegan-Protein-750g-BANANA.jpg?v=1725808738",
+      "flavors": 11,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5453001863825__Vegan-Protein-750g-NATURAL.jpg?v=1723382705",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:whey-protein-concentrate:900",
+      "shopId": "peak",
+      "product": "Whey Protein Concentrate",
+      "url": "https://www.peak.ag/products/whey-protein-concentrate?variant=49446928351567",
+      "category": "whey",
+      "sizeG": 900,
+      "priceCents": 4790,
+      "compareAtCents": null,
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5407010240238__wpc-900g_banana.jpg?v=1725808757",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:whey-protein-isolat:750",
+      "shopId": "peak",
+      "product": "Whey Protein Isolat",
+      "url": "https://www.peak.ag/products/wpi?variant=49446921929039",
+      "category": "isolate",
+      "sizeG": 750,
+      "priceCents": 5990,
+      "compareAtCents": null,
+      "flavors": 6,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5453001865188__wpi-750g_blueberry-vanilla.jpg?v=1725808751",
       "brand": "Peak"
     },
     {
@@ -1984,6 +2114,19 @@
       "compareAtCents": null,
       "flavors": 7,
       "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/5407010240009__WS-900g-BANANA.jpg?v=1725808797",
+      "brand": "Peak"
+    },
+    {
+      "id": "peak:yummy-vegan-protein:450",
+      "shopId": "peak",
+      "product": "Yummy Vegan Protein",
+      "url": "https://www.peak.ag/products/yummy-vegan-protein?variant=49446927434063",
+      "category": "vegan",
+      "sizeG": 450,
+      "priceCents": 1790,
+      "compareAtCents": null,
+      "flavors": 7,
+      "image": "https://cdn.shopify.com/s/files/1/0812/6002/0047/files/Yummy-Vegan-Protein_Black-Forest-Cake.jpg?v=1789552564",
       "brand": "Peak"
     },
     {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { toOffers } from '../shared/catalog.ts'
-import { parseProductsPage } from '../shared/shopify.ts'
+import { parseProductsPage, withNetGrams } from '../shared/shopify.ts'
 import type { Shop } from '../shared/shops.ts'
 
 const net: Shop<'shopify'> = { id: 'test', name: 'Test', domain: 'shop.example', source: 'shopify' }
@@ -19,6 +19,7 @@ describe('parseProductsPage', () => {
   it('links each variant and keeps the compare-at price', () => {
     const [product] = parseProductsPage(page('iso-whey', 'Iso Whey', { compare_at_price: '34.90', grams: 900 }), net)
     expect(product).toEqual({
+      handle: 'iso-whey',
       title: 'Iso Whey',
       type: 'Protein',
       brand: null,
@@ -43,14 +44,23 @@ describe('parseProductsPage', () => {
     expect(toOffers('test', products)[0]?.image).toBeNull()
   })
 
-  it('reads the size from the handle when the shop reports gross weight', () => {
-    const offers = (handle: string, title: string) => toOffers('test', parseProductsPage(page(handle, title, { grams: 1300 }), gross))
-    expect(offers('micellar-casein-900', 'Micellar Casein').map((o) => o.sizeG)).toEqual([900])
-    expect(offers('hybrid-protein', 'Hybrid Protein')).toEqual([])
-    expect(offers('protein-85', 'Protein 85')).toEqual([])
+  it('ignores the gross grams field and sizes each variant by its unit-price net content', () => {
+    const [product] = parseProductsPage(page('hybrid-protein', 'Hybrid Protein', { grams: 935 }), gross)
+    expect(product?.variants[0]?.grams).toBeNull()
+    const js = { variants: [{ id: 7, unit_price_measurement: { measured_type: 'weight', quantity_value: '900.0', quantity_unit: 'g', reference_value: 1, reference_unit: 'kg' } }] }
+    expect(toOffers('test', [withNetGrams(gross, product!, js)]).map((o) => o.sizeG)).toEqual([900])
+  })
+
+  it('converts kilograms and leaves a variant without unit price unsized', () => {
+    const [product] = parseProductsPage(page('whey', 'Whey', { grams: 2100 }), gross)
+    const kg = { variants: [{ id: 7, unit_price_measurement: { quantity_value: '2.0', quantity_unit: 'kg' } }] }
+    expect(withNetGrams(gross, product!, kg).variants[0]?.grams).toBe(2000)
+    expect(withNetGrams(gross, product!, { variants: [{ id: 7, unit_price_measurement: null }] }).variants[0]?.grams).toBeNull()
+    expect(withNetGrams(gross, product!, { variants: [{ id: 8, unit_price_measurement: kg.variants[0]!.unit_price_measurement }] }).variants[0]?.grams).toBeNull()
+    expect(() => withNetGrams(gross, product!, {})).toThrow('whey.js')
   })
 
   it('rejects a response without products', () => {
-    expect(() => parseProductsPage({ items: [] }, net)).toThrow('products-Array')
+    expect(() => parseProductsPage({ items: [] }, net)).toThrow('products.json')
   })
 })

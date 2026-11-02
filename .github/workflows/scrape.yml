@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '17 5 * * *'
   workflow_dispatch:
+    inputs:
+      allow_offer_drop:
+        description: Write the snapshot even if a shop lost more than half its offers
+        type: boolean
+        default: false
 
 permissions: {}
 
@@ -31,6 +36,8 @@ jobs:
           package-manager-cache: false
 
       - name: Scrape
+        env:
+          ALLOW_OFFER_DROP: ${{ inputs.allow_offer_drop && '1' || '0' }}
         run: node scripts/scrape.ts
 
       - name: Commit snapshot

@@ -85,6 +85,12 @@ describe('parseProductPage', () => {
     expect(parseProductPage(bare, 'https://www.ruehl24.de/de/x.html')?.image).toBeNull()
   })
 
+  it('skips a broken JSON-LD block and still finds the product block after it', () => {
+    const broken = fixture('ruehl24-casein.html').replace('<script type="application/ld+json">', '<script type="application/ld+json">{ not json</script><script type="application/ld+json">')
+    expect(parseProductPage(broken, 'https://www.ruehl24.de/de/x.html')?.title).toBe(page('ruehl24-casein.html', 'https://www.ruehl24.de/de/x.html')?.title)
+    expect(parseProductPage('<script type="application/ld+json">{ not json</script>', 'https://www.ruehl24.de/de/x.html')).toBeNull()
+  })
+
   it('returns null for a page without product data', () => {
     expect(parseProductPage(fixture('ruehl24-listing.html'), 'https://www.ruehl24.de/de/protein/')).toBeNull()
   })

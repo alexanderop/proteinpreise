@@ -1,4 +1,5 @@
 interface SourceConfig {
+  // 'gross': the grams field holds shipping weight, so sizes come from the unit price instead.
   shopify: { gramsField?: 'net' | 'gross' }
   gambio: { listings: readonly string[] }
 }
